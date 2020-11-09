@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{724283DD-BB22-45B1-8644-21CAE18F21D8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="WebAPI\EduAssetTracker_WebAPI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="WebApp\EduAssetTracker.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\RADAddOns\DelphiZXingQRCode.git\TestApp\DelphiZXingQRCodeTestApp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="EduAssetTracker_WebAPI">
+        <MSBuild Projects="WebAPI\EduAssetTracker_WebAPI.dproj"/>
+    </Target>
+    <Target Name="EduAssetTracker_WebAPI:Clean">
+        <MSBuild Projects="WebAPI\EduAssetTracker_WebAPI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EduAssetTracker_WebAPI:Make">
+        <MSBuild Projects="WebAPI\EduAssetTracker_WebAPI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="EduAssetTracker">
+        <MSBuild Projects="WebApp\EduAssetTracker.dproj"/>
+    </Target>
+    <Target Name="EduAssetTracker:Clean">
+        <MSBuild Projects="WebApp\EduAssetTracker.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EduAssetTracker:Make">
+        <MSBuild Projects="WebApp\EduAssetTracker.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DelphiZXingQRCodeTestApp">
+        <MSBuild Projects="..\..\..\RADAddOns\DelphiZXingQRCode.git\TestApp\DelphiZXingQRCodeTestApp.dproj"/>
+    </Target>
+    <Target Name="DelphiZXingQRCodeTestApp:Clean">
+        <MSBuild Projects="..\..\..\RADAddOns\DelphiZXingQRCode.git\TestApp\DelphiZXingQRCodeTestApp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiZXingQRCodeTestApp:Make">
+        <MSBuild Projects="..\..\..\RADAddOns\DelphiZXingQRCode.git\TestApp\DelphiZXingQRCodeTestApp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="EduAssetTracker_WebAPI;EduAssetTracker;DelphiZXingQRCodeTestApp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="EduAssetTracker_WebAPI:Clean;EduAssetTracker:Clean;DelphiZXingQRCodeTestApp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="EduAssetTracker_WebAPI:Make;EduAssetTracker:Make;DelphiZXingQRCodeTestApp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
