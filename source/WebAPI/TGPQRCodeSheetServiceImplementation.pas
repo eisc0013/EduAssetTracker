@@ -19,7 +19,7 @@ type
 
 const
   //BASEURL = 'https://ynotwidgets.com/TGP/EduAssetTracker/asset/';
-  BASEURL = 'https://eduassettracker.ynotwidgets.com/api/asset/';
+  BASEURL = 'https://EduAssetTracker.ynotwidgets.com/EduAssetTracker.html';
 
 implementation
 
@@ -32,8 +32,8 @@ begin
   TXDataOperationContext.Current.Response.Headers.SetValue('content-type', 'application/pdf');
 
   lQRPDF := TTGPQRPDF.Create(lPages);
-  lQRPDF.BaseText := BASEURL;
-  lQRPDF.FileName := 'C:\Temp\QRCodes.pdf';
+  lQRPDF.BaseText := BASEURL + '?AssetId=';
+  //lQRPDF.FileName := 'C:\Temp\QRCodes.pdf';
   Result := lQRPDF.GeneratePDF();
 
 end;

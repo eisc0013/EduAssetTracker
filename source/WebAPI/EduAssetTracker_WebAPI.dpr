@@ -11,7 +11,9 @@ uses
   TGPQRCodeSheetService in 'TGPQRCodeSheetService.pas',
   TGPQRCodeSheetServiceImplementation in 'TGPQRCodeSheetServiceImplementation.pas',
   uTGPQRCodePDF in 'uTGPQRCodePDF.pas',
-  XData.SwaggerUI.Service in 'XData.SwaggerUI.Service.pas';
+  XData.SwaggerUI.Service in 'XData.SwaggerUI.Service.pas',
+  TGPQRCodeSheetJSONService in 'TGPQRCodeSheetJSONService.pas',
+  TGPQRCodeSheetJSONServiceImplementation in 'TGPQRCodeSheetJSONServiceImplementation.pas';
 
 const
   BASEURL = 'http://+:8081/api';

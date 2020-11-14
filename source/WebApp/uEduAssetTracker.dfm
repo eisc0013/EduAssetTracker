@@ -1,18 +1,18 @@
 object frmEAT: TfrmEAT
-  Width = 640
+  Width = 456
   Height = 480
   OnCreate = WebFormCreate
   OnShow = WebFormShow
   object WebLabel1: TWebLabel
     Left = 8
-    Top = 8
+    Top = 109
     Width = 72
     Height = 13
     Caption = '# of QR Codes'
   end
   object imgQRCode: TWebImageControl
-    Left = 470
-    Top = 208
+    Left = 318
+    Top = 223
     Width = 50
     Height = 50
     ChildOrder = 5
@@ -28,6 +28,19 @@ object frmEAT: TfrmEAT
     Height = 13
     Caption = 'AssetId:'
   end
+  object WebLabel3: TWebLabel
+    Left = 16
+    Top = 0
+    Width = 371
+    Height = 23
+    Caption = 'Mel, click the button below and wait for PDF'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = [fsUnderline]
+    ParentFont = False
+  end
   object QRCode: TWebQRCode
     Left = 160
     Top = 144
@@ -37,15 +50,15 @@ object frmEAT: TfrmEAT
   end
   object edtQRCodeCount: TWebEdit
     Left = 86
-    Top = 5
+    Top = 106
     Width = 121
     Height = 22
     ChildOrder = 1
     Text = '12'
   end
   object btnMakeQRCodes: TWebButton
-    Left = 64
-    Top = 56
+    Left = 58
+    Top = 144
     Width = 96
     Height = 25
     Caption = 'Create PDF'
@@ -53,8 +66,8 @@ object frmEAT: TfrmEAT
     OnClick = btnMakeQRCodesClick
   end
   object btnQRCodeGoogle: TWebButton
-    Left = 424
-    Top = 160
+    Left = 272
+    Top = 175
     Width = 96
     Height = 25
     Caption = 'btnQRCodeGoogle'
@@ -78,11 +91,39 @@ object frmEAT: TfrmEAT
     ChildOrder = 8
     OnClick = btnRegExTestClick
   end
+  object btnQRCodeSheet: TWebButton
+    Left = 239
+    Top = 144
+    Width = 129
+    Height = 25
+    Caption = 'Create QR Code Sheet'
+    ChildOrder = 9
+    OnClick = btnQRCodeSheetClick
+  end
+  object WebButton1: TWebButton
+    Left = 104
+    Top = 29
+    Width = 169
+    Height = 36
+    Caption = 'Create QR Code Sheet JSON'
+    ChildOrder = 9
+    OnClick = WebButton1Click
+  end
   object QRCodeGoogleAPIs: TWebHttpRequest
     Headers.Strings = (
       'Cache-Control=no-cache, no-store, must-revalidate')
     OnResponse = QRCodeGoogleAPIsResponse
-    Left = 408
-    Top = 200
+    Left = 256
+    Top = 215
+  end
+  object XDataWebClient1: TXDataWebClient
+    Connection = XDataWebConnection1
+    Left = 200
+    Top = 400
+  end
+  object XDataWebConnection1: TXDataWebConnection
+    URL = 'https://eduassettracker.ynotwidgets.com/api/'
+    Left = 80
+    Top = 408
   end
 end

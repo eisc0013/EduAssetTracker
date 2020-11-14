@@ -70,9 +70,10 @@ function TTGPQRPDF.GeneratePDF: TStream;
 var
   lBMP: TBitmap;
   lPicture: TPicture;
+  lFileStream: TFileStream;
 begin
-  if ((FPages > 0) AND (FBaseText <> '') AND (FFileName <> '')
-   AND (DirectoryExists(ExtractFilePath(FFileName), True))) then
+  if ((FPages > 0) AND (FBaseText <> '') {AND (FFileName <> '')
+   AND (DirectoryExists(ExtractFilePath(FFileName), True))}) then
   begin
     FPDF.BeginDocument(FFileName); // TODO ALE 20201029 if we don't provide a filename, output goes to a TMemoryStream on EndDocument
     FPDF.Header := '';
@@ -88,13 +89,27 @@ begin
           lBMP := UpdateQRCode();
           lPicture := TPicture.Create;
           lPicture.Bitmap := lBMP;
-          FPDF.Graphics.DrawImage(lPicture, PointF(C * 60 + 30, R * 60 + 30));
+          if C = 0 then
+          begin
+            FPDF.Graphics.DrawImage(lPicture, RectF(C * 60 + 30, R *60 + 30, C * 60 + 60, R *60 + 60));
+          end
+          else
+          begin
+            FPDF.Graphics.DrawImage(lPicture, PointF(C * 60 + 30, R * 60 + 30));
+          end;
           lBMP.Free;
           lPicture.Free;
         end;
       end;
     end;
     Result := FPDF.EndDocument(True); // TODO ALE 20201029 set to False to prevent opening in PDF reader
+
+    if Result <> nil then
+    begin
+      lFileStream := TFileStream.Create('C:\Temp\QRCodes.pdf', fmCreate);
+      lFileStream.CopyFrom(Result);
+      lFileStream.Free;
+    end;
   end;
 
 
@@ -117,7 +132,7 @@ begin
 
   FQRCode.Data := FBaseText + GetGUID();
   FQRCode.Encoding := TQRCodeEncoding(qrUTF8BOM);
-  FQRCode.ErrorCorrectionLevel := 3; // TODO ALE 20201024 High error correction level
+  FQRCode.ErrorCorrectionLevel := 2; // TODO ALE 20201024 3=High error correction level
   FQRCode.QuietZone := 4; // TODO ALE 20201029 should be a property
   lBMP.SetSize(FQRCode.Rows, FQRCode.Columns);
   for Row := 0 to FQRCode.Rows - 1 do
