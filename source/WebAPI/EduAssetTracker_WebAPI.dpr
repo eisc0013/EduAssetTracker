@@ -13,7 +13,8 @@ uses
   uTGPQRCodePDF in 'uTGPQRCodePDF.pas',
   XData.SwaggerUI.Service in 'XData.SwaggerUI.Service.pas',
   TGPQRCodeSheetJSONService in 'TGPQRCodeSheetJSONService.pas',
-  TGPQRCodeSheetJSONServiceImplementation in 'TGPQRCodeSheetJSONServiceImplementation.pas';
+  TGPQRCodeSheetJSONServiceImplementation in 'TGPQRCodeSheetJSONServiceImplementation.pas',
+  uEATDataModel in '..\DataModel\uEATDataModel.pas';
 
 const
   BASEURL = 'http://+:8081/api';

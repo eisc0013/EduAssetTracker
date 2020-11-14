@@ -7,7 +7,8 @@ uses
   Aurelius.Drivers.SQLite, 
   System.SysUtils, System.Classes, Aurelius.Comp.Connection,
   XData.Server.Module, Sparkle.HttpServer.Module, Sparkle.HttpServer.Context,
-  XData.Comp.ConnectionPool, Sparkle.Comp.Server, XData.Comp.Server;
+  XData.Comp.ConnectionPool, Sparkle.Comp.Server, XData.Comp.Server,
+  Sparkle.Comp.HttpSysDispatcher;
 
 type
   TSQLiteConnection = class(TDataModule)
