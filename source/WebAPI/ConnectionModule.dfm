@@ -5,9 +5,7 @@ object SQLiteConnection: TSQLiteConnection
   object AureliusConn: TAureliusConnection
     DriverName = 'SQLite'
     Params.Strings = (
-      
-        'Database=C:\Prog\Projects\EduAssetTracker.git\source\DataModel\E' +
-        'duAssetTracker.sqlite3'
+      'Database=EduAssetTracker.sqlite3'
       'EnableForeignKeys=True')
     Left = 112
     Top = 248

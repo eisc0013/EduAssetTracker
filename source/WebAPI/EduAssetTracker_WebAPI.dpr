@@ -28,6 +28,8 @@ begin
     ServerModule := TSQLiteConnection.Create(nil);
     WriteLn('Registering server.');
     HTTPReserveUrl(BASEURL);
+    WriteLn('Update DB Structure.');
+    ServerModule.UpdateDatabase(ServerModule.AureliusConn.GetPoolInterface.GetConnection);
     Write('Starting server... ');
     ServerModule.StartServer(BASEURL);
     WriteLn('done.');

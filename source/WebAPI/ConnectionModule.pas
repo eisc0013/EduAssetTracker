@@ -19,10 +19,10 @@ type
     XDataConnectionPool: TXDataConnectionPool;
     procedure DataModuleCreate(Sender: TObject);
   private
-    procedure UpdateDatabase(Conn: IDBConnection);
   public
     procedure StartServer(lURL: String);
     procedure StopServer;
+    procedure UpdateDatabase(Conn: IDBConnection);
   end;
 
 implementation
