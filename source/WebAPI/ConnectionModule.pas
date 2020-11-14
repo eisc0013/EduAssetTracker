@@ -4,7 +4,8 @@ interface
 
 uses
   Aurelius.Drivers.Interfaces,
-  Aurelius.Drivers.SQLite, 
+  Aurelius.Drivers.SQLite,
+  Aurelius.Engine.DatabaseManager,
   System.SysUtils, System.Classes, Aurelius.Comp.Connection,
   XData.Server.Module, Sparkle.HttpServer.Module, Sparkle.HttpServer.Context,
   XData.Comp.ConnectionPool, Sparkle.Comp.Server, XData.Comp.Server,
@@ -12,23 +13,23 @@ uses
 
 type
   TSQLiteConnection = class(TDataModule)
-    AureliusConnection1: TAureliusConnection;
+    AureliusConn: TAureliusConnection;
+    SparkleHttpSysDispatcher: TSparkleHttpSysDispatcher;
+    XDataServer: TXDataServer;
+    XDataConnectionPool: TXDataConnectionPool;
+    procedure DataModuleCreate(Sender: TObject);
   private
+    procedure UpdateDatabase(Conn: IDBConnection);
   public
-    class function CreateConnection: IDBConnection;
-    class function CreateFactory: IDBConnectionFactory;
-     
-    class function CreatePool(APoolSize: Integer): IDBConnectionPool;
+    procedure StartServer(lURL: String);
+    procedure StopServer;
   end;
-
-var
-  SQLiteConnection: TSQLiteConnection;
 
 implementation
 
 {%CLASSGROUP 'System.Classes.TPersistent'}
 
-uses  
+uses
   XData.Aurelius.ConnectionPool,
   Aurelius.Drivers.Base;
 
@@ -36,24 +37,35 @@ uses
 
 { TMyConnectionModule }
 
-class function TSQLiteConnection.CreateConnection: IDBConnection;
-begin 
-  Result := SQLiteConnection.AureliusConnection1.CreateConnection; 
-end;
-
-class function TSQLiteConnection.CreateFactory: IDBConnectionFactory;
+procedure TSQLiteConnection.DataModuleCreate(Sender: TObject);
+var
+  Conn: IDBConnection;
 begin
-  Result := TDBConnectionFactory.Create(
-    function: IDBConnection
-    begin
-      Result := CreateConnection;
-    end
-  );
+  Conn := XDataConnectionPool.GetPoolInterface.GetConnection;
+  UpdateDatabase(Conn);
 end;
 
-class function TSQLiteConnection.CreatePool(APoolSize: Integer): IDBConnectionPool;
+procedure TSQLiteConnection.StartServer(lURL: String);
 begin
-  Result := TDBConnectionPool.Create(APoolSize, CreateFactory);
+  XDataServer.BaseUrl := lURL;
+  SparkleHttpSysDispatcher.Start;
+  //WriteLn(Format('Module listening at "%s"', [ABaseUrl]));
 end;
 
+procedure TSQLiteConnection.StopServer;
+begin
+  SparkleHttpSysDispatcher.Stop;
+end;
+
+procedure TSQLiteConnection.UpdateDatabase(Conn: IDBConnection);
+var
+  DB: TDatabaseManager;
+begin
+  DB := TDatabaseManager.Create(Conn);
+  try
+    DB.UpdateDatabase;
+  finally
+    DB.Free;
+  end;
+end;
 end.

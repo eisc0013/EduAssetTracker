@@ -21,13 +21,15 @@ const
 
 var
   InputText : string;
+  ServerModule: TSQLiteConnection;
 
 begin
   try
+    ServerModule := TSQLiteConnection.Create(nil);
     WriteLn('Registering server.');
     HTTPReserveUrl(BASEURL);
     Write('Starting server... ');
-    StartServer(BASEURL);
+    ServerModule.StartServer(BASEURL);
     WriteLn('done.');
     WriteLn('');
 
@@ -36,7 +38,7 @@ begin
 
     WriteLn('');
     Write('Stopping server... ');
-    StopServer;
+    ServerModule.StopServer;
     WriteLn('Unregistering server.');
     HTTPUnReserveUrl(BASEURL);
     WriteLn('done.');
@@ -44,4 +46,6 @@ begin
     on E: Exception do
       Writeln(E.ClassName, ': ', E.Message);
   end;
+  if ServerModule <> nil then
+    ServerModule.Free;
 end.

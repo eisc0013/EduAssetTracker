@@ -16,8 +16,6 @@ uses
   Sparkle.HttpServer.Module,
   Sparkle.HttpSys.Config;
 
-procedure StartServer(lURL: String);
-procedure StopServer;
 procedure HTTPReserveURL(lURL: String);
 procedure HTTPUnReserveURL(lURL: String);
 
@@ -26,51 +24,7 @@ implementation
 uses
   System.IOUtils;
 
-var
-  SparkleServer: THttpSysServer;
 
-procedure StartServer(lURL: String);
-var
-  XDataSrv: TXDataServer;
-  Module : TXDataServerModule;
-  lSwaggerOptions: TSwaggerOptions;
-begin
-  if Assigned(SparkleServer) then
-     Exit;
-
-  SparkleServer := THttpSysServer.Create;
-
-  Module := TXDataServerModule.Create(
-    lURL,
-    TSQLiteConnection.CreatePool(20)
-  );
-
-  {
-  XDataSrv := TXDataServer.Create(nil);
-  XDataSrv.BaseUrl := lURL;
-  //XDataSrv.Pool := TSQLiteConnection.CreatePool(20);
-  XDataSrv.SwaggerOptions.Enabled := True;
-  XDataSrv.SwaggerUIOptions.Enabled := True;
-  }
-
-  RegisterSwaggerUIService;
-  RegisterOpenAPIService;
-
-  // Uncomment line below to enable CORS in the server
-  //Module.AddMiddleware(TCorsMiddleware.Create);
-
-  // Uncomment line below to allow compressed responses from server
-  //Module.AddMiddleware(TCompressMiddleware.Create);
-
-  SparkleServer.AddModule(Module);
-
-  SparkleServer.Start;
-end;
-
-procedure StopServer;
-begin
-  FreeAndNil(SparkleServer);
-end;
 
 procedure HTTPReserveURL(lURL: String);
 var
@@ -98,8 +52,4 @@ begin
   end;
 end;
 
-initialization
-  SparkleServer := nil;
-finalization
-  StopServer;
 end.
