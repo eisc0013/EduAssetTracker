@@ -7,7 +7,9 @@ uses
   WEBLib.Forms, WEBLib.Dialogs, Vcl.Controls, WEBLib.QRCode,
   VCL.TMSFNCCustomComponent, VCL.TMSFNCPDFLib, Vcl.StdCtrls, WEBLib.StdCtrls,
   VCL.TMSFNCTypes, VCL.TMSFNCGraphicsTypes, WEBLib.REST, WEBLib.ExtCtrls,
-  XData.Web.Connection, XData.Web.Client, WEBLib.JSON;
+  XData.Web.Connection, XData.Web.Client, WEBLib.JSON, WEBLib.DBCtrls, Data.DB,
+  WEBLib.DB, XData.Web.JsonDataset, XData.Web.Dataset, XData.Model.Classes,
+  Vcl.Grids;
 
 type
   TfrmEAT = class(TWebForm)
@@ -18,14 +20,28 @@ type
     QRCodeGoogleAPIs: TWebHttpRequest;
     btnQRCodeGoogle: TWebButton;
     imgQRCode: TWebImageControl;
-    edtAssetId: TWebEdit;
-    WebLabel2: TWebLabel;
     btnRegExTest: TWebButton;
     btnQRCodeSheet: TWebButton;
     XDataWebClient1: TXDataWebClient;
     XDataWebConnection1: TXDataWebConnection;
     WebButton1: TWebButton;
     WebLabel3: TWebLabel;
+    tAssetType: TXDataWebDataSet;
+    tAssetTypeid: TStringField;
+    tAssetTypename: TStringField;
+    tAssetTypedescription: TStringField;
+    tAssetTypedeactivatedDate: TDateTimeField;
+    pnlAssetType: TWebPanel;
+    dsAssetType: TWebDataSource;
+    WebLabel2: TWebLabel;
+    WebLabel4: TWebLabel;
+    WebDBEdit2: TWebDBEdit;
+    WebDBEdit1: TWebDBEdit;
+    WebLabel5: TWebLabel;
+    WebDBEdit3: TWebDBEdit;
+    edtAssetId: TWebEdit;
+    WebButton2: TWebButton;
+    WebDBGrid1: TWebDBGrid;
     procedure btnMakeQRCodesClick(Sender: TObject);
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
@@ -34,6 +50,9 @@ type
     procedure btnRegExTestClick(Sender: TObject);
     procedure btnQRCodeSheetClick(Sender: TObject);
     procedure WebButton1Click(Sender: TObject);
+    procedure WebButton2Click(Sender: TObject);
+    procedure XDataWebClient1Load(Response: TXDataClientResponse);
+    procedure tAssetTypeAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -242,6 +261,14 @@ begin
 //  imgQRCode.Base64Image := AResponse;
 end;
 
+procedure TfrmEAT.tAssetTypeAfterOpen(DataSet: TDataSet);
+begin
+  //ShowMessage('Dataset opened');
+  //dsAssetType.Enabled := False;
+  dsAssetType.Enabled := True;
+  tAssetType.First;
+end;
+
 procedure TfrmEAT.WebButton1Click(Sender: TObject);
 begin
   fWebRequest := TWebHTTPRequest.Create(nil);
@@ -319,6 +346,32 @@ begin
   //Application.Navigate(API_URL + ; ATarget: TNavigationTarget);
 end;
 
+procedure TfrmEAT.WebButton2Click(Sender: TObject);
+var
+  Container: TXDataEntityContainer;
+  I: Integer;
+begin
+  XDataWebConnection1.Connected := True;
+  if (XDataWebConnection1.Connected) then
+  begin
+  //tAssetType.Active := True;
+  //dsAssetType.Enabled := True;
+  {
+  Container  := XDataWebConnection1.Model.DefaultEntityContainer;
+
+  for I := 0 to Container.EntitySets.Count - 1 do
+  begin
+    ShowMessage(Container.EntitySets[I].Name);
+  end;
+  }
+  tAssetType.Load;
+  //XDataWebClient1.List('tAssetType');
+  //tAssetType.First;
+  //XDataWebClient1.Get('tAssetType', '{9D07B232-0296-4072-88B9-EF30D62B24CA}');
+//  ShowMessage(IntToStr(tAssetType.ServerRecordCount));
+  end;
+end;
+
 procedure TfrmEAT.WebFormCreate(Sender: TObject);
 var
   lRegEx: TJSRegExp;
@@ -334,6 +387,11 @@ end;
 procedure TfrmEAT.WebFormShow(Sender: TObject);
 begin
 // Works fine  edtAssetId.Text := document.documentURI;
+end;
+
+procedure TfrmEAT.XDataWebClient1Load(Response: TXDataClientResponse);
+begin
+ShowMessage(TJSJson.stringify(Response.Result));
 end;
 
 end.
