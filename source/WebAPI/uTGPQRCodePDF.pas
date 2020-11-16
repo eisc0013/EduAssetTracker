@@ -73,6 +73,7 @@ const
   QRLRGSIZE = 60;
   INDENT = 30;
   BORDERSIZE = 6;
+  CELLPADDING = 2;
   COLWIDTH = QRSMSIZE + QRTAILWIDTH + QRLRGSIZE + BORDERSIZE + BORDERSIZE;
   ROWHEIGHT = QRLRGSIZE + BORDERSIZE + BORDERSIZE;
 var
@@ -101,17 +102,20 @@ begin
           FPDF.Graphics.Fill.Kind := gfkNone;
           FPDF.Graphics.Stroke.Width := 1;
           FPDF.Graphics.Stroke.Color := gcGrey;
-          FPDF.Graphics.DrawRectangle(RectF(C * COLWIDTH + INDENT, R * ROWHEIGHT + INDENT, C * COLWIDTH + INDENT + COLWIDTH, R * ROWHEIGHT + INDENT + ROWHEIGHT));
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT));
           // ALE 2020115 Draw a boarder around first small QR code
-          FPDF.Graphics.Stroke.Color := gcOrange;
-          FPDF.Graphics.DrawRectangle(RectF(C * COLWIDTH + INDENT + 1, R * ROWHEIGHT + INDENT + 1, C * COLWIDTH + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE - 1, R * ROWHEIGHT + INDENT + QRSMSIZE + BORDERSIZE));
+          //FPDF.Graphics.Stroke.Color := gcOrange;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + QRSMSIZE + BORDERSIZE));
           //FPDF.Graphics.DrawText(IntToStr(R * C + C), RectF(C * COLWIDTH + INDENT + 1 + 1, R * ROWHEIGHT + INDENT + 1 + 1, C * COLWIDTH + INDENT + 1 + 4,  R * ROWHEIGHT + INDENT + 1 + 4));
           // ALE 2020115 Draw a boarder around second small QR code
-          FPDF.Graphics.Stroke.Color := gcGreen;
-          FPDF.Graphics.DrawRectangle(RectF(C * COLWIDTH + INDENT + 1, R * ROWHEIGHT + INDENT + QRSMSIZE + BORDERSIZE div 2 + 4, C * COLWIDTH + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE - 1, R * ROWHEIGHT + INDENT + QRSMSIZE + QRSMSIZE + BORDERSIZE + 5));
+          //FPDF.Graphics.Stroke.Color := gcGreen;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + QRSMSIZE + BORDERSIZE div 2 + 4, C * (COLWIDTH + CELLPADDING) + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + QRSMSIZE + QRSMSIZE + BORDERSIZE + 5));
           // ALE 2020115 Draw a boarder around large QR code
-          FPDF.Graphics.Stroke.Color := gcBlue;
-          FPDF.Graphics.DrawRectangle(RectF(C * COLWIDTH + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE, R * ROWHEIGHT + INDENT + 1, C * COLWIDTH + INDENT+ QRSMSIZE + QRTAILWIDTH + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * ROWHEIGHT + INDENT + ROWHEIGHT - 1));
+          //FPDF.Graphics.Stroke.Color := gcBlue;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRSMSIZE + QRTAILWIDTH + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
 
           lBMP := UpdateQRCode();
           lPicture := TPicture.Create;
@@ -119,12 +123,12 @@ begin
           // ALE 20201115 Now we do two sub-columns
           // ALE 20201115 Draw the first small QR code with tail to the right
           //  in the first subcolumn
-          FPDF.Graphics.DrawImage(lPicture, RectF(C * COLWIDTH + INDENT + BORDERSIZE div 2, R * ROWHEIGHT + INDENT + BORDERSIZE div 2 + 1, C * COLWIDTH + INDENT + BORDERSIZE div 2 + QRSMSIZE, R * ROWHEIGHT + INDENT + BORDERSIZE div 2 + QRSMSIZE + 1));
+          FPDF.Graphics.DrawImage(lPicture, RectF(C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE div 2 + 1, C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2 + QRSMSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE div 2 + QRSMSIZE + 1));
           // ALE 20201115 Draw the second small QR code with tail to the left
           //  in the first subcolumn
-          FPDF.Graphics.DrawImage(lPicture, RectF(C * COLWIDTH + INDENT + QRTAILWIDTH + BORDERSIZE div 2, R * ROWHEIGHT + INDENT + QRSMSIZE + BORDERSIZE + 2, C * COLWIDTH + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE div 2, R * ROWHEIGHT + INDENT + QRSMSIZE + BORDERSIZE + QRSMSIZE + 2));
+          FPDF.Graphics.DrawImage(lPicture, RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRTAILWIDTH + BORDERSIZE div 2, R * (ROWHEIGHT + CELLPADDING) + INDENT + QRSMSIZE + BORDERSIZE + 2, C * (COLWIDTH + CELLPADDING) + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE div 2, R * (ROWHEIGHT + CELLPADDING) + INDENT + QRSMSIZE + BORDERSIZE + QRSMSIZE + 2));
           // ALE 20201115 Draw the large QR code
-          FPDF.Graphics.DrawImage(lPicture, PointF(C * COLWIDTH + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE + BORDERSIZE div 2 + 1, R * ROWHEIGHT + INDENT + BORDERSIZE + 1));
+          FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPADDING) + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1));
 
           {
           if C = 0 then
