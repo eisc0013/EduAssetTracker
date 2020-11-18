@@ -9,40 +9,47 @@ uses
   VCL.TMSFNCTypes, VCL.TMSFNCGraphicsTypes, WEBLib.REST, WEBLib.ExtCtrls,
   XData.Web.Connection, XData.Web.Client, WEBLib.JSON, WEBLib.DBCtrls, Data.DB,
   WEBLib.DB, XData.Web.JsonDataset, XData.Web.Dataset, XData.Model.Classes,
-  Vcl.Grids;
+  Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices;
 
 type
   TfrmEAT = class(TWebForm)
-    QRCode: TWebQRCode;
-    edtQRCodeCount: TWebEdit;
-    WebLabel1: TWebLabel;
-    btnMakeQRCodes: TWebButton;
-    QRCodeGoogleAPIs: TWebHttpRequest;
-    btnQRCodeGoogle: TWebButton;
-    imgQRCode: TWebImageControl;
-    btnRegExTest: TWebButton;
-    btnQRCodeSheet: TWebButton;
     XDataWebClient1: TXDataWebClient;
     XDataWebConnection1: TXDataWebConnection;
-    WebButton1: TWebButton;
-    WebLabel3: TWebLabel;
     tAssetType: TXDataWebDataSet;
     tAssetTypeid: TStringField;
     tAssetTypename: TStringField;
     tAssetTypedescription: TStringField;
     tAssetTypedeactivatedDate: TDateTimeField;
-    pnlAssetType: TWebPanel;
     dsAssetType: TWebDataSource;
+    WebPageControl1: TWebPageControl;
+    tsDev: TWebTabSheet;
+    tsScanAsset: TWebTabSheet;
+    WebPageControl1Sheet3: TWebTabSheet;
+    WebLabel3: TWebLabel;
+    WebButton1: TWebButton;
+    btnQRCodeSheet: TWebButton;
+    btnQRCodeGoogle: TWebButton;
+    QRCodeGoogleAPIs: TWebHttpRequest;
+    edtAssetId: TWebEdit;
+    btnRegExTest: TWebButton;
+    WebDBGrid1: TWebDBGrid;
+    pnlAssetType: TWebPanel;
     WebLabel2: TWebLabel;
     WebLabel4: TWebLabel;
+    WebLabel5: TWebLabel;
     WebDBEdit2: TWebDBEdit;
     WebDBEdit1: TWebDBEdit;
-    WebLabel5: TWebLabel;
     WebDBEdit3: TWebDBEdit;
-    edtAssetId: TWebEdit;
     WebButton2: TWebButton;
-    WebDBGrid1: TWebDBGrid;
-    procedure btnMakeQRCodesClick(Sender: TObject);
+    imgQRCode: TWebImageControl;
+    QRCode: TWebQRCode;
+    pnlCam: TWebPanel;
+    WebPanel2: TWebPanel;
+    WebQRDecoder1: TWebQRDecoder;
+    WebMemo1: TWebMemo;
+    pnlScanHeader: TWebPanel;
+    cam: TWebCamera;
+    WebButton3: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -53,10 +60,16 @@ type
     procedure WebButton2Click(Sender: TObject);
     procedure XDataWebClient1Load(Response: TXDataClientResponse);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
+    procedure WebQRDecoder1Decoded(Sender: TObject; ADecoded: string);
+    procedure tsScanAssetShow(Sender: TObject);
+    procedure tsScanAssetHide(Sender: TObject);
+    procedure WebButton3Click(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
     fPDFFile: TBytes;
+    fCamStopped: Boolean;
+    fCamQRReader: Boolean;
     procedure DrawAssetTag(APDF: TTMSFNCPDFLib; ALeft, ATop, ARight, ABottom: Integer; AQR: TBitmap);
     function GetAssetIdURLFragment(): String;
   public
@@ -75,67 +88,6 @@ var
 implementation
 
 {$R *.dfm}
-
-{
-  URLEncode http://docwiki.embarcadero.com/Libraries/Sydney/en/System.Net.URLClient.TURI.URLEncode
-
-}
-procedure TfrmEAT.btnMakeQRCodesClick(Sender: TObject);
-var
-  PDF: TTMSFNCPDFLib;
-  I: Integer;
-  lQRCodes: array[0..9] of TWebQRCode;
-  lBMPs: array[0..9] of TBitmap;
-begin
-  for I := 0 to 9 do
-  begin
-    lQRCodes[I] := TWebQRCode.Create(nil);
-
-    lQRCodes[I].Text :=  WEBAPP_URL + GetAssetIdURLFragment();
-    lQRCodes[I].GetBitmapAsync(procedure (ABitmap: TBitmap)
-    begin
-      lBMPs[I] := ABitmap;
-      lQRCodes[I].Free;
-    end);
-  end;
-  //ShowMessage(lQRCodes[2].Text + ' ' + lQRCodes[3].Text);
-  I:=0;
-  begin
-    QRCode.Text := WEBAPP_URL + GetAssetIdURLFragment();
-    while I < 10 do
-    begin
-    QRCode.GetBitmapAsync(procedure (ABitmap: TBitmap)
-    begin
-      lBMPs[I] := ABitmap;
-      QRCode.Text := WEBAPP_URL + GetAssetIdURLFragment();
-    end);
-    Inc(I);
-    //ShowMessage(IntToStr(I));
-    end;
-  end;
-
-  QRCode.GetBitmapAsync(procedure (ABitmap: TBitmap)
-  begin
-    PDF := TTMSFNCPDFLib.Create;
-    try
-      PDF.BeginDocument('EduAssetTags.pdf');
-      PDF.PageSize := psLetter;
-      PDF.Header := '';
-      PDF.Footer := '';
-      PDF.NewPage;
-      PDF.Graphics.Font.Color := gcBlack;
-      PDF.Graphics.Font.Style := [];
-      for I := 0 to 4 do
-      begin
-        DrawAssetTag(PDF, 25, 40 + 150 * I, 300, 190 + 150 * I, lBMPs[I]);
-        DrawAssetTag(PDF, 300, 40 + 150 * I, 575, 190 + 150 * I, ABitmap);
-      end;
-      PDF.EndDocument(True);
-    finally
-      PDF.Free;
-    end;
-  end);
-end;
 
 procedure TfrmEAT.btnQRCodeGoogleClick(Sender: TObject);
 var
@@ -269,6 +221,20 @@ begin
   tAssetType.First;
 end;
 
+procedure TfrmEAT.tsScanAssetHide(Sender: TObject);
+begin
+  //if not cam.Paused then
+  //  cam.Pause;
+end;
+
+procedure TfrmEAT.tsScanAssetShow(Sender: TObject);
+begin
+  //if cam.Paused then
+  //  cam.Resume
+  //else
+  //  cam.Start;
+end;
+
 procedure TfrmEAT.WebButton1Click(Sender: TObject);
 begin
   fWebRequest := TWebHTTPRequest.Create(nil);
@@ -372,6 +338,11 @@ begin
   end;
 end;
 
+procedure TfrmEAT.WebButton3Click(Sender: TObject);
+begin
+  cam.Start;
+end;
+
 procedure TfrmEAT.WebFormCreate(Sender: TObject);
 var
   lRegEx: TJSRegExp;
@@ -387,6 +358,13 @@ end;
 procedure TfrmEAT.WebFormShow(Sender: TObject);
 begin
 // Works fine  edtAssetId.Text := document.documentURI;
+end;
+
+procedure TfrmEAT.WebQRDecoder1Decoded(Sender: TObject; ADecoded: string);
+begin
+  WebMemo1.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
+  WebQRDecoder1.EnableTimer := True;
+  // TODO ALE 20201117 should we save battery? WebCamera1.Stop;
 end;
 
 procedure TfrmEAT.XDataWebClient1Load(Response: TXDataClientResponse);
