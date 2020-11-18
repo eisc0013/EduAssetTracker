@@ -85,8 +85,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="TGPQRCodeSheetService.pas"/>
-        <DCCReference Include="TGPQRCodeSheetServiceImplementation.pas"/>
         <DCCReference Include="uTGPQRCodePDF.pas"/>
         <DCCReference Include="XData.SwaggerUI.Service.pas"/>
         <DCCReference Include="TGPQRCodeSheetJSONService.pas"/>

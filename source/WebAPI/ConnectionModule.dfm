@@ -17,7 +17,7 @@ object SQLiteConnection: TSQLiteConnection
   object XDataServer: TXDataServer
     Dispatcher = SparkleHttpSysDispatcher
     Pool = XDataConnectionPool
-    DefaultEntitySetPermissions = [List, Get, Insert, Modify, Delete]
+    DefaultEntitySetPermissions = [List, Get, Insert, Modify]
     EntitySetPermissions = <>
     SwaggerOptions.Enabled = True
     SwaggerUIOptions.Enabled = True

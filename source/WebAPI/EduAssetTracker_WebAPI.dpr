@@ -8,8 +8,6 @@ uses
   System.SysUtils,
   Server in 'Server.pas',
   ConnectionModule in 'ConnectionModule.pas' {SQLiteConnection: TDataModule},
-  TGPQRCodeSheetService in 'TGPQRCodeSheetService.pas',
-  TGPQRCodeSheetServiceImplementation in 'TGPQRCodeSheetServiceImplementation.pas',
   uTGPQRCodePDF in 'uTGPQRCodePDF.pas',
   XData.SwaggerUI.Service in 'XData.SwaggerUI.Service.pas',
   TGPQRCodeSheetJSONService in 'TGPQRCodeSheetJSONService.pas',
@@ -24,6 +22,7 @@ var
   ServerModule: TSQLiteConnection;
 
 begin
+  ServerModule := nil;
   try
     ServerModule := TSQLiteConnection.Create(nil);
     WriteLn('Registering server.');

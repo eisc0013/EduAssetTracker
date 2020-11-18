@@ -4,6 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, System.Types, System.TypInfo,
+  System.DateUtils, System.IOUtils,
   DelphiZXingQRCode, VCL.Graphics, AdvPDFLib, AdvGraphicsTypes;
 
 type
@@ -27,14 +28,11 @@ type
     constructor Create(); overload;
     constructor Create(pPages: NativeUInt); overload;
     destructor Free(); overload;
-    function GeneratePDF(): TStream;
+    function GeneratePDF(const pPathPDF: String = ''): TStream;
     function GetGUID(): String;
-  published
-    // Externally accessible and inspectable fields and methods //
-    // Note that properties must use different names to local defs //
     property Pages: NativeUInt read FPages write FPages;
     property BaseText: String read FBaseText write FBaseText;
-    property FileName: String read FFileName write FFileName;
+    // ALE 20201117 moved to GeneratePDF signature property FileName: String read FFileName write FFileName;
     property QRCodePixels: NativeUInt read FQRCodePixels write FQRCodePixels;
   end;
 
@@ -66,7 +64,7 @@ begin
   FQRCode.Free;
 end;
 
-function TTGPQRPDF.GeneratePDF: TStream;
+function TTGPQRPDF.GeneratePDF(const pPathPDF: String = ''): TStream;
 const
   QRSMSIZE = 30;
   QRTAILWIDTH = 60;
@@ -81,6 +79,7 @@ var
   lPicture: TPicture;
   lFileStream: TFileStream;
 begin
+  Result := nil;
   // ALE 20201115 The idea is to generate a sheet of QRCodes,
   //  three copies each QR code, two small with tails to wrap around cords,
   //  and one 'large' QR Code
@@ -130,28 +129,24 @@ begin
           // ALE 20201115 Draw the large QR code
           FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPADDING) + INDENT + QRSMSIZE + QRTAILWIDTH + BORDERSIZE + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1));
 
-          {
-          if C = 0 then
-          begin
-            FPDF.Graphics.DrawImage(lPicture, RectF(C * 60 + 30, R *60 + 30, C * 60 + 60, R *60 + 60));
-          end
-          else
-          begin
-            FPDF.Graphics.DrawImage(lPicture, PointF(C * 60 + 30, R * 60 + 30));
-          end;
-          }
           lBMP.Free;
           lPicture.Free;
         end;
       end;
     end;
-    Result := FPDF.EndDocument(True); // TODO ALE 20201029 set to False to prevent opening in PDF reader
+    Result := FPDF.EndDocument(False); // ALE 20201029 set to False to prevent opening in PDF reader
 
-    if Result <> nil then
+    if (Result <> nil) AND (pPathPDF <> '') then
     begin
-      lFileStream := TFileStream.Create('C:\Temp\QRCodes.pdf', fmCreate);
-      lFileStream.CopyFrom(Result);
-      lFileStream.Free;
+      var lPathFileNamePDF := TPath.Combine(pPathPDF, 'QRCodeSheets\QRCodes_'
+       + FormatDateTime('yyyy-mm-dd_hh.nn.ss.zzz',
+        TTimeZone.Local.ToUniversalTime(Now())) + '.pdf');
+      if ForceDirectories(ExtractFilePath(lPathFileNamePDF)) then
+      begin
+        lFileStream := TFileStream.Create(lPathFileNamePDF, fmCreate);
+        lFileStream.CopyFrom(Result);
+        lFileStream.Free;
+      end;
     end;
   end;
 
