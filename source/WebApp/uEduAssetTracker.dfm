@@ -25,6 +25,16 @@ object frmEAT: TfrmEAT
       DesignSize = (
         458
         479)
+      object lblFirstAccess: TWebLabel
+        Left = 8
+        Top = 456
+        Width = 314
+        Height = 13
+        Anchors = [akLeft, akRight, akBottom]
+        AutoSize = False
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+      end
       object btnWelcomeContinue: TWebButton
         Left = 159
         Top = 5
@@ -551,8 +561,8 @@ object frmEAT: TfrmEAT
     Camera = cam
     EnableTimer = True
     OnDecoded = WebQRDecoder1Decoded
-    Left = 40
-    Top = 445
+    Left = 32
+    Top = 389
   end
   object dbEATClient: TWebIndexedDbClientDataset
     Active = True

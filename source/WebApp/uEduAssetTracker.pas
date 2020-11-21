@@ -65,6 +65,7 @@ type
     btnWelcomeContinue: TWebButton;
     btnWelcomeResetFirstAccess: TWebButton;
     lblWelcomeMessage: TTMSFNCHTMLText;
+    lblFirstAccess: TWebLabel;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -234,6 +235,7 @@ begin
   if dbEATClient.Locate('name', 'firstAccess', [TLocateOption.loCaseInsensitive]) then
   begin
     LogIt('IndexedDB firstAccess found');
+    lblFirstAccess.Caption := 'Device first access: ' + dbEATClient.FieldByName('value').AsString;
     if fCamPaused then
     begin
       ResumeCamera();
@@ -249,8 +251,11 @@ begin
     LogIt('IndexedDB firstAccess not found');
     dbEATClient.Insert;
     dbEATClient.FieldByName('name').AsString := 'firstAccess';
-    dbEATClient.FieldByName('value').AsString := FormatDateTime('yyyy-mm-ddThh:nn:ss.zzzZ', Now());
+    dbEATClient.FieldByName('value').AsString :=
+     FormatDateTime('yyyy-mm-dd', Now()) + 'T'
+      + FormatDateTime('hh:nn:ss.zzz', Now()) + 'Z';
     dbEATClient.Post;
+    lblFirstAccess.Caption := 'Device first access: ' + dbEATClient.FieldByName('value').AsString;
   end;
   btnWelcomeResetFirstAccess.Enabled := True;
 end;
@@ -451,6 +456,7 @@ begin
   if dbEATClient.Locate('name', 'firstAccess', [TLocateOption.loCaseInsensitive]) then
   begin
     LogIt('IndexedDB firstAccess found, deleting');
+    lblFirstAccess.Caption := '';
     dbEATClient.Delete;
   end
 end;
