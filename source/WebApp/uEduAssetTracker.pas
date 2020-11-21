@@ -9,7 +9,8 @@ uses
   VCL.TMSFNCTypes, VCL.TMSFNCGraphicsTypes, WEBLib.REST, WEBLib.ExtCtrls,
   XData.Web.Connection, XData.Web.Client, WEBLib.JSON, WEBLib.DBCtrls, Data.DB,
   WEBLib.DB, XData.Web.JsonDataset, XData.Web.Dataset, XData.Model.Classes,
-  Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices;
+  Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices,
+  WEBLib.WebCtrls, WEBLib.SignIn;
 
 type
   TfrmEAT = class(TWebForm)
@@ -24,7 +25,7 @@ type
     WebPageControl1: TWebPageControl;
     tsDev: TWebTabSheet;
     tsScanAsset: TWebTabSheet;
-    WebPageControl1Sheet3: TWebTabSheet;
+    tsSignIn: TWebTabSheet;
     WebLabel3: TWebLabel;
     WebButton1: TWebButton;
     btnQRCodeSheet: TWebButton;
@@ -50,6 +51,11 @@ type
     pnlScanHeader: TWebPanel;
     cam: TWebCamera;
     WebButton3: TWebButton;
+    WebButton4: TWebButton;
+    WebSignIn1: TWebSignIn;
+    memSignIn: TWebMemo;
+    imgWebProfile: TWebImageControl;
+    btnSignOut: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -64,6 +70,11 @@ type
     procedure tsScanAssetShow(Sender: TObject);
     procedure tsScanAssetHide(Sender: TObject);
     procedure WebButton3Click(Sender: TObject);
+    procedure WebButton4Click(Sender: TObject);
+    procedure WebSignIn1GoogleSignedIn(Sender: TObject;
+      Args: TGoogleSignedInEventArgs);
+    procedure WebSignIn1GoogleSignedOut(Sender: TObject);
+    procedure btnSignOutClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -177,6 +188,11 @@ begin
   else
     edtAssetId.Text := 'Invalid';
   // RegEx for UUID https://stackoverlow.com/questions/136505
+end;
+
+procedure TfrmEAT.btnSignOutClick(Sender: TObject);
+begin
+  WebSignIn1.SignOut(stGoogle);
 end;
 
 procedure TfrmEAT.DrawAssetTag(APDF: TTMSFNCPDFLib; ALeft, ATop, ARight, ABottom: Integer; AQR: TBitmap);
@@ -343,6 +359,14 @@ begin
   cam.Start;
 end;
 
+procedure TfrmEAT.WebButton4Click(Sender: TObject);
+begin
+  // ALE 20201119 we want to kick off the Google sign-in button
+  asm
+    renderButton();
+  end;
+end;
+
 procedure TfrmEAT.WebFormCreate(Sender: TObject);
 var
   lRegEx: TJSRegExp;
@@ -353,6 +377,13 @@ begin
     edtAssetId.Text := Copy(document.documentURI, 8 + Pos('AssetId=', document.documentURI), MaxInt)
   else
     edtAssetId.Text := '';
+
+  WebSignIn1.BeginUpdate;
+  // ALE 20201120 OAuth2 API Key
+  WebSignIn1.Services.Google.AppKey := '180763458518-8tc5nv8mohsbjm0dkch5lrk2cbn7oggc.apps.googleusercontent.com';
+  //WebSignIn1.Services.Facebook.AppKey := '1938271136467571';
+  WebSignIn1.EndUpdate;
+
 end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
@@ -365,6 +396,27 @@ begin
   WebMemo1.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
   WebQRDecoder1.EnableTimer := True;
   // TODO ALE 20201117 should we save battery? WebCamera1.Stop;
+end;
+
+procedure TfrmEAT.WebSignIn1GoogleSignedIn(Sender: TObject;
+  Args: TGoogleSignedInEventArgs);
+begin
+  //ShowMessage('Google Signed In');
+  memSignIn.Lines.Clear;
+  memSignIn.Lines.Add('Google Sign In');
+  memSignIn.Lines.Add('Username: ' + Args.FirstName + ' ' + Args.LastName);
+  memSignIn.Lines.Add('Email: ' + Args.Email);
+  memSignIn.Lines.Add('ID:' + Args.ID);
+  imgWebProfile.URL := Args.ImageUrl;
+
+  btnSignOut.Enabled := True;
+
+end;
+
+procedure TfrmEAT.WebSignIn1GoogleSignedOut(Sender: TObject);
+begin
+  memSignIn.Lines.Add('Signed out of Google');
+  btnSignOut.Enabled := False;
 end;
 
 procedure TfrmEAT.XDataWebClient1Load(Response: TXDataClientResponse);

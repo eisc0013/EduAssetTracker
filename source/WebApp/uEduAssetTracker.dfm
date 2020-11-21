@@ -11,7 +11,7 @@ object frmEAT: TfrmEAT
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     ChildOrder = 13
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 0
     object tsDev: TWebTabSheet
       Left = 0
@@ -135,7 +135,6 @@ object frmEAT: TfrmEAT
         TabOrder = 5
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
-        ExplicitWidth = 437
         ColWidths = (
           24
           64
@@ -162,8 +161,6 @@ object frmEAT: TfrmEAT
         Padding.Top = 4
         Padding.Right = 4
         Padding.Bottom = 4
-        ExplicitTop = 504
-        ExplicitWidth = 456
         object WebLabel2: TWebLabel
           Left = 8
           Top = 8
@@ -288,10 +285,6 @@ object frmEAT: TfrmEAT
           Align = alClient
           BaseFormat = cbfPNG
           CameraType = ctRear
-          ExplicitLeft = 47
-          ExplicitTop = 5
-          ExplicitWidth = 400
-          ExplicitHeight = 300
         end
       end
       object WebPanel2: TWebPanel
@@ -314,10 +307,6 @@ object frmEAT: TfrmEAT
         Padding.Top = 8
         Padding.Right = 8
         Padding.Bottom = 8
-        ExplicitLeft = 3
-        ExplicitTop = 308
-        ExplicitWidth = 150
-        ExplicitHeight = 60
         object WebMemo1: TWebMemo
           Left = 8
           Top = 8
@@ -335,10 +324,6 @@ object frmEAT: TfrmEAT
           SelLength = 0
           SelStart = 0
           WidthPercent = 100.000000000000000000
-          ExplicitLeft = 16
-          ExplicitTop = 6
-          ExplicitWidth = 185
-          ExplicitHeight = 89
         end
       end
       object pnlScanHeader: TWebPanel
@@ -361,15 +346,58 @@ object frmEAT: TfrmEAT
         ParentFont = False
       end
     end
-    object WebPageControl1Sheet3: TWebTabSheet
+    object tsSignIn: TWebTabSheet
       Left = 0
       Top = 20
       Width = 458
       Height = 477
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      Caption = 'WebPageControl1Sheet3'
+      Caption = 'Sign In'
       ChildOrder = 2
+      object imgWebProfile: TWebImageControl
+        Left = 16
+        Top = 389
+        Width = 100
+        Height = 65
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        AutoSize = True
+        ChildOrder = 2
+      end
+      object WebSignIn1: TWebSignIn
+        Left = 3
+        Top = 25
+        Width = 297
+        Height = 113
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnGoogleSignedIn = WebSignIn1GoogleSignedIn
+        OnGoogleSignedOut = WebSignIn1GoogleSignedOut
+      end
+      object memSignIn: TWebMemo
+        Left = 3
+        Top = 241
+        Width = 442
+        Height = 133
+        AutoSize = False
+        HeightPercent = 100.000000000000000000
+        SelLength = 0
+        SelStart = 0
+        WidthPercent = 100.000000000000000000
+      end
+      object btnSignOut: TWebButton
+        Left = 3
+        Top = 144
+        Width = 96
+        Height = 25
+        Caption = 'Sign Out'
+        ChildOrder = 3
+        Enabled = False
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnSignOutClick
+      end
     end
   end
   object WebButton3: TWebButton
@@ -382,6 +410,17 @@ object frmEAT: TfrmEAT
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     OnClick = WebButton3Click
+  end
+  object WebButton4: TWebButton
+    Left = 203
+    Top = 768
+    Width = 184
+    Height = 25
+    Caption = 'Build Google Sign-in button'
+    ChildOrder = 3
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    OnClick = WebButton4Click
   end
   object XDataWebClient1: TXDataWebClient
     Connection = XDataWebConnection1
