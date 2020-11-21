@@ -1,29 +1,280 @@
 object frmEAT: TfrmEAT
   Width = 458
-  Height = 946
+  Height = 499
   OnCreate = WebFormCreate
   OnShow = WebFormShow
-  object WebPageControl1: TWebPageControl
+  object pc: TWebPageControl
     Left = 0
     Top = 0
     Width = 458
-    Height = 497
+    Height = 499
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
+    Align = alClient
     ChildOrder = 13
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 0
+    object tsWelcome: TWebTabSheet
+      Left = 0
+      Top = 20
+      Width = 458
+      Height = 479
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = 'Welcome'
+      DesignSize = (
+        458
+        479)
+      object btnWelcomeContinue: TWebButton
+        Left = 159
+        Top = 5
+        Width = 96
+        Height = 38
+        Anchors = [akLeft, akTop, akRight]
+        Caption = 'Continue'
+        ChildOrder = 4
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnWelcomeContinueClick
+      end
+      object btnWelcomeResetFirstAccess: TWebButton
+        Left = 328
+        Top = 451
+        Width = 105
+        Height = 25
+        Anchors = [akRight, akBottom]
+        Caption = 'Reset First Access'
+        ChildOrder = 1
+        Enabled = False
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnWelcomeResetFirstAccessClick
+      end
+      object lblWelcomeMessage: TTMSFNCHTMLText
+        Left = 3
+        Top = 48
+        Width = 444
+        Height = 402
+        ParentDoubleBuffered = False
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Color = clBtnFace
+        DoubleBuffered = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        TabOrder = 2
+        Fill.Kind = gfkNone
+        Stroke.Kind = gskNone
+        Stroke.Color = -1
+        Text = 
+          '<B><U><FONT size="16">Welcome to the TGP Educational Asset Track' +
+          'er.</FONT></U></B>'#13#10#13#10'<FONT size="12">This App allows users to v' +
+          'iew and if authorized, edit information about items that are tag' +
+          'ged with QR codes generated via the App.'#13#10#13#10'In order to scan QR ' +
+          'Codes, the App needs access to your device camera.  When you vis' +
+          'it the "Scan Asset" tab or click the "Continue" button above, th' +
+          'e App will attempt to access your camera.  Please give camera ac' +
+          'cess when prompted.  '#13#10#13#10'None of the images leave your device.  ' +
+          'The App interprets the QR code entirely on your device and extra' +
+          'cts the AssetId embedded in the QR code.</FONT> '
+        WordWrapping = True
+      end
+    end
+    object tsScanAsset: TWebTabSheet
+      Left = 0
+      Top = 20
+      Width = 458
+      Height = 479
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = 'Scan Asset'
+      ChildOrder = 1
+      OnHide = tsScanAssetHide
+      OnShow = tsScanAssetShow
+      object pnlCam: TWebPanel
+        Left = 0
+        Top = 33
+        Width = 458
+        Height = 224
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        Align = alTop
+        BorderColor = clSilver
+        BorderStyle = bsSingle
+        object cam: TWebCamera
+          AlignWithMargins = True
+          Left = 4
+          Top = 4
+          Width = 450
+          Height = 216
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          HeightPercent = 100.000000000000000000
+          WidthPercent = 100.000000000000000000
+          Align = alClient
+          BaseFormat = cbfPNG
+          CameraType = ctRear
+          OnCameraPause = camCameraPause
+          OnCameraResume = camCameraResume
+          OnCameraStreamPlay = camCameraStreamPlay
+          OnCameraStop = camCameraStop
+        end
+      end
+      object WebPanel2: TWebPanel
+        Left = 0
+        Top = 257
+        Width = 458
+        Height = 222
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        Align = alClient
+        BorderColor = clSilver
+        BorderStyle = bsSingle
+        Caption = 'WebPanel2'
+        ChildOrder = 1
+        Padding.Left = 8
+        Padding.Top = 8
+        Padding.Right = 8
+        Padding.Bottom = 8
+        object WebMemo1: TWebMemo
+          Left = 8
+          Top = 8
+          Width = 442
+          Height = 206
+          Margins.Left = 8
+          Margins.Top = 8
+          Margins.Right = 8
+          Margins.Bottom = 8
+          Align = alClient
+          AutoSize = False
+          HeightPercent = 100.000000000000000000
+          Lines.Strings = (
+            'WebMemo1')
+          SelLength = 0
+          SelStart = 0
+          WidthPercent = 100.000000000000000000
+        end
+      end
+      object pnlScanHeader: TWebPanel
+        Left = 0
+        Top = 0
+        Width = 458
+        Height = 33
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        Align = alTop
+        BorderColor = clSilver
+        BorderStyle = bsSingle
+        Caption = 'Scan an asset tag to retrieve or set information'
+        ChildOrder = 2
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Tahoma'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+      end
+    end
+    object tsSignIn: TWebTabSheet
+      Left = 0
+      Top = 20
+      Width = 458
+      Height = 479
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = 'Sign In'
+      ChildOrder = 2
+      object imgWebProfile: TWebImageControl
+        Left = 16
+        Top = 389
+        Width = 100
+        Height = 65
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        AutoSize = True
+        ChildOrder = 2
+      end
+      object WebSignIn1: TWebSignIn
+        Left = 3
+        Top = 25
+        Width = 297
+        Height = 113
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnGoogleSignedIn = WebSignIn1GoogleSignedIn
+        OnGoogleSignedOut = WebSignIn1GoogleSignedOut
+      end
+      object memSignIn: TWebMemo
+        Left = 3
+        Top = 241
+        Width = 442
+        Height = 133
+        AutoSize = False
+        HeightPercent = 100.000000000000000000
+        SelLength = 0
+        SelStart = 0
+        WidthPercent = 100.000000000000000000
+      end
+      object btnSignOut: TWebButton
+        Left = 3
+        Top = 144
+        Width = 96
+        Height = 25
+        Caption = 'Sign Out'
+        ChildOrder = 3
+        Enabled = False
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnSignOutClick
+      end
+    end
+    object tsLog: TWebTabSheet
+      Left = 0
+      Top = 20
+      Width = 458
+      Height = 479
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = 'Log'
+      ChildOrder = 3
+      object memLog: TWebMemo
+        Left = 0
+        Top = 0
+        Width = 458
+        Height = 479
+        Align = alClient
+        AutoSize = False
+        HeightPercent = 100.000000000000000000
+        Lines.Strings = (
+          'memLog')
+        SelLength = 0
+        SelStart = 0
+        WidthPercent = 100.000000000000000000
+      end
+    end
     object tsDev: TWebTabSheet
       Left = 0
       Top = 20
       Width = 458
-      Height = 477
+      Height = 479
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       Caption = 'Development'
+      ChildOrder = 4
       DesignSize = (
         458
-        477)
+        479)
       object WebLabel3: TWebLabel
         Left = 16
         Top = 0
@@ -144,7 +395,7 @@ object frmEAT: TfrmEAT
       end
       object pnlAssetType: TWebPanel
         Left = 0
-        Top = 353
+        Top = 355
         Width = 458
         Height = 124
         Margins.Left = 4
@@ -246,181 +497,6 @@ object frmEAT: TfrmEAT
         Text = 'https://ynotwidgets.com'
       end
     end
-    object tsScanAsset: TWebTabSheet
-      Left = 0
-      Top = 20
-      Width = 458
-      Height = 477
-      HeightPercent = 100.000000000000000000
-      WidthPercent = 100.000000000000000000
-      Caption = 'Scan Asset'
-      ChildOrder = 1
-      OnHide = tsScanAssetHide
-      OnShow = tsScanAssetShow
-      object pnlCam: TWebPanel
-        Left = 0
-        Top = 33
-        Width = 458
-        Height = 224
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-        Align = alTop
-        BorderColor = clSilver
-        BorderStyle = bsSingle
-        object cam: TWebCamera
-          AlignWithMargins = True
-          Left = 4
-          Top = 4
-          Width = 450
-          Height = 216
-          Margins.Left = 4
-          Margins.Top = 4
-          Margins.Right = 4
-          Margins.Bottom = 4
-          HeightPercent = 100.000000000000000000
-          WidthPercent = 100.000000000000000000
-          Align = alClient
-          BaseFormat = cbfPNG
-          CameraType = ctRear
-        end
-      end
-      object WebPanel2: TWebPanel
-        Left = 0
-        Top = 257
-        Width = 458
-        Height = 220
-        Margins.Left = 8
-        Margins.Top = 8
-        Margins.Right = 8
-        Margins.Bottom = 8
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-        Align = alClient
-        BorderColor = clSilver
-        BorderStyle = bsSingle
-        Caption = 'WebPanel2'
-        ChildOrder = 1
-        Padding.Left = 8
-        Padding.Top = 8
-        Padding.Right = 8
-        Padding.Bottom = 8
-        object WebMemo1: TWebMemo
-          Left = 8
-          Top = 8
-          Width = 442
-          Height = 204
-          Margins.Left = 8
-          Margins.Top = 8
-          Margins.Right = 8
-          Margins.Bottom = 8
-          Align = alClient
-          AutoSize = False
-          HeightPercent = 100.000000000000000000
-          Lines.Strings = (
-            'WebMemo1')
-          SelLength = 0
-          SelStart = 0
-          WidthPercent = 100.000000000000000000
-        end
-      end
-      object pnlScanHeader: TWebPanel
-        Left = 0
-        Top = 0
-        Width = 458
-        Height = 33
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-        Align = alTop
-        BorderColor = clSilver
-        BorderStyle = bsSingle
-        Caption = 'Scan an asset tag to retrieve or set information'
-        ChildOrder = 2
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -19
-        Font.Name = 'Tahoma'
-        Font.Style = [fsUnderline]
-        ParentFont = False
-      end
-    end
-    object tsSignIn: TWebTabSheet
-      Left = 0
-      Top = 20
-      Width = 458
-      Height = 477
-      HeightPercent = 100.000000000000000000
-      WidthPercent = 100.000000000000000000
-      Caption = 'Sign In'
-      ChildOrder = 2
-      object imgWebProfile: TWebImageControl
-        Left = 16
-        Top = 389
-        Width = 100
-        Height = 65
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-        AutoSize = True
-        ChildOrder = 2
-      end
-      object WebSignIn1: TWebSignIn
-        Left = 3
-        Top = 25
-        Width = 297
-        Height = 113
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-        OnGoogleSignedIn = WebSignIn1GoogleSignedIn
-        OnGoogleSignedOut = WebSignIn1GoogleSignedOut
-      end
-      object memSignIn: TWebMemo
-        Left = 3
-        Top = 241
-        Width = 442
-        Height = 133
-        AutoSize = False
-        HeightPercent = 100.000000000000000000
-        SelLength = 0
-        SelStart = 0
-        WidthPercent = 100.000000000000000000
-      end
-      object btnSignOut: TWebButton
-        Left = 3
-        Top = 144
-        Width = 96
-        Height = 25
-        Caption = 'Sign Out'
-        ChildOrder = 3
-        Enabled = False
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-        OnClick = btnSignOutClick
-      end
-    end
-  end
-  object WebButton3: TWebButton
-    Left = 160
-    Top = 520
-    Width = 96
-    Height = 25
-    Caption = 'WebButton3'
-    ChildOrder = 1
-    HeightPercent = 100.000000000000000000
-    WidthPercent = 100.000000000000000000
-    OnClick = WebButton3Click
-  end
-  object WebButton4: TWebButton
-    Left = 203
-    Top = 768
-    Width = 184
-    Height = 25
-    Caption = 'Build Google Sign-in button'
-    ChildOrder = 3
-    HeightPercent = 100.000000000000000000
-    WidthPercent = 100.000000000000000000
-    OnClick = WebButton4Click
   end
   object XDataWebClient1: TXDataWebClient
     Connection = XDataWebConnection1
@@ -439,7 +515,7 @@ object frmEAT: TfrmEAT
     Connection = XDataWebConnection1
     ServerRecordCountMode = smInlineCount
     Left = 304
-    Top = 416
+    Top = 400
     object tAssetTypeid: TStringField
       FieldName = 'id'
       ReadOnly = True
@@ -462,7 +538,7 @@ object frmEAT: TfrmEAT
     DataSet = tAssetType
     Enabled = False
     Left = 360
-    Top = 416
+    Top = 400
   end
   object QRCodeGoogleAPIs: TWebHttpRequest
     Headers.Strings = (
@@ -475,7 +551,31 @@ object frmEAT: TfrmEAT
     Camera = cam
     EnableTimer = True
     OnDecoded = WebQRDecoder1Decoded
-    Left = 56
-    Top = 581
+    Left = 40
+    Top = 445
+  end
+  object dbEATClient: TWebIndexedDbClientDataset
+    Active = True
+    IDBDatabaseName = 'YnotWidgets'
+    IDBObjectStoreName = 'TGPEduAssetTracker'
+    IDBKeyFieldName = 'name'
+    IDBAutoIncrement = True
+    Params = <>
+    AfterOpen = dbEATClientAfterOpen
+    Left = 304
+    Top = 452
+    object dbEATClientname: TStringField
+      FieldName = 'name'
+      Size = 128
+    end
+    object dbEATClientsettings: TStringField
+      FieldName = 'value'
+      Size = 8192
+    end
+  end
+  object dsEATClient: TWebDataSource
+    DataSet = dbEATClient
+    Left = 360
+    Top = 456
   end
 end
