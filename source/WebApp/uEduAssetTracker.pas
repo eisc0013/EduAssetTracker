@@ -21,7 +21,7 @@ type
     tsScanAsset: TWebTabSheet;
     tsSignIn: TWebTabSheet;
     WebLabel3: TWebLabel;
-    WebButton1: TWebButton;
+    btnQRCodeSheet_1Big2Small_FullURI: TWebButton;
     btnQRCodeSheet: TWebButton;
     btnQRCodeGoogle: TWebButton;
     QRCodeGoogleAPIs: TWebHttpRequest;
@@ -59,13 +59,14 @@ type
     edtAssetId: TTMSFNCEditButton;
     lblAssetId: TWebLabel;
     tmrQRDetectPause: TWebTimer;
+    btnQRCodeSheet_2Big_FullURI: TWebButton;
+    btnQRCodeSheet_1BigFullURI_1BigUUID: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
     procedure WebFormCreate(Sender: TObject);
     procedure btnRegExTestClick(Sender: TObject);
     procedure btnQRCodeSheetClick(Sender: TObject);
-    procedure WebButton1Click(Sender: TObject);
     procedure WebButton2Click(Sender: TObject);
     procedure qrDecodeDecoded(Sender: TObject; ADecoded: string);
     procedure tsScanAssetShow(Sender: TObject);
@@ -82,6 +83,9 @@ type
     procedure camCameraStreamPlay(Sender: TObject; ACamera: TCameraDevice);
     procedure edtAssetIdButtonClick(Sender: TObject);
     procedure tmrQRDetectPauseTimer(Sender: TObject);
+    procedure btnQRCodeSheet_1Big2Small_FullURIClick(Sender: TObject);
+    procedure btnQRCodeSheet_2Big_FullURIClick(Sender: TObject);
+    procedure btnQRCodeSheet_1BigFullURI_1BigUUIDClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -97,6 +101,7 @@ type
     function IsUUID(const pUUID: String): Boolean;
     function IsAssetURI(const pURI: String): Boolean;
     function GetAssetIdFromURI(const pURI: String): String;
+    function GetQRCodeSheetPDF(const pLayout: String): Boolean;
   public
     { Public declarations }
     function GetUUIDStr(): String;
@@ -199,6 +204,21 @@ begin
   //Application.Navigate(API_URL + ; ATarget: TNavigationTarget);
 end;
 
+procedure TfrmEAT.btnQRCodeSheet_1Big2Small_FullURIClick(Sender: TObject);
+begin
+  GetQRCodeSheetPDF('1Big2Small_FullURI');
+end;
+
+procedure TfrmEAT.btnQRCodeSheet_1BigFullURI_1BigUUIDClick(Sender: TObject);
+begin
+GetQRCodeSheetPDF('1BigFullURI_1BigUUID');
+end;
+
+procedure TfrmEAT.btnQRCodeSheet_2Big_FullURIClick(Sender: TObject);
+begin
+  GetQRCodeSheetPDF('2Big_FullURI');
+end;
+
 procedure TfrmEAT.btnRegExTestClick(Sender: TObject);
 begin
   // ALE 20201104 the below works
@@ -248,6 +268,85 @@ end;
 function TfrmEAT.GetAssetIdURLFragment: String;
 begin
   Result := '?AssetId=' + GetUUIDStr;
+end;
+
+function TfrmEAT.GetQRCodeSheetPDF(const pLayout: String): Boolean;
+begin
+  Result := False;
+  fWebRequest := TWebHTTPRequest.Create(nil);
+  fWebRequest.URL := API_URL + 'TGPQRCodeSheetJSONService/GetQRCodePDF';
+  fWebRequest.Command := httpPOST;
+  fWebRequest.Headers.AddPair('Content-Type', 'application/json');
+  fWebRequest.PostData := '{"lPages": 1, "lLayout": "' + pLayout + '"}';
+  //lWebRequest.Execute();
+  fWebRequest.Execute(
+    procedure(AResponse: String; AReq: TJSXMLHttpRequest)
+      var
+        lBytes: TBytes;
+        lBytesJS: TJSUint8Array;
+        lByteString: String;
+        lResponseLen: Integer;
+        js: TJSON;
+        ja: TJSONArray;
+        jo: TJSONObject;
+        i: integer;
+        lPDFBase64: String;
+      begin
+        js := TJSON.Create;
+
+        try
+          jo := js.Parse(AResponse);
+          lPDFBase64 := jo.GetJSONValue('value');
+        finally
+          js.Free;
+        end;
+        lResponseLen := Length(AResponse);
+        {$IFNDEF WIN32}
+        asm
+          // ALE 20201112 finally broke the logjam
+          //  https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+          lByteString = atob(lPDFBase64);
+          for (let i = 0; i < lByteString.length; i++) {
+            lBytes[i] = lByteString.charCodeAt(i);
+          }
+          lBytesJS = new Uint8Array(lBytes);
+        end;
+        {$ENDIF}
+        // ALE 20201112 now convert to JSUIntArray
+        //fPDFFile := Copy(lBytes);
+        Console.log('Response Char Length: ' + IntToStr(lResponseLen));
+        Console.log('Byte array length: ' + IntToStr(lBytesJS.byteLength));
+        //Console.log('Response Byte Length: ' + IntToStr(ByteLength(AResponse)));
+        //ShowMessage(IntToStr(lResponseLen));
+        //lBytes := TEncoding.UTF8.GetBytes(AResponse);
+        Application.DownloadPDFFile(lBytesJS, 'EduAssetTrackerQRCodeSheet.pdf', True);
+        //Application.DownloadBinaryFile(lBytes, 'EduAssetTrackerQRCodeSheetB.pdf', False);
+        //ShowMessage(AResponse);
+        Result := True;
+        ShowMessage('PDF Created');
+        {
+        js := TJSON.Create;
+
+        try
+          ja := TJSONArray(js.Parse(AResponse));
+
+          ShowMessage('Retrieved items:' +inttostr(ja.Count));
+
+          for i := 0 to ja.Count - 1 do
+          begin
+            jo := TJSONObject(ja.Items[i]);
+            //WebListBox1.Items.Add(jo.GetJSONValue('title'));
+          end;
+        finally
+          js.Free;
+        end;
+        }
+      end
+  );
+  //lWebRequest.
+  //lWebRequest.Free;
+
+  //Application.Navigate(API_URL + ; ATarget: TNavigationTarget);
 end;
 
 function TfrmEAT.GetAssetIdFromURI(const pURI: String): String;
@@ -358,83 +457,6 @@ procedure TfrmEAT.tsScanAssetShow(Sender: TObject);
 begin
   LogIt('Scan Asset tab Showing');
   GoCamera();
-end;
-
-procedure TfrmEAT.WebButton1Click(Sender: TObject);
-begin
-  fWebRequest := TWebHTTPRequest.Create(nil);
-  fWebRequest.URL := API_URL + 'TGPQRCodeSheetJSONService/GetQRCodePDF';
-  fWebRequest.Command := httpPOST;
-  fWebRequest.Headers.AddPair('Content-Type', 'application/json');
-  fWebRequest.PostData := '{"lPages": 1}';
-  //lWebRequest.Execute();
-  fWebRequest.Execute(
-    procedure(AResponse: String; AReq: TJSXMLHttpRequest)
-      var
-        lBytes: TBytes;
-        lBytesJS: TJSUint8Array;
-        lByteString: String;
-        lResponseLen: Integer;
-        js: TJSON;
-        ja: TJSONArray;
-        jo: TJSONObject;
-        i: integer;
-        lPDFBase64: String;
-      begin
-        js := TJSON.Create;
-
-        try
-          jo := js.Parse(AResponse);
-          lPDFBase64 := jo.GetJSONValue('value');
-        finally
-          js.Free;
-        end;
-        lResponseLen := Length(AResponse);
-        {$IFNDEF WIN32}
-        asm
-          // ALE 20201112 finally broke the logjam
-          //  https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
-          lByteString = atob(lPDFBase64);
-          for (let i = 0; i < lByteString.length; i++) {
-            lBytes[i] = lByteString.charCodeAt(i);
-          }
-          lBytesJS = new Uint8Array(lBytes);
-        end;
-        {$ENDIF}
-        // ALE 20201112 now convert to JSUIntArray
-        //fPDFFile := Copy(lBytes);
-        Console.log('Response Char Length: ' + IntToStr(lResponseLen));
-        Console.log('Byte array length: ' + IntToStr(lBytesJS.byteLength));
-        //Console.log('Response Byte Length: ' + IntToStr(ByteLength(AResponse)));
-        //ShowMessage(IntToStr(lResponseLen));
-        //lBytes := TEncoding.UTF8.GetBytes(AResponse);
-        Application.DownloadPDFFile(lBytesJS, 'EduAssetTrackerQRCodeSheet.pdf', True);
-        //Application.DownloadBinaryFile(lBytes, 'EduAssetTrackerQRCodeSheetB.pdf', False);
-        //ShowMessage(AResponse);
-        ShowMessage('PDF Created');
-        {
-        js := TJSON.Create;
-
-        try
-          ja := TJSONArray(js.Parse(AResponse));
-
-          ShowMessage('Retrieved items:' +inttostr(ja.Count));
-
-          for i := 0 to ja.Count - 1 do
-          begin
-            jo := TJSONObject(ja.Items[i]);
-            //WebListBox1.Items.Add(jo.GetJSONValue('title'));
-          end;
-        finally
-          js.Free;
-        end;
-        }
-      end
-  );
-  //lWebRequest.
-  //lWebRequest.Free;
-
-  //Application.Navigate(API_URL + ; ATarget: TNavigationTarget);
 end;
 
 procedure TfrmEAT.WebButton2Click(Sender: TObject);

@@ -13,7 +13,7 @@ object frmEAT: TfrmEAT
     WidthPercent = 100.000000000000000000
     Align = alClient
     ChildOrder = 13
-    TabIndex = 0
+    TabIndex = 4
     TabOrder = 0
     object tsWelcome: TWebTabSheet
       Left = 0
@@ -358,16 +358,16 @@ object frmEAT: TfrmEAT
           '%2F%2Ftgp.net%2FXYZCde%2Fabc%2F123e4567-e89b-12d3-a456-426614174' +
           '000'
       end
-      object WebButton1: TWebButton
-        Left = 104
+      object btnQRCodeSheet_1Big2Small_FullURI: TWebButton
+        Left = 16
         Top = 29
-        Width = 169
+        Width = 249
         Height = 36
-        Caption = 'Create QR Code Sheet JSON'
+        Caption = 'Create QR Code Sheet JSON 1Big2Small_FullURI'
         ChildOrder = 9
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
-        OnClick = WebButton1Click
+        OnClick = btnQRCodeSheet_1Big2Small_FullURIClick
       end
       object btnQRCodeSheet: TWebButton
         Left = 239
@@ -543,13 +543,35 @@ object frmEAT: TfrmEAT
         end
       end
       object QRCode: TWebQRCode
-        Left = 160
-        Top = 144
+        Left = 144
+        Top = 175
         Width = 50
         Height = 50
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         Text = 'https://ynotwidgets.com'
+      end
+      object btnQRCodeSheet_2Big_FullURI: TWebButton
+        Left = 16
+        Top = 71
+        Width = 249
+        Height = 36
+        Caption = 'Create QR Code Sheet JSON 2Big_FullURI'
+        ChildOrder = 9
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnQRCodeSheet_2Big_FullURIClick
+      end
+      object btnQRCodeSheet_1BigFullURI_1BigUUID: TWebButton
+        Left = 16
+        Top = 113
+        Width = 249
+        Height = 36
+        Caption = 'Create QR Code Sheet JSON 1BigFullURI_1BigUUID'
+        ChildOrder = 9
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnQRCodeSheet_1BigFullURI_1BigUUIDClick
       end
     end
   end

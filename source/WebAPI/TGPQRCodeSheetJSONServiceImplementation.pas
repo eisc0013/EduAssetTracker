@@ -14,7 +14,7 @@ type
   [ServiceImplementation]
   TTGPQRCodeSheetJSONService = class(TInterfacedObject, ITGPQRCodeSheetJSONService)
   private
-    function GetQRCodePDF(lPages: Cardinal): String;
+    function GetQRCodePDF(const lPages: Cardinal; const lLayout: String): String;
   end;
 
 const
@@ -27,7 +27,7 @@ uses uTGPQRCodePDF;
 
 { TTGPQRCodeSheetJSONService }
 
-function TTGPQRCodeSheetJSONService.GetQRCodePDF(lPages: Cardinal): String;
+function TTGPQRCodeSheetJSONService.GetQRCodePDF(const lPages: Cardinal; const lLayout: String): String;
 var
   lQRPDF: TTGPQRPDF;
   lPDFStream: TMemoryStream;
@@ -35,6 +35,10 @@ begin
   //TXDataOperationContext.Current.Response.Headers.SetValue('content-type', 'application/pdf');
 
   lQRPDF := TTGPQRPDF.Create(lPages);
+  if lLayout <> '' then
+  begin
+    lQRPDF.Layout := lLayout;
+  end;
   lQRPDF.BaseText := BASEURL + '?AssetId=';
   //lQRPDF.FileName := 'C:\Temp\QRCodes.pdf';
   lPDFStream := TMemoryStream.Create;

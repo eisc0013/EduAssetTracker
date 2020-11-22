@@ -14,23 +14,29 @@ type
   private
     // Internal class field definitions - only accessible in this unit //
     FPages: NativeUInt;
+    FLayout: String;
     FBaseText: String;
     FFileName: String;
+    FGUID: String;
     FQRCodePixels: NativeUInt;
   protected
     // Fields and methods only accessible by this class and descendants //
     FQRCode: TDelphiZXingQRCode;
     FPDF: TAdvPDFLib;
-    function UpdateQRCode: TBitmap;
+    function UpdateQRCode(const pNewGUID: Boolean = True): TBitmap;
   public
     // Externally accessible fields and methods //
     // 2 constructors - one for round fruit, the other long fruit //
     constructor Create(); overload;
-    constructor Create(pPages: NativeUInt); overload;
+    constructor Create(const pPages: NativeUInt; const pLayout: String = '1Big2Small_FullURI'); overload;
     destructor Free(); overload;
     function GeneratePDF(const pPathPDF: String = ''): TStream;
+    function GeneratePDF_1Big2Small_FullURI(const pPathPDF: String = ''): TStream;
+    function GeneratePDF_2Big_FullURI(const pPathPDF: String = ''): TStream;
+    function GeneratePDF_1BigFullURI_1BigUUID(const pPathPDF: String = ''): TStream;
     function GetGUID(): String;
     property Pages: NativeUInt read FPages write FPages;
+    property Layout: String read FLayout write FLayout;
     property BaseText: String read FBaseText write FBaseText;
     // ALE 20201117 moved to GeneratePDF signature property FileName: String read FFileName write FFileName;
     property QRCodePixels: NativeUInt read FQRCodePixels write FQRCodePixels;
@@ -44,6 +50,7 @@ begin
   inherited;
 
   FPages := 1; // ALE 20201029 default
+  FLayout := '1Big2Small_FullURI';
   FBaseText := '';
   FFileName := '';
   FQRCodePixels := 50;
@@ -53,9 +60,13 @@ begin
   FPDF.PageSize := TAdvPDFLibPageSize.psLetter;
 end;
 
-constructor TTGPQRPDF.Create(pPages: NativeUInt);
+constructor TTGPQRPDF.Create(const pPages: NativeUInt; const pLayout: String = '1Big2Small_FullURI');
 begin
   Create();  // ALE 20201029 do the basic setup
+  if (pPages > 0) then
+    FPages := pPages;
+  if (pLayout <> '') then
+    FLayout := pLayout;
 end;
 
 destructor TTGPQRPDF.Free;
@@ -65,6 +76,23 @@ begin
 end;
 
 function TTGPQRPDF.GeneratePDF(const pPathPDF: String = ''): TStream;
+var
+  lBMP: TBitmap;
+  lPicture: TPicture;
+  lFileStream: TFileStream;
+begin
+  Result := nil;
+
+  if fLayout = '1Big2Small_FullURI' then
+    Result := GeneratePDF_1Big2Small_FullURI(pPathPDF)
+  else if fLayout = '2Big_FullURI' then
+    Result := GeneratePDF_2Big_FullURI(pPathPDF)
+  else if fLayout = '1BigFullURI_1BigUUID' then
+    Result := GeneratePDF_1BigFullURI_1BigUUID(pPathPDF);
+
+end;
+
+function TTGPQRPDF.GeneratePDF_1Big2Small_FullURI(const pPathPDF: String = ''): TStream;
 const
   QRSMSIZE = 34;
   QRTAILWIDTH = 64;
@@ -149,8 +177,167 @@ begin
       end;
     end;
   end;
+end;
 
+function TTGPQRPDF.GeneratePDF_1BigFullURI_1BigUUID(
+  const pPathPDF: String): TStream;
+const
+  QRLRGSIZE = 68;
+  INDENT = 30;
+  BORDERSIZE = 6;
+  CELLPADDING = 4;
+  COLWIDTH = QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+  ROWHEIGHT = QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+var
+  lBMP: TBitmap;
+  lPicture: TPicture;
+  lFileStream: TFileStream;
+  lBaseTextIn: String;
+begin
+  Result := nil;
+  // ALE 20201115 The idea is to generate a sheet of QRCodes,
+  //  one 'large' size with the full URL, then a magnified 'large' size with
+  //  just the UUID
+  if ((FPages > 0) AND (FBaseText <> '')) then
+  begin
+    lBaseTextIn := FBaseText;
+    FPDF.BeginDocument(FFileName); // TODO ALE 20201029 if we don't provide a filename, output goes to a TMemoryStream on EndDocument
+    FPDF.Header := '';
+    FPDF.Footer := '';
+    for var I: NativeUInt := 0 to FPages - 1 do
+    begin
+      FPDF.NewPage;
+      // ALE 20201030 second - 1 for margin as is + 30
+      for var R := 0 to (Trunc(FPDF.PageHeight) div ROWHEIGHT) - 1 - 1 do
+      begin
+        for var C := 0 to (Trunc(FPDF.PageWidth) div COLWIDTH) - 1 - 1 do
+        begin
+          // ALE 20201115 Draw a border around the like QR Codes
+          FPDF.Graphics.Fill.Kind := gfkNone;
+          FPDF.Graphics.Stroke.Width := 1;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT));
+          // ALE 2020115 Draw a boarder around first big QR code
+          //FPDF.Graphics.Stroke.Color := gcOrange;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+          // ALE 2020115 Draw a boarder around large QR code
+          //FPDF.Graphics.Stroke.Color := gcBlue;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
 
+          // ALE 20201115 Now we do two sub-columns
+          // ALE 20201115 Draw the left large QR code
+          FBaseText := lBaseTextIn;
+          lBMP := UpdateQRCode();
+          lPicture := TPicture.Create;
+          lPicture.Bitmap := lBMP;
+          FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1));
+          lBMP.Free;
+          lPicture.Free;
+
+          // ALE 20201115 Draw the right large QR code
+          FBaseText := '';
+          lBMP := UpdateQRCode(False);
+          lPicture := TPicture.Create;
+          lPicture.Bitmap := lBMP;
+          FPDF.Graphics.DrawImage(lPicture, RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+          lBMP.Free;
+          lPicture.Free;
+
+          FBaseText := lBaseTextIn;
+        end;
+      end;
+    end;
+    Result := FPDF.EndDocument(False); // ALE 20201029 set to False to prevent opening in PDF reader
+
+    if (Result <> nil) AND (pPathPDF <> '') then
+    begin
+      var lPathFileNamePDF := TPath.Combine(pPathPDF, 'QRCodeSheets\QRCodes_'
+       + FormatDateTime('yyyy-mm-dd_hh.nn.ss.zzz',
+        TTimeZone.Local.ToUniversalTime(Now())) + '.pdf');
+      if ForceDirectories(ExtractFilePath(lPathFileNamePDF)) then
+      begin
+        lFileStream := TFileStream.Create(lPathFileNamePDF, fmCreate);
+        lFileStream.CopyFrom(Result);
+        lFileStream.Free;
+      end;
+    end;
+  end;
+end;
+
+function TTGPQRPDF.GeneratePDF_2Big_FullURI(const pPathPDF: String): TStream;
+const
+  QRLRGSIZE = 68;
+  INDENT = 30;
+  BORDERSIZE = 6;
+  CELLPADDING = 4;
+  COLWIDTH = QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+  ROWHEIGHT = QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+var
+  lBMP: TBitmap;
+  lPicture: TPicture;
+  lFileStream: TFileStream;
+begin
+  Result := nil;
+  // ALE 20201115 The idea is to generate a sheet of QRCodes,
+  //  two copies each QR code at 'large' size
+  if ((FPages > 0) AND (FBaseText <> '')) then
+  begin
+    FPDF.BeginDocument(FFileName); // TODO ALE 20201029 if we don't provide a filename, output goes to a TMemoryStream on EndDocument
+    FPDF.Header := '';
+    FPDF.Footer := '';
+    for var I: NativeUInt := 0 to FPages - 1 do
+    begin
+      FPDF.NewPage;
+      // ALE 20201030 second - 1 for margin as is + 30
+      for var R := 0 to (Trunc(FPDF.PageHeight) div ROWHEIGHT) - 1 - 1 do
+      begin
+        for var C := 0 to (Trunc(FPDF.PageWidth) div COLWIDTH) - 1 - 1 do
+        begin
+          // ALE 20201115 Draw a border around the like QR Codes
+          FPDF.Graphics.Fill.Kind := gfkNone;
+          FPDF.Graphics.Stroke.Width := 1;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT));
+          // ALE 2020115 Draw a boarder around first big QR code
+          //FPDF.Graphics.Stroke.Color := gcOrange;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+          // ALE 2020115 Draw a boarder around large QR code
+          //FPDF.Graphics.Stroke.Color := gcBlue;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+
+          lBMP := UpdateQRCode();
+          lPicture := TPicture.Create;
+          lPicture.Bitmap := lBMP;
+          // ALE 20201115 Now we do two sub-columns
+          // ALE 20201115 Draw the left large QR code
+          FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1));
+          // ALE 20201115 Draw the right large QR code
+          FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1));
+
+          lBMP.Free;
+          lPicture.Free;
+        end;
+      end;
+    end;
+    Result := FPDF.EndDocument(False); // ALE 20201029 set to False to prevent opening in PDF reader
+
+    if (Result <> nil) AND (pPathPDF <> '') then
+    begin
+      var lPathFileNamePDF := TPath.Combine(pPathPDF, 'QRCodeSheets\QRCodes_'
+       + FormatDateTime('yyyy-mm-dd_hh.nn.ss.zzz',
+        TTimeZone.Local.ToUniversalTime(Now())) + '.pdf');
+      if ForceDirectories(ExtractFilePath(lPathFileNamePDF)) then
+      begin
+        lFileStream := TFileStream.Create(lPathFileNamePDF, fmCreate);
+        lFileStream.CopyFrom(Result);
+        lFileStream.Free;
+      end;
+    end;
+  end;
 end;
 
 function TTGPQRPDF.GetGUID: String;
@@ -161,14 +348,17 @@ begin
   Result := Copy(LowerCase(GUIDToString(lGUID)), 2, 36);
 end;
 
-function TTGPQRPDF.UpdateQRCode: TBitmap;
+function TTGPQRPDF.UpdateQRCode(const pNewGUID: Boolean = True): TBitmap;
 var
   Row, Column: Integer;
   lBMP: TBitmap;
 begin
   lBMP := TBitmap.Create();
 
-  FQRCode.Data := FBaseText + GetGUID();
+  if (pNewGUID OR (FGUID = '')) then
+    FGUID := GetGUID();
+
+  FQRCode.Data := FBaseText + FGUID;
   FQRCode.Encoding := TQRCodeEncoding(qrUTF8BOM);
   FQRCode.ErrorCorrectionLevel := 3; // TODO ALE 20201024 3=High error correction level
   FQRCode.QuietZone := 4; // TODO ALE 20201029 should be a property
