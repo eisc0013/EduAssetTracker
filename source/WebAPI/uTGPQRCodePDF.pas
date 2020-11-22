@@ -66,9 +66,9 @@ end;
 
 function TTGPQRPDF.GeneratePDF(const pPathPDF: String = ''): TStream;
 const
-  QRSMSIZE = 30;
-  QRTAILWIDTH = 60;
-  QRLRGSIZE = 60;
+  QRSMSIZE = 34;
+  QRTAILWIDTH = 64;
+  QRLRGSIZE = 68;
   INDENT = 30;
   BORDERSIZE = 6;
   CELLPADDING = 2;
@@ -170,7 +170,7 @@ begin
 
   FQRCode.Data := FBaseText + GetGUID();
   FQRCode.Encoding := TQRCodeEncoding(qrUTF8BOM);
-  FQRCode.ErrorCorrectionLevel := 2; // TODO ALE 20201024 3=High error correction level
+  FQRCode.ErrorCorrectionLevel := 3; // TODO ALE 20201024 3=High error correction level
   FQRCode.QuietZone := 4; // TODO ALE 20201029 should be a property
   lBMP.SetSize(FQRCode.Rows, FQRCode.Columns);
   for Row := 0 to FQRCode.Rows - 1 do
