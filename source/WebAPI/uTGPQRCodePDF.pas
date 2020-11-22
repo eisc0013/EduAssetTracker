@@ -232,7 +232,7 @@ begin
           lBMP := UpdateQRCode();
           lPicture := TPicture.Create;
           lPicture.Bitmap := lBMP;
-          FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1));
+          FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 3));
           lBMP.Free;
           lPicture.Free;
 
@@ -241,7 +241,7 @@ begin
           lBMP := UpdateQRCode(False);
           lPicture := TPicture.Create;
           lPicture.Bitmap := lBMP;
-          FPDF.Graphics.DrawImage(lPicture, RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE + BORDERSIZE div 2 + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+          FPDF.Graphics.DrawImage(lPicture, RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE + BORDERSIZE div 2 - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE - 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 3, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 3));
           lBMP.Free;
           lPicture.Free;
 

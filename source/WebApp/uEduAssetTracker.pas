@@ -423,6 +423,7 @@ begin
     begin
       StartCamera();
     end;
+    tmrQRDetectPause.Enabled := False;
     qrDecode.EnableTimer := True;
 end;
 
@@ -565,10 +566,22 @@ begin
   memScanAsset.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
   tmrQRDetectPause.Enabled := True;
   PauseCamera();
-  lAssetId := GetAssetIdFromURI(ADecoded);
-  if lAssetId <> '' then
+  if IsAssetURI(ADecoded) then
   begin
-    edtAssetId.Text := lAssetId;
+    lAssetId := GetAssetIdFromURI(ADecoded);
+    if lAssetId <> '' then
+    begin
+      edtAssetId.Text := lAssetId;
+    end;
+  end
+  else if IsUUID(ADecoded) then
+  begin
+    edtAssetId.Text := ADecoded;
+  end
+  else
+  begin
+    // ALE 20201122 not a UUID or EduAssetTracker URI
+    GoCamera();
   end;
 end;
 
