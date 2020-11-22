@@ -15,6 +15,7 @@ uses
   VCL.TMSFNCEdit;
 
 type
+  TURIType = (Invalid, Full, Shortener);
   TfrmEAT = class(TWebForm)
     pc: TWebPageControl;
     tsDev: TWebTabSheet;
@@ -101,7 +102,7 @@ type
     procedure ResumeCamera();
     procedure PauseCamera();
     function IsUUID(const pUUID: String): Boolean;
-    function IsAssetURI(const pURI: String): Boolean;
+    function IsAssetURI(const pURI: String): TURIType;
     function GetAssetIdFromURI(const pURI: String): String;
     function GetQRCodeSheetPDF(const pLayout: String): Boolean;
   public
@@ -113,7 +114,9 @@ type
 
 const
   BASE_URL = 'https://EduAssetTracker.ynotwidgets.com';
+  //BASE_URL2 = ' https://s.tgp.net/EAT/32a88eec-61d6-40a4-8e08-79f1c7b5104b';
   WEBAPP_URL = BASE_URL + '/EduAssetTracker.html';
+  SHORTENER_URL = 'https://s.tgp.net/EAT/';
   API_URL = BASE_URL + '/api/';
   UUID_STR_LEN = 36;
 
@@ -359,9 +362,13 @@ end;
 function TfrmEAT.GetAssetIdFromURI(const pURI: String): String;
 begin
   Result := '';
-  if IsAssetURI(pURI) then
+  if IsAssetURI(pURI) = TURIType.Full then
   begin
     Result := Copy(pURI, Length('AssetId=') + Pos('AssetId=', pURI), UUID_STR_LEN);
+  end
+  else if IsAssetURI(pURI) = TURIType.Shortener then
+  begin
+    Result := Copy(pURI, Length(SHORTENER_URL) + 1, UUID_STR_LEN);
   end;
 end;
 
@@ -373,11 +380,11 @@ begin
   Result := Copy(LowerCase(GUIDToString(lGUID)), 2, UUID_STR_LEN);
 end;
 
-function TfrmEAT.IsAssetURI(const pURI: String): Boolean;
+function TfrmEAT.IsAssetURI(const pURI: String): TURIType;
 var
   lUUID: String;
 begin
-  Result := False;
+  Result := TURIType.Invalid;
 
   if Pos('AssetId=', pURI) > 0 then
   begin
@@ -388,8 +395,17 @@ begin
       if Pos(LowerCase(WEBAPP_URL), LowerCase(pURI)) = 1 then
       begin
         LogIt('IsAssetURI found AssetId=' + lUUID);
-        Result := True;
+        Result := TURIType.Full;
       end;
+    end;
+  end
+  else if Pos(LowerCase(SHORTENER_URL), LowerCase(pURI)) = 1 then
+  begin
+    lUUID := Copy(pURI, Length(SHORTENER_URL) + 1, UUID_STR_LEN);
+    if IsUUID(lUUID) then
+    begin
+        LogIt('IsAssetURI found AssetId=' + lUUID);
+        Result := TURIType.Shortener;
     end;
   end;
 end;
@@ -573,7 +589,7 @@ begin
   memScanAsset.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
   tmrQRDetectPause.Enabled := True;
   PauseCamera();
-  if IsAssetURI(ADecoded) then
+  if IsAssetURI(ADecoded) in [TURIType.Full, TURIType.Shortener] then
   begin
     lAssetId := GetAssetIdFromURI(ADecoded);
     if lAssetId <> '' then
