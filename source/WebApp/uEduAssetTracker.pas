@@ -26,7 +26,7 @@ type
     btnQRCodeSheet: TWebButton;
     btnQRCodeGoogle: TWebButton;
     QRCodeGoogleAPIs: TWebHttpRequest;
-    edtAssetIdTest: TWebEdit;
+    edtAssetTagTextTest: TWebEdit;
     btnRegExTest: TWebButton;
     WebDBGrid1: TWebDBGrid;
     pnlAssetType: TWebPanel;
@@ -56,9 +56,9 @@ type
     btnWelcomeResetFirstAccess: TWebButton;
     lblWelcomeMessage: TTMSFNCHTMLText;
     lblFirstAccess: TWebLabel;
-    pnlAssetId: TWebPanel;
-    edtAssetId: TTMSFNCEditButton;
-    lblAssetId: TWebLabel;
+    pnlAssetTagText: TWebPanel;
+    edtAssetTagText: TTMSFNCEditButton;
+    lblAssetTagText: TWebLabel;
     tmrQRDetectPause: TWebTimer;
     btnQRCodeSheet_2Big_FullURI: TWebButton;
     btnQRCodeSheet_1BigFullURI_1BigUUID: TWebButton;
@@ -83,7 +83,7 @@ type
     procedure camCameraPause(Sender: TObject; ACamera: TCameraDevice);
     procedure camCameraResume(Sender: TObject; ACamera: TCameraDevice);
     procedure camCameraStreamPlay(Sender: TObject; ACamera: TCameraDevice);
-    procedure edtAssetIdButtonClick(Sender: TObject);
+    procedure edtAssetTagTextButtonClick(Sender: TObject);
     procedure tmrQRDetectPauseTimer(Sender: TObject);
     procedure btnQRCodeSheet_1Big2Small_FullURIClick(Sender: TObject);
     procedure btnQRCodeSheet_2Big_FullURIClick(Sender: TObject);
@@ -97,13 +97,13 @@ type
     fCamPaused: Boolean;
     fCamQRReader: Boolean;
     procedure DrawAssetTag(APDF: TTMSFNCPDFLib; ALeft, ATop, ARight, ABottom: Integer; AQR: TBitmap);
-    function GetAssetIdURLFragment(): String;
+    function GetAssetTagTextURLFragment(): String;
     procedure StartCamera();
     procedure ResumeCamera();
     procedure PauseCamera();
     function IsUUID(const pUUID: String): Boolean;
     function IsAssetURI(const pURI: String): TURIType;
-    function GetAssetIdFromURI(const pURI: String): String;
+    function GetAssetTagTextFromURI(const pURI: String): String;
     function GetQRCodeSheetPDF(const pLayout: String): Boolean;
   public
     { Public declarations }
@@ -232,10 +232,10 @@ end;
 procedure TfrmEAT.btnRegExTestClick(Sender: TObject);
 begin
   // ALE 20201104 the below works
-  if IsUUID(edtAssetIdTest.Text) then
-    edtAssetIdTest.Text := 'Valid ' + edtAssetIdTest.Text
+  if IsUUID(edtAssetTagTextTest.Text) then
+    edtAssetTagTextTest.Text := 'Valid ' + edtAssetTagTextTest.Text
   else
-    edtAssetIdTest.Text := 'Invalid';
+    edtAssetTagTextTest.Text := 'Invalid';
   // RegEx for UUID https://stackoverlow.com/questions/136505
 end;
 
@@ -267,15 +267,15 @@ begin
     APDF.Graphics.DrawImage(AQR, RectF(ARight - 95, ABottom - 90, ARight - 95 + AQR.Width, ABottom - 90 + AQR.Height));
 end;
 
-procedure TfrmEAT.edtAssetIdButtonClick(Sender: TObject);
+procedure TfrmEAT.edtAssetTagTextButtonClick(Sender: TObject);
 begin
-  if IsUUID(edtAssetId.Text) then
+  if IsUUID(edtAssetTagText.Text) then
   begin
     // TODO ALE 20201121 look up the tTags.id
   end;
 end;
 
-function TfrmEAT.GetAssetIdURLFragment: String;
+function TfrmEAT.GetAssetTagTextURLFragment: String;
 begin
   Result := '?AssetId=' + GetUUIDStr;
 end;
@@ -359,7 +359,7 @@ begin
   //Application.Navigate(API_URL + ; ATarget: TNavigationTarget);
 end;
 
-function TfrmEAT.GetAssetIdFromURI(const pURI: String): String;
+function TfrmEAT.GetAssetTagTextFromURI(const pURI: String): String;
 begin
   Result := '';
   if IsAssetURI(pURI) = TURIType.Full then
@@ -545,27 +545,27 @@ end;
 procedure TfrmEAT.WebFormCreate(Sender: TObject);
 var
   lRegEx: TJSRegExp;
-  lAssetId: String;
+  lAssetTagText: String;
 begin
   fCamStopped := True;
   fCamPaused := False;
 
   pc.ActivePageIndex := 0; // ALE 20201121 Welcome page
 
-  //edtAssetId.Text := document.documentURI;
-  // ALE 20201104 for AssetId
-  lAssetId := GetAssetIdFromURI(document.documentURI);
-  if lAssetId <> '' then
+  //edtAssetTagText.Text := document.documentURI;
+  // ALE 20201104 for AssetTagText
+  lAssetTagText := GetAssetTagTextFromURI(document.documentURI);
+  if lAssetTagText <> '' then
   begin
-    edtAssetId.Text := lAssetId;
-    edtAssetIdTest.Text := lAssetId;
+    edtAssetTagText.Text := lAssetTagText;
+    edtAssetTagTextTest.Text := lAssetTagText;
   end
   else
   begin
-    edtAssetId.Text := '';
-    edtAssetIdTest.Text := '';
+    edtAssetTagText.Text := '';
+    edtAssetTagTextTest.Text := '';
   end;
-  LogIt('frmEAT created with AssetId=' + edtAssetId.Text);
+  LogIt('frmEAT created with AssetId=' + edtAssetTagText.Text);
 
   WebSignIn1.BeginUpdate;
   // ALE 20201120 OAuth2 API Key
@@ -578,12 +578,12 @@ end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
 begin
-// Works fine  edtAssetId.Text := document.documentURI;
+// Works fine  edtAssetTagText.Text := document.documentURI;
 end;
 
 procedure TfrmEAT.qrDecodeDecoded(Sender: TObject; ADecoded: string);
 var
-  lAssetId: String;
+  lAssetTagText: String;
 begin
   LogIt('QR Code decoded: ' + ADecoded);
   memScanAsset.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
@@ -591,15 +591,15 @@ begin
   PauseCamera();
   if IsAssetURI(ADecoded) in [TURIType.Full, TURIType.Shortener] then
   begin
-    lAssetId := GetAssetIdFromURI(ADecoded);
-    if lAssetId <> '' then
+    lAssetTagText := GetAssetTagTextFromURI(ADecoded);
+    if lAssetTagText <> '' then
     begin
-      edtAssetId.Text := lAssetId;
+      edtAssetTagText.Text := lAssetTagText;
     end;
   end
   else if IsUUID(ADecoded) then
   begin
-    edtAssetId.Text := ADecoded;
+    edtAssetTagText.Text := ADecoded;
   end
   else
   begin

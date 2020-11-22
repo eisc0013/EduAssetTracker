@@ -13,7 +13,7 @@ object frmEAT: TfrmEAT
     WidthPercent = 100.000000000000000000
     Align = alClient
     ChildOrder = 13
-    TabIndex = 4
+    TabIndex = 1
     TabOrder = 0
     object tsWelcome: TWebTabSheet
       Left = 0
@@ -198,7 +198,7 @@ object frmEAT: TfrmEAT
         Font.Style = [fsUnderline]
         ParentFont = False
       end
-      object pnlAssetId: TWebPanel
+      object pnlAssetTagText: TWebPanel
         Left = 0
         Top = 453
         Width = 458
@@ -212,30 +212,30 @@ object frmEAT: TfrmEAT
         DesignSize = (
           458
           26)
-        object lblAssetId: TWebLabel
+        object lblAssetTagText: TWebLabel
           AlignWithMargins = True
           Left = 8
           Top = 7
-          Width = 41
+          Width = 77
           Height = 13
           Margins.Left = 8
           Margins.Top = 8
           Margins.Right = 8
           Margins.Bottom = 8
-          Caption = 'AssetId:'
+          Caption = 'Asset Tag Text:'
           HeightPercent = 100.000000000000000000
           WidthPercent = 100.000000000000000000
         end
-        object edtAssetId: TTMSFNCEditButton
-          Left = 56
+        object edtAssetTagText: TTMSFNCEditButton
+          Left = 88
           Top = 1
-          Width = 389
+          Width = 357
           Height = 22
           ParentDoubleBuffered = False
           Anchors = [akLeft, akTop, akRight, akBottom]
           DoubleBuffered = True
           TabOrder = 0
-          OnButtonClick = edtAssetIdButtonClick
+          OnButtonClick = edtAssetTagTextButtonClick
           Text = ''
         end
       end
@@ -393,7 +393,7 @@ object frmEAT: TfrmEAT
         WidthPercent = 100.000000000000000000
         OnClick = btnQRCodeGoogleClick
       end
-      object edtAssetIdTest: TWebEdit
+      object edtAssetTagTextTest: TWebEdit
         Left = 8
         Top = 308
         Width = 425
