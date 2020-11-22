@@ -61,6 +61,7 @@ type
     tmrQRDetectPause: TWebTimer;
     btnQRCodeSheet_2Big_FullURI: TWebButton;
     btnQRCodeSheet_1BigFullURI_1BigUUID: TWebButton;
+    btnQRCodeSheet_1BigTGPURI_1BigUUID: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -86,6 +87,7 @@ type
     procedure btnQRCodeSheet_1Big2Small_FullURIClick(Sender: TObject);
     procedure btnQRCodeSheet_2Big_FullURIClick(Sender: TObject);
     procedure btnQRCodeSheet_1BigFullURI_1BigUUIDClick(Sender: TObject);
+    procedure btnQRCodeSheet_1BigTGPURI_1BigUUIDClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -212,6 +214,11 @@ end;
 procedure TfrmEAT.btnQRCodeSheet_1BigFullURI_1BigUUIDClick(Sender: TObject);
 begin
 GetQRCodeSheetPDF('1BigFullURI_1BigUUID');
+end;
+
+procedure TfrmEAT.btnQRCodeSheet_1BigTGPURI_1BigUUIDClick(Sender: TObject);
+begin
+  GetQRCodeSheetPDF('1BigTGPURI_1BigUUID');
 end;
 
 procedure TfrmEAT.btnQRCodeSheet_2Big_FullURIClick(Sender: TObject);

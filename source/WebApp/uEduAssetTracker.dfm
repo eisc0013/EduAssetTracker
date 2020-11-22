@@ -543,8 +543,8 @@ object frmEAT: TfrmEAT
         end
       end
       object QRCode: TWebQRCode
-        Left = 144
-        Top = 175
+        Left = 88
+        Top = 241
         Width = 50
         Height = 50
         HeightPercent = 100.000000000000000000
@@ -572,6 +572,17 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnQRCodeSheet_1BigFullURI_1BigUUIDClick
+      end
+      object btnQRCodeSheet_1BigTGPURI_1BigUUID: TWebButton
+        Left = 16
+        Top = 155
+        Width = 249
+        Height = 36
+        Caption = 'Create QR Code Sheet JSON 1BigTGPURI_1BigUUID'
+        ChildOrder = 9
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnQRCodeSheet_1BigTGPURI_1BigUUIDClick
       end
     end
   end

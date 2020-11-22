@@ -18,7 +18,6 @@ type
   end;
 
 const
-  //BASEURL = 'https://ynotwidgets.com/TGP/EduAssetTracker/asset/';
   BASEURL = 'https://EduAssetTracker.ynotwidgets.com/EduAssetTracker.html';
 
 implementation
