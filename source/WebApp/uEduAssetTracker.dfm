@@ -12,7 +12,7 @@ object frmEAT: TfrmEAT
     WidthPercent = 100.000000000000000000
     Align = alClient
     ChildOrder = 13
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
     object tsWelcome: TWebTabSheet
       Left = 0
@@ -137,11 +137,11 @@ object frmEAT: TfrmEAT
           OnCameraStop = camCameraStop
         end
       end
-      object WebPanel2: TWebPanel
+      object pnlScanMemo: TWebPanel
         Left = 0
         Top = 257
         Width = 458
-        Height = 222
+        Height = 196
         Margins.Left = 8
         Margins.Top = 8
         Margins.Right = 8
@@ -151,17 +151,18 @@ object frmEAT: TfrmEAT
         Align = alClient
         BorderColor = clSilver
         BorderStyle = bsSingle
-        Caption = 'WebPanel2'
+        Caption = 'pnlScanMemo'
         ChildOrder = 1
         Padding.Left = 8
         Padding.Top = 8
         Padding.Right = 8
         Padding.Bottom = 8
-        object WebMemo1: TWebMemo
+        ExplicitHeight = 199
+        object memScanAsset: TWebMemo
           Left = 8
           Top = 8
           Width = 442
-          Height = 206
+          Height = 180
           Margins.Left = 8
           Margins.Top = 8
           Margins.Right = 8
@@ -174,6 +175,7 @@ object frmEAT: TfrmEAT
           SelLength = 0
           SelStart = 0
           WidthPercent = 100.000000000000000000
+          ExplicitHeight = 181
         end
       end
       object pnlScanHeader: TWebPanel
@@ -194,6 +196,46 @@ object frmEAT: TfrmEAT
         Font.Name = 'Tahoma'
         Font.Style = [fsUnderline]
         ParentFont = False
+      end
+      object pnlAssetId: TWebPanel
+        Left = 0
+        Top = 453
+        Width = 458
+        Height = 26
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        Align = alBottom
+        BorderColor = clSilver
+        BorderStyle = bsSingle
+        ChildOrder = 3
+        DesignSize = (
+          458
+          26)
+        object lblAssetId: TWebLabel
+          AlignWithMargins = True
+          Left = 8
+          Top = 7
+          Width = 41
+          Height = 13
+          Margins.Left = 8
+          Margins.Top = 8
+          Margins.Right = 8
+          Margins.Bottom = 8
+          Caption = 'AssetId:'
+          HeightPercent = 100.000000000000000000
+          WidthPercent = 100.000000000000000000
+        end
+        object edtAssetId: TTMSFNCEditButton
+          Left = 56
+          Top = 1
+          Width = 389
+          Height = 22
+          ParentDoubleBuffered = False
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          DoubleBuffered = True
+          TabOrder = 0
+          Text = ''
+        end
       end
     end
     object tsSignIn: TWebTabSheet
@@ -348,7 +390,7 @@ object frmEAT: TfrmEAT
         WidthPercent = 100.000000000000000000
         OnClick = btnQRCodeGoogleClick
       end
-      object edtAssetId: TWebEdit
+      object edtAssetIdTest: TWebEdit
         Left = 8
         Top = 308
         Width = 425

@@ -11,7 +11,8 @@ uses
   WEBLib.DB, XData.Web.JsonDataset, XData.Web.Dataset, XData.Model.Classes,
   Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices,
   WEBLib.WebCtrls, WEBLib.SignIn, WEBLib.IndexedDb, DateUtils, VCL.TMSFNCUtils,
-  VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText;
+  VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
+  VCL.TMSFNCEdit;
 
 type
   TfrmEAT = class(TWebForm)
@@ -32,7 +33,7 @@ type
     btnQRCodeSheet: TWebButton;
     btnQRCodeGoogle: TWebButton;
     QRCodeGoogleAPIs: TWebHttpRequest;
-    edtAssetId: TWebEdit;
+    edtAssetIdTest: TWebEdit;
     btnRegExTest: TWebButton;
     WebDBGrid1: TWebDBGrid;
     pnlAssetType: TWebPanel;
@@ -46,9 +47,9 @@ type
     imgQRCode: TWebImageControl;
     QRCode: TWebQRCode;
     pnlCam: TWebPanel;
-    WebPanel2: TWebPanel;
+    pnlScanMemo: TWebPanel;
     WebQRDecoder1: TWebQRDecoder;
-    WebMemo1: TWebMemo;
+    memScanAsset: TWebMemo;
     pnlScanHeader: TWebPanel;
     cam: TWebCamera;
     WebSignIn1: TWebSignIn;
@@ -66,6 +67,9 @@ type
     btnWelcomeResetFirstAccess: TWebButton;
     lblWelcomeMessage: TTMSFNCHTMLText;
     lblFirstAccess: TWebLabel;
+    pnlAssetId: TWebPanel;
+    edtAssetId: TTMSFNCEditButton;
+    lblAssetId: TWebLabel;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -102,6 +106,8 @@ type
     procedure LogIt(pLogText: String);
     procedure StartCamera();
     procedure ResumeCamera();
+    function IsUUID(const pUUID: String): Boolean;
+    function IsAssetURI(const pURI: String; pUUID: String): Boolean;
   public
     { Public declarations }
     function GetUUIDStr(): String;
@@ -111,6 +117,7 @@ const
   BASE_URL = 'https://EduAssetTracker.ynotwidgets.com';
   WEBAPP_URL = BASE_URL + '/EduAssetTracker.html';
   API_URL = BASE_URL + '/api/';
+  UUID_STR_LEN = 36;
 
 var
   frmEAT: TfrmEAT;
@@ -203,10 +210,10 @@ end;
 procedure TfrmEAT.btnRegExTestClick(Sender: TObject);
 begin
   // ALE 20201104 the below works
-  if TJSRegExp.New('\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b').test(edtAssetId.Text) then
-    edtAssetId.Text := 'Valid ' + edtAssetId.Text
+  if IsUUID(edtAssetIdTest.Text) then
+    edtAssetIdTest.Text := 'Valid ' + edtAssetIdTest.Text
   else
-    edtAssetId.Text := 'Invalid';
+    edtAssetIdTest.Text := 'Invalid';
   // RegEx for UUID https://stackoverlow.com/questions/136505
 end;
 
@@ -286,7 +293,35 @@ var
   lGUID: TGUID;
 begin
   CreateGUID(lGUID);
-  Result := Copy(LowerCase(GUIDToString(lGUID)), 2, 36);
+  Result := Copy(LowerCase(GUIDToString(lGUID)), 2, UUID_STR_LEN);
+end;
+
+function TfrmEAT.IsAssetURI(const pURI: String; pUUID: String): Boolean;
+var
+  lUUID: String;
+begin
+  Result := False;
+  pUUID := '';
+
+  if Pos('AssetId=', pURI) > 0 then
+  begin
+    lUUID := Copy(pURI, Length('AssetId=') + Pos('AssetId=', pURI), UUID_STR_LEN);
+    if IsUUID(lUUID) then
+    begin
+      // ALE 20201121 so we have a UUID, check for correct path
+      if Pos(LowerCase(WEBAPP_URL), LowerCase(pURI)) = 1 then
+      begin
+        LogIt('IsAssetURI found AssetId=' + lUUID);
+        pUUID := lUUID;
+        Result := True;
+      end;
+    end;
+  end;
+end;
+
+function TfrmEAT.IsUUID(const pUUID: String): Boolean;
+begin
+  Result := TJSRegExp.New('\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b').test(pUUID);
 end;
 
 procedure TfrmEAT.QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
@@ -494,10 +529,17 @@ begin
   //edtAssetId.Text := document.documentURI;
   // ALE 20201104 for AssetId
   if Pos('AssetId=', document.documentURI) > 0 then
-    edtAssetId.Text := Copy(document.documentURI, 8 + Pos('AssetId=', document.documentURI), MaxInt)
+  begin
+    IsAssetURI(document.documentURI, edtAssetId.Text);
+    //edtAssetId.Text := Copy(document.documentURI, 8 + Pos('AssetId=', document.documentURI), UUID_STR_LEN);
+    edtAssetIdTest.Text := Copy(document.documentURI, 8 + Pos('AssetId=', document.documentURI), UUID_STR_LEN);
+  end
   else
+  begin
     edtAssetId.Text := '';
-  LogIt('frmEAT created AssetId=' + edtAssetId.Text);
+    edtAssetIdTest.Text := '';
+  end;
+  LogIt('frmEAT created with AssetId=' + edtAssetId.Text);
 
   WebSignIn1.BeginUpdate;
   // ALE 20201120 OAuth2 API Key
@@ -516,7 +558,7 @@ end;
 procedure TfrmEAT.WebQRDecoder1Decoded(Sender: TObject; ADecoded: string);
 begin
   LogIt('QR Code decoded: ' + ADecoded);
-  WebMemo1.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
+  memScanAsset.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
   WebQRDecoder1.EnableTimer := True;
   // TODO ALE 20201117 should we save battery? WebCamera1.Stop;
 end;
