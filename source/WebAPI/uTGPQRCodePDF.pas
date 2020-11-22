@@ -291,7 +291,7 @@ begin
   //  size with just the UUID
   if ((FPages > 0) AND (FBaseText <> '')) then
   begin
-    lBaseTextIn := 'https://tgp.net/s/EAT/';
+    lBaseTextIn := 'https://s.tgp.net/EAT/';
     FPDF.BeginDocument(FFileName); // TODO ALE 20201029 if we don't provide a filename, output goes to a TMemoryStream on EndDocument
     FPDF.Header := '';
     FPDF.Footer := '';
