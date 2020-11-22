@@ -16,14 +16,6 @@ uses
 
 type
   TfrmEAT = class(TWebForm)
-    XDataClient: TXDataWebClient;
-    XDataConn: TXDataWebConnection;
-    tAssetType: TXDataWebDataSet;
-    tAssetTypeid: TStringField;
-    tAssetTypename: TStringField;
-    tAssetTypedescription: TStringField;
-    tAssetTypedeactivatedDate: TDateTimeField;
-    dsAssetType: TWebDataSource;
     pc: TWebPageControl;
     tsDev: TWebTabSheet;
     tsScanAsset: TWebTabSheet;
@@ -59,10 +51,6 @@ type
     tsLog: TWebTabSheet;
     memLog: TWebMemo;
     tsWelcome: TWebTabSheet;
-    dbEATClient: TWebIndexedDbClientDataset;
-    dsEATClient: TWebDataSource;
-    dbEATClientsettings: TStringField;
-    dbEATClientname: TStringField;
     btnWelcomeContinue: TWebButton;
     btnWelcomeResetFirstAccess: TWebButton;
     lblWelcomeMessage: TTMSFNCHTMLText;
@@ -79,8 +67,6 @@ type
     procedure btnQRCodeSheetClick(Sender: TObject);
     procedure WebButton1Click(Sender: TObject);
     procedure WebButton2Click(Sender: TObject);
-    procedure XDataClientLoad(Response: TXDataClientResponse);
-    procedure tAssetTypeAfterOpen(DataSet: TDataSet);
     procedure qrDecodeDecoded(Sender: TObject; ADecoded: string);
     procedure tsScanAssetShow(Sender: TObject);
     procedure tsScanAssetHide(Sender: TObject);
@@ -88,7 +74,6 @@ type
       Args: TGoogleSignedInEventArgs);
     procedure WebSignIn1GoogleSignedOut(Sender: TObject);
     procedure btnSignOutClick(Sender: TObject);
-    procedure dbEATClientAfterOpen(DataSet: TDataSet);
     procedure btnWelcomeContinueClick(Sender: TObject);
     procedure btnWelcomeResetFirstAccessClick(Sender: TObject);
     procedure camCameraStop(Sender: TObject; ACamera: TCameraDevice);
@@ -106,10 +91,8 @@ type
     fCamQRReader: Boolean;
     procedure DrawAssetTag(APDF: TTMSFNCPDFLib; ALeft, ATop, ARight, ABottom: Integer; AQR: TBitmap);
     function GetAssetIdURLFragment(): String;
-    procedure LogIt(pLogText: String);
     procedure StartCamera();
     procedure ResumeCamera();
-    procedure GoCamera();
     procedure PauseCamera();
     function IsUUID(const pUUID: String): Boolean;
     function IsAssetURI(const pURI: String): Boolean;
@@ -117,6 +100,8 @@ type
   public
     { Public declarations }
     function GetUUIDStr(): String;
+    procedure LogIt(pLogText: String);
+    procedure GoCamera();
   end;
 
 const
@@ -131,6 +116,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses uDM;
 
 procedure TfrmEAT.btnQRCodeGoogleClick(Sender: TObject);
 var
@@ -148,7 +135,6 @@ begin
     //imgQRCode.Picture.SaveToStream(lBMPStm);
     //lBMPs[I].LoadFromStream(lBMPStm);
   end;
-
   lBMPStm.Free;
 
   // TODO ALE 20201104 allows us to pick off an asset id or somesuch
@@ -233,30 +219,6 @@ begin
     LogIt('Welcome Continue button clicked');
     GoCamera();
     pc.ActivePageIndex := 1;
-end;
-
-procedure TfrmEAT.dbEATClientAfterOpen(DataSet: TDataSet);
-begin
-  // ALE 20201121 see if we have an IndexedDB entry for firstAccess yet
-  if dbEATClient.Locate('name', 'firstAccess', [TLocateOption.loCaseInsensitive]) then
-  begin
-    LogIt('IndexedDB firstAccess found');
-    lblFirstAccess.Caption := 'Device first access: ' + dbEATClient.FieldByName('value').AsString;
-    GoCamera();
-    pc.ActivePageIndex := 1;
-  end
-  else
-  begin
-    LogIt('IndexedDB firstAccess not found');
-    dbEATClient.Insert;
-    dbEATClient.FieldByName('name').AsString := 'firstAccess';
-    dbEATClient.FieldByName('value').AsString :=
-     FormatDateTime('yyyy-mm-dd', Now()) + 'T'
-      + FormatDateTime('hh:nn:ss.zzz', Now()) + 'Z';
-    dbEATClient.Post;
-    lblFirstAccess.Caption := 'Device first access: ' + dbEATClient.FieldByName('value').AsString;
-  end;
-  btnWelcomeResetFirstAccess.Enabled := True;
 end;
 
 procedure TfrmEAT.DrawAssetTag(APDF: TTMSFNCPDFLib; ALeft, ATop, ARight, ABottom: Integer; AQR: TBitmap);
@@ -377,14 +339,6 @@ begin
   qrDecode.EnableTimer := False;
 end;
 
-procedure TfrmEAT.tAssetTypeAfterOpen(DataSet: TDataSet);
-begin
-  //ShowMessage('Dataset opened');
-  //dsAssetType.Enabled := False;
-  dsAssetType.Enabled := True;
-  tAssetType.First;
-end;
-
 procedure TfrmEAT.tmrQRDetectPauseTimer(Sender: TObject);
 begin
   tmrQRDetectPause.Enabled := False;
@@ -488,8 +442,8 @@ var
   Container: TXDataEntityContainer;
   I: Integer;
 begin
-  XDataConn.Connected := True;
-  if (XDataConn.Connected) then
+  dm.XDataConn.Connected := True;
+  if (dm.XDataConn.Connected) then
   begin
   //tAssetType.Active := True;
   //dsAssetType.Enabled := True;
@@ -501,9 +455,9 @@ begin
     ShowMessage(Container.EntitySets[I].Name);
   end;
   }
-    tAssetType.Load;
+    dm.tAssetType.Load;
   //XDataWebClient1.List('tAssetType');
-  //tAssetType.First;
+  //dm.tAssetType.First;
   //XDataWebClient1.Get('tAssetType', '{9D07B232-0296-4072-88B9-EF30D62B24CA}');
 //  ShowMessage(IntToStr(tAssetType.ServerRecordCount));
   end;
@@ -513,11 +467,11 @@ end;
 procedure TfrmEAT.btnWelcomeResetFirstAccessClick(Sender: TObject);
 begin
   LogIt('Resetting firstAccess');
-  if dbEATClient.Locate('name', 'firstAccess', [TLocateOption.loCaseInsensitive]) then
+  if dm.dbEATClient.Locate('name', 'firstAccess', [TLocateOption.loCaseInsensitive]) then
   begin
     LogIt('IndexedDB firstAccess found, deleting');
     lblFirstAccess.Caption := '';
-    dbEATClient.Delete;
+    dm.dbEATClient.Delete;
   end
 end;
 
@@ -573,7 +527,7 @@ begin
   //WebSignIn1.Services.Facebook.AppKey := '1938271136467571';
   WebSignIn1.EndUpdate;
 
-  //btnCamStart.Click;
+  dm.dbEATClient.Active := True;
 end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
@@ -617,11 +571,6 @@ begin
   LogIt('Signed out of Google');
   memSignIn.Lines.Add('Signed out of Google');
   btnSignOut.Enabled := False;
-end;
-
-procedure TfrmEAT.XDataClientLoad(Response: TXDataClientResponse);
-begin
-ShowMessage(TJSJson.stringify(Response.Result));
 end;
 
 procedure TfrmEAT.LogIt(pLogText: String);

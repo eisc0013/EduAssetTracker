@@ -1,6 +1,7 @@
 object frmEAT: TfrmEAT
   Width = 458
   Height = 499
+  Caption = 'EduAssetTracker'
   OnCreate = WebFormCreate
   OnShow = WebFormShow
   object pc: TWebPageControl
@@ -314,6 +315,7 @@ object frmEAT: TfrmEAT
         SelLength = 0
         SelStart = 0
         WidthPercent = 100.000000000000000000
+        WordWrap = False
       end
     end
     object tsDev: TWebTabSheet
@@ -434,7 +436,7 @@ object frmEAT: TfrmEAT
             DataField = 'deactivatedDate'
             Title = 'deactivatedDate'
           end>
-        DataSource = dsAssetType
+        DataSource = dm.dsAssetType
         FixedCols = 1
         TabOrder = 5
         HeightPercent = 100.000000000000000000
@@ -502,7 +504,7 @@ object frmEAT: TfrmEAT
           Text = 'WebDBEdit2'
           WidthPercent = 100.000000000000000000
           DataField = 'name'
-          DataSource = dsAssetType
+          DataSource = dm.dsAssetType
         end
         object WebDBEdit1: TWebDBEdit
           Left = 40
@@ -514,7 +516,7 @@ object frmEAT: TfrmEAT
           Text = 'WebDBEdit1'
           WidthPercent = 100.000000000000000000
           DataField = 'id'
-          DataSource = dsAssetType
+          DataSource = dm.dsAssetType
         end
         object WebDBEdit3: TWebDBEdit
           Left = 61
@@ -526,7 +528,7 @@ object frmEAT: TfrmEAT
           Text = 'WebDBEdit3'
           WidthPercent = 100.000000000000000000
           DataField = 'description'
-          DataSource = dsAssetType
+          DataSource = dm.dsAssetType
         end
         object WebButton2: TWebButton
           Left = 353
@@ -551,48 +553,6 @@ object frmEAT: TfrmEAT
       end
     end
   end
-  object XDataClient: TXDataWebClient
-    Connection = XDataConn
-    OnLoad = XDataClientLoad
-    Left = 200
-    Top = 400
-  end
-  object XDataConn: TXDataWebConnection
-    URL = 'https://eduassettracker.ynotwidgets.com/api/'
-    Left = 80
-    Top = 408
-  end
-  object tAssetType: TXDataWebDataSet
-    AfterOpen = tAssetTypeAfterOpen
-    EntitySetName = 'tAssetType'
-    Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
-    Left = 304
-    Top = 400
-    object tAssetTypeid: TStringField
-      FieldName = 'id'
-      ReadOnly = True
-      Required = True
-      Size = 38
-    end
-    object tAssetTypename: TStringField
-      FieldName = 'name'
-      Size = 96
-    end
-    object tAssetTypedescription: TStringField
-      FieldName = 'description'
-      Size = 2047
-    end
-    object tAssetTypedeactivatedDate: TDateTimeField
-      FieldName = 'deactivatedDate'
-    end
-  end
-  object dsAssetType: TWebDataSource
-    DataSet = tAssetType
-    Enabled = False
-    Left = 360
-    Top = 400
-  end
   object QRCodeGoogleAPIs: TWebHttpRequest
     Headers.Strings = (
       'Cache-Control=no-cache, no-store, must-revalidate')
@@ -605,30 +565,6 @@ object frmEAT: TfrmEAT
     OnDecoded = qrDecodeDecoded
     Left = 32
     Top = 389
-  end
-  object dbEATClient: TWebIndexedDbClientDataset
-    Active = True
-    IDBDatabaseName = 'YnotWidgets'
-    IDBObjectStoreName = 'TGPEduAssetTracker'
-    IDBKeyFieldName = 'name'
-    IDBAutoIncrement = True
-    Params = <>
-    AfterOpen = dbEATClientAfterOpen
-    Left = 304
-    Top = 452
-    object dbEATClientname: TStringField
-      FieldName = 'name'
-      Size = 128
-    end
-    object dbEATClientsettings: TStringField
-      FieldName = 'value'
-      Size = 8192
-    end
-  end
-  object dsEATClient: TWebDataSource
-    DataSet = dbEATClient
-    Left = 360
-    Top = 456
   end
   object tmrQRDetectPause: TWebTimer
     Enabled = False
