@@ -16,8 +16,8 @@ uses
 
 type
   TfrmEAT = class(TWebForm)
-    XDataWebClient1: TXDataWebClient;
-    XDataWebConnection1: TXDataWebConnection;
+    XDataClient: TXDataWebClient;
+    XDataConn: TXDataWebConnection;
     tAssetType: TXDataWebDataSet;
     tAssetTypeid: TStringField;
     tAssetTypename: TStringField;
@@ -48,7 +48,7 @@ type
     QRCode: TWebQRCode;
     pnlCam: TWebPanel;
     pnlScanMemo: TWebPanel;
-    WebQRDecoder1: TWebQRDecoder;
+    qrDecode: TWebQRDecoder;
     memScanAsset: TWebMemo;
     pnlScanHeader: TWebPanel;
     cam: TWebCamera;
@@ -70,6 +70,7 @@ type
     pnlAssetId: TWebPanel;
     edtAssetId: TTMSFNCEditButton;
     lblAssetId: TWebLabel;
+    tmrQRDetectPause: TWebTimer;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -78,9 +79,9 @@ type
     procedure btnQRCodeSheetClick(Sender: TObject);
     procedure WebButton1Click(Sender: TObject);
     procedure WebButton2Click(Sender: TObject);
-    procedure XDataWebClient1Load(Response: TXDataClientResponse);
+    procedure XDataClientLoad(Response: TXDataClientResponse);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
-    procedure WebQRDecoder1Decoded(Sender: TObject; ADecoded: string);
+    procedure qrDecodeDecoded(Sender: TObject; ADecoded: string);
     procedure tsScanAssetShow(Sender: TObject);
     procedure tsScanAssetHide(Sender: TObject);
     procedure WebSignIn1GoogleSignedIn(Sender: TObject;
@@ -94,6 +95,8 @@ type
     procedure camCameraPause(Sender: TObject; ACamera: TCameraDevice);
     procedure camCameraResume(Sender: TObject; ACamera: TCameraDevice);
     procedure camCameraStreamPlay(Sender: TObject; ACamera: TCameraDevice);
+    procedure edtAssetIdButtonClick(Sender: TObject);
+    procedure tmrQRDetectPauseTimer(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -106,8 +109,11 @@ type
     procedure LogIt(pLogText: String);
     procedure StartCamera();
     procedure ResumeCamera();
+    procedure GoCamera();
+    procedure PauseCamera();
     function IsUUID(const pUUID: String): Boolean;
-    function IsAssetURI(const pURI: String; pUUID: String): Boolean;
+    function IsAssetURI(const pURI: String): Boolean;
+    function GetAssetIdFromURI(const pURI: String): String;
   public
     { Public declarations }
     function GetUUIDStr(): String;
@@ -225,14 +231,7 @@ end;
 procedure TfrmEAT.btnWelcomeContinueClick(Sender: TObject);
 begin
     LogIt('Welcome Continue button clicked');
-    if fCamPaused then
-    begin
-      ResumeCamera();
-    end
-    else if fCamStopped then
-    begin
-      StartCamera();
-    end;
+    GoCamera();
     pc.ActivePageIndex := 1;
 end;
 
@@ -243,14 +242,7 @@ begin
   begin
     LogIt('IndexedDB firstAccess found');
     lblFirstAccess.Caption := 'Device first access: ' + dbEATClient.FieldByName('value').AsString;
-    if fCamPaused then
-    begin
-      ResumeCamera();
-    end
-    else if fCamStopped then
-    begin
-      StartCamera();
-    end;
+    GoCamera();
     pc.ActivePageIndex := 1;
   end
   else
@@ -283,12 +275,29 @@ begin
     APDF.Graphics.DrawImage(AQR, RectF(ARight - 95, ABottom - 90, ARight - 95 + AQR.Width, ABottom - 90 + AQR.Height));
 end;
 
+procedure TfrmEAT.edtAssetIdButtonClick(Sender: TObject);
+begin
+  if IsUUID(edtAssetId.Text) then
+  begin
+    // TODO ALE 20201121 look up the tTags.id
+  end;
+end;
+
 function TfrmEAT.GetAssetIdURLFragment: String;
 begin
   Result := '?AssetId=' + GetUUIDStr;
 end;
 
-function TfrmEAT.GetUUIDStr: String;
+function TfrmEAT.GetAssetIdFromURI(const pURI: String): String;
+begin
+  Result := '';
+  if IsAssetURI(pURI) then
+  begin
+    Result := Copy(pURI, Length('AssetId=') + Pos('AssetId=', pURI), UUID_STR_LEN);
+  end;
+end;
+
+function TfrmEAT.GetUUIDStr(): String;
 var
   lGUID: TGUID;
 begin
@@ -296,12 +305,11 @@ begin
   Result := Copy(LowerCase(GUIDToString(lGUID)), 2, UUID_STR_LEN);
 end;
 
-function TfrmEAT.IsAssetURI(const pURI: String; pUUID: String): Boolean;
+function TfrmEAT.IsAssetURI(const pURI: String): Boolean;
 var
   lUUID: String;
 begin
   Result := False;
-  pUUID := '';
 
   if Pos('AssetId=', pURI) > 0 then
   begin
@@ -312,7 +320,6 @@ begin
       if Pos(LowerCase(WEBAPP_URL), LowerCase(pURI)) = 1 then
       begin
         LogIt('IsAssetURI found AssetId=' + lUUID);
-        pUUID := lUUID;
         Result := True;
       end;
     end;
@@ -345,6 +352,31 @@ begin
   cam.Start;
 end;
 
+procedure TfrmEAT.GoCamera;
+begin
+    if fCamPaused then
+    begin
+      ResumeCamera();
+    end
+    else if fCamStopped then
+    begin
+      StartCamera();
+    end;
+    qrDecode.EnableTimer := True;
+end;
+
+procedure TfrmEAT.PauseCamera;
+begin
+  if NOT fCamStopped then
+  begin
+    LogIt('Camera pausing');
+    cam.Pause;
+    fCamStopped := True;
+    fCamPaused := True;
+  end;
+  qrDecode.EnableTimer := False;
+end;
+
 procedure TfrmEAT.tAssetTypeAfterOpen(DataSet: TDataSet);
 begin
   //ShowMessage('Dataset opened');
@@ -353,32 +385,25 @@ begin
   tAssetType.First;
 end;
 
+procedure TfrmEAT.tmrQRDetectPauseTimer(Sender: TObject);
+begin
+  tmrQRDetectPause.Enabled := False;
+  if pc.ActivePageIndex = 1 then
+  begin
+    GoCamera();
+  end;
+end;
+
 procedure TfrmEAT.tsScanAssetHide(Sender: TObject);
 begin
   LogIt('Scan Asset tab Hiding');
-  if NOT fCamStopped then
-  begin
-    LogIt('Camera pausing');
-    cam.Pause;
-    fCamStopped := True;
-    fCamPaused := True;
-  end;
+  PauseCamera();
 end;
 
 procedure TfrmEAT.tsScanAssetShow(Sender: TObject);
 begin
   LogIt('Scan Asset tab Showing');
-  if fCamStopped then
-  begin
-    if fCamPaused then
-    begin
-      ResumeCamera();
-    end
-    else
-    begin
-      StartCamera();
-    end;
-  end;
+  GoCamera();
 end;
 
 procedure TfrmEAT.WebButton1Click(Sender: TObject);
@@ -463,8 +488,8 @@ var
   Container: TXDataEntityContainer;
   I: Integer;
 begin
-  XDataWebConnection1.Connected := True;
-  if (XDataWebConnection1.Connected) then
+  XDataConn.Connected := True;
+  if (XDataConn.Connected) then
   begin
   //tAssetType.Active := True;
   //dsAssetType.Enabled := True;
@@ -476,7 +501,7 @@ begin
     ShowMessage(Container.EntitySets[I].Name);
   end;
   }
-  tAssetType.Load;
+    tAssetType.Load;
   //XDataWebClient1.List('tAssetType');
   //tAssetType.First;
   //XDataWebClient1.Get('tAssetType', '{9D07B232-0296-4072-88B9-EF30D62B24CA}');
@@ -520,6 +545,7 @@ end;
 procedure TfrmEAT.WebFormCreate(Sender: TObject);
 var
   lRegEx: TJSRegExp;
+  lAssetId: String;
 begin
   fCamStopped := True;
   fCamPaused := False;
@@ -528,11 +554,11 @@ begin
 
   //edtAssetId.Text := document.documentURI;
   // ALE 20201104 for AssetId
-  if Pos('AssetId=', document.documentURI) > 0 then
+  lAssetId := GetAssetIdFromURI(document.documentURI);
+  if lAssetId <> '' then
   begin
-    IsAssetURI(document.documentURI, edtAssetId.Text);
-    //edtAssetId.Text := Copy(document.documentURI, 8 + Pos('AssetId=', document.documentURI), UUID_STR_LEN);
-    edtAssetIdTest.Text := Copy(document.documentURI, 8 + Pos('AssetId=', document.documentURI), UUID_STR_LEN);
+    edtAssetId.Text := lAssetId;
+    edtAssetIdTest.Text := lAssetId;
   end
   else
   begin
@@ -555,12 +581,19 @@ begin
 // Works fine  edtAssetId.Text := document.documentURI;
 end;
 
-procedure TfrmEAT.WebQRDecoder1Decoded(Sender: TObject; ADecoded: string);
+procedure TfrmEAT.qrDecodeDecoded(Sender: TObject; ADecoded: string);
+var
+  lAssetId: String;
 begin
   LogIt('QR Code decoded: ' + ADecoded);
   memScanAsset.Text := FormatDateTime('hh:nn:ss.zzz ', Now()) + ADecoded;
-  WebQRDecoder1.EnableTimer := True;
-  // TODO ALE 20201117 should we save battery? WebCamera1.Stop;
+  tmrQRDetectPause.Enabled := True;
+  PauseCamera();
+  lAssetId := GetAssetIdFromURI(ADecoded);
+  if lAssetId <> '' then
+  begin
+    edtAssetId.Text := lAssetId;
+  end;
 end;
 
 procedure TfrmEAT.WebSignIn1GoogleSignedIn(Sender: TObject;
@@ -586,7 +619,7 @@ begin
   btnSignOut.Enabled := False;
 end;
 
-procedure TfrmEAT.XDataWebClient1Load(Response: TXDataClientResponse);
+procedure TfrmEAT.XDataClientLoad(Response: TXDataClientResponse);
 begin
 ShowMessage(TJSJson.stringify(Response.Result));
 end;

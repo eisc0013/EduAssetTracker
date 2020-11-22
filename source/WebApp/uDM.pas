@@ -7,7 +7,6 @@ uses
 
 type
   TDataModule1 = class(TWebDataModule)
-    XDataWebConnection1: TXDataWebConnection;
   private
     { Private declarations }
   public

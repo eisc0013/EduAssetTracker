@@ -12,7 +12,7 @@ object frmEAT: TfrmEAT
     WidthPercent = 100.000000000000000000
     Align = alClient
     ChildOrder = 13
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object tsWelcome: TWebTabSheet
       Left = 0
@@ -234,6 +234,7 @@ object frmEAT: TfrmEAT
           Anchors = [akLeft, akTop, akRight, akBottom]
           DoubleBuffered = True
           TabOrder = 0
+          OnButtonClick = edtAssetIdButtonClick
           Text = ''
         end
       end
@@ -550,13 +551,13 @@ object frmEAT: TfrmEAT
       end
     end
   end
-  object XDataWebClient1: TXDataWebClient
-    Connection = XDataWebConnection1
-    OnLoad = XDataWebClient1Load
+  object XDataClient: TXDataWebClient
+    Connection = XDataConn
+    OnLoad = XDataClientLoad
     Left = 200
     Top = 400
   end
-  object XDataWebConnection1: TXDataWebConnection
+  object XDataConn: TXDataWebConnection
     URL = 'https://eduassettracker.ynotwidgets.com/api/'
     Left = 80
     Top = 408
@@ -564,7 +565,7 @@ object frmEAT: TfrmEAT
   object tAssetType: TXDataWebDataSet
     AfterOpen = tAssetTypeAfterOpen
     EntitySetName = 'tAssetType'
-    Connection = XDataWebConnection1
+    Connection = XDataConn
     ServerRecordCountMode = smInlineCount
     Left = 304
     Top = 400
@@ -599,10 +600,9 @@ object frmEAT: TfrmEAT
     Left = 256
     Top = 215
   end
-  object WebQRDecoder1: TWebQRDecoder
+  object qrDecode: TWebQRDecoder
     Camera = cam
-    EnableTimer = True
-    OnDecoded = WebQRDecoder1Decoded
+    OnDecoded = qrDecodeDecoded
     Left = 32
     Top = 389
   end
@@ -629,5 +629,12 @@ object frmEAT: TfrmEAT
     DataSet = dbEATClient
     Left = 360
     Top = 456
+  end
+  object tmrQRDetectPause: TWebTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = tmrQRDetectPauseTimer
+    Left = 64
+    Top = 349
   end
 end
