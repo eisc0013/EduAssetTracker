@@ -3,6 +3,7 @@ object frmEAT: TfrmEAT
   Height = 499
   Caption = 'EduAssetTracker'
   OnCreate = WebFormCreate
+  OnDestroy = WebFormDestroy
   OnShow = WebFormShow
   object pc: TWebPageControl
     Left = 0
@@ -13,7 +14,7 @@ object frmEAT: TfrmEAT
     WidthPercent = 100.000000000000000000
     Align = alClient
     ChildOrder = 13
-    TabIndex = 4
+    TabIndex = 1
     TabOrder = 0
     object tsWelcome: TWebTabSheet
       Left = 0
@@ -393,26 +394,6 @@ object frmEAT: TfrmEAT
         WidthPercent = 100.000000000000000000
         OnClick = btnQRCodeGoogleClick
       end
-      object edtAssetTagTextTest: TWebEdit
-        Left = 8
-        Top = 308
-        Width = 425
-        Height = 22
-        ChildOrder = 11
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-      end
-      object btnRegExTest: TWebButton
-        Left = 56
-        Top = 336
-        Width = 96
-        Height = 25
-        Caption = 'btnRegExTest'
-        ChildOrder = 8
-        HeightPercent = 100.000000000000000000
-        WidthPercent = 100.000000000000000000
-        OnClick = btnRegExTestClick
-      end
       object WebDBGrid1: TWebDBGrid
         Left = 8
         Top = 367
@@ -438,7 +419,7 @@ object frmEAT: TfrmEAT
           end>
         DataSource = dm.dsAssetType
         FixedCols = 1
-        TabOrder = 5
+        TabOrder = 3
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         ColWidths = (
@@ -594,6 +575,18 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnTagTestClick
+      end
+      object edtAssetTagTextTest: TTMSFNCEditButton
+        Left = 8
+        Top = 308
+        Width = 425
+        Height = 36
+        ParentDoubleBuffered = False
+        DoubleBuffered = True
+        TabOrder = 10
+        ButtonSize = 24
+        OnButtonClick = edtAssetTagTextTestButtonClick
+        Text = ''
       end
     end
   end

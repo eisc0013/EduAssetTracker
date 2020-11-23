@@ -5,15 +5,16 @@ interface
 uses
   System.SysUtils, System.Classes, VCL.Dialogs, JS, XData.Web.Connection,
   WEBLib.Modules, WEBLib.IndexedDb, Data.DB, WEBLib.DB, XData.Web.JsonDataset,
-  XData.Web.Dataset, XData.Web.Client;
+  XData.Web.Dataset, XData.Web.Client, VCL.TMSFNCEdit;
 
 type
-
   TEATTagTextChange = procedure(const pOldText, pNewText: String) of object;
   TEATTag = class(TObject)
   protected
     FTagText: String;
     FTextChangeEvent: TEATTagTextChange;
+    FTextEdit1: TTMSFNCEditButton;
+    FTextEdit2: TTMSFNCEditButton;
     procedure UpdateTagText(const pTagText: String);
   private
     { Private declarations }
@@ -21,6 +22,8 @@ type
     { Public declarations }
   published
     property TagText: String read FTagText write UpdateTagText;
+    property TextEdit1: TTMSFNCEditButton read FTextEdit1 write FTextEdit1;
+    property TextEdit2: TTMSFNCEditButton read FTextEdit2 write FTextEdit2;
     property OnTagTextChange: TEATTagTextChange read FTextChangeEvent write FTextChangeEvent;
   end;
 
@@ -120,12 +123,25 @@ procedure TEATTag.UpdateTagText(const pTagText: String);
 var
   lOldTagText, lNewTagText: String;
 begin
-  lOldTagText := FTagText;
-  lNewTagText := pTagText;
+  if FTagText <> pTagText then
+  begin
+    lOldTagText := FTagText;
+    lNewTagText := pTagText;
 
-  FTagText := pTagText;
-  if Assigned(FTextChangeEvent) then
-    FTextChangeEvent(lOldTagText, lNewTagText);
+    FTagText := pTagText;
+    if Assigned(FTextEdit1) then
+    begin
+      FTextEdit1.Text := lNewTagText;
+    end;
+    if Assigned(FTextEdit2) then
+    begin
+      FTextEdit2.Text := lNewTagText;
+    end;
+    if Assigned(FTextChangeEvent) then
+    begin
+      FTextChangeEvent(lOldTagText, lNewTagText);
+    end;
+  end;
 end;
 
 end.

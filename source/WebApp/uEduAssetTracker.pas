@@ -26,8 +26,6 @@ type
     btnQRCodeSheet: TWebButton;
     btnQRCodeGoogle: TWebButton;
     QRCodeGoogleAPIs: TWebHttpRequest;
-    edtAssetTagTextTest: TWebEdit;
-    btnRegExTest: TWebButton;
     WebDBGrid1: TWebDBGrid;
     pnlAssetType: TWebPanel;
     WebLabel2: TWebLabel;
@@ -64,11 +62,11 @@ type
     btnQRCodeSheet_1BigFullURI_1BigUUID: TWebButton;
     btnQRCodeSheet_1BigTGPURI_1BigUUID: TWebButton;
     btnTagTest: TWebButton;
+    edtAssetTagTextTest: TTMSFNCEditButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
     procedure WebFormCreate(Sender: TObject);
-    procedure btnRegExTestClick(Sender: TObject);
     procedure btnQRCodeSheetClick(Sender: TObject);
     procedure WebButton2Click(Sender: TObject);
     procedure qrDecodeDecoded(Sender: TObject; ADecoded: string);
@@ -91,6 +89,8 @@ type
     procedure btnQRCodeSheet_1BigFullURI_1BigUUIDClick(Sender: TObject);
     procedure btnQRCodeSheet_1BigTGPURI_1BigUUIDClick(Sender: TObject);
     procedure btnTagTestClick(Sender: TObject);
+    procedure WebFormDestroy(Sender: TObject);
+    procedure edtAssetTagTextTestButtonClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -232,16 +232,6 @@ begin
   GetQRCodeSheetPDF('2Big_FullURI');
 end;
 
-procedure TfrmEAT.btnRegExTestClick(Sender: TObject);
-begin
-  // ALE 20201104 the below works
-  if IsUUID(edtAssetTagTextTest.Text) then
-    edtAssetTagTextTest.Text := 'Valid ' + edtAssetTagTextTest.Text
-  else
-    edtAssetTagTextTest.Text := 'Invalid';
-  // RegEx for UUID https://stackoverlow.com/questions/136505
-end;
-
 procedure TfrmEAT.btnSignOutClick(Sender: TObject);
 begin
   WebSignIn1.SignOut(stGoogle);
@@ -263,7 +253,7 @@ end;
 
 procedure TfrmEAT.TagTextChangeHandler(const pOldText, pNewText: String);
 begin
-  ShowMessage('Old Text: ' + pOldText + ' New Text: ' + pNewText);
+  LogIt('TagText Change Old Text: ' + pOldText + ' New Text: ' + pNewText);
 end;
 
 procedure TfrmEAT.btnWelcomeContinueClick(Sender: TObject);
@@ -293,8 +283,19 @@ procedure TfrmEAT.edtAssetTagTextButtonClick(Sender: TObject);
 begin
   if IsUUID(edtAssetTagText.Text) then
   begin
+    dm.TagHelper.TagText := edtAssetTagText.Text;
     // TODO ALE 20201121 look up the tTags.id
   end;
+end;
+
+procedure TfrmEAT.edtAssetTagTextTestButtonClick(Sender: TObject);
+begin
+  // ALE 20201104 the below works
+  if IsUUID(edtAssetTagTextTest.Text) then
+    edtAssetTagTextTest.Text := 'Valid ' + edtAssetTagTextTest.Text
+  else
+    edtAssetTagTextTest.Text := 'Invalid';
+  // RegEx for UUID https://stackoverlow.com/questions/136505
 end;
 
 function TfrmEAT.GetAssetTagTextURLFragment: String;
@@ -574,19 +575,15 @@ begin
 
   pc.ActivePageIndex := 0; // ALE 20201121 Welcome page
 
+  dm.TagHelper := TEATTag.Create;
+  dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
+  dm.TagHelper.TextEdit1 := edtAssetTagText;
+  dm.TagHelper.TextEdit2 := edtAssetTagTextTest;
+
   //edtAssetTagText.Text := document.documentURI;
   // ALE 20201104 for AssetTagText
   lAssetTagText := GetAssetTagTextFromURI(document.documentURI);
-  if lAssetTagText <> '' then
-  begin
-    edtAssetTagText.Text := lAssetTagText;
-    edtAssetTagTextTest.Text := lAssetTagText;
-  end
-  else
-  begin
-    edtAssetTagText.Text := '';
-    edtAssetTagTextTest.Text := '';
-  end;
+  dm.TagHelper.TagText := lAssetTagText;
   LogIt('frmEAT created with AssetId=' + edtAssetTagText.Text);
 
   WebSignIn1.BeginUpdate;
@@ -597,6 +594,12 @@ begin
 
   dm.dbEATClient.Active := True;
   dm.XDataConn.Connected := True;
+
+end;
+
+procedure TfrmEAT.WebFormDestroy(Sender: TObject);
+begin
+  dm.TagHelper.Free;
 end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
@@ -615,14 +618,11 @@ begin
   if IsAssetURI(ADecoded) in [TURIType.Full, TURIType.Shortener] then
   begin
     lAssetTagText := GetAssetTagTextFromURI(ADecoded);
-    if lAssetTagText <> '' then
-    begin
-      edtAssetTagText.Text := lAssetTagText;
-    end;
+    dm.TagHelper.TagText := lAssetTagText;
   end
   else if IsUUID(ADecoded) then
   begin
-    edtAssetTagText.Text := ADecoded;
+    dm.TagHelper.TagText := ADecoded;
   end
   else
   begin
