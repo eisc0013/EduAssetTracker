@@ -36,6 +36,7 @@ type
     function GeneratePDF_1BigFullURI_1BigUUID(const pPathPDF: String = ''): TStream;
     function GeneratePDF_1BigTGPURI_1BigUUID(const pPathPDF: String = ''): TStream;
     function GetGUID(): String;
+  published
     property Pages: NativeUInt read FPages write FPages;
     property Layout: String read FLayout write FLayout;
     property BaseText: String read FBaseText write FBaseText;
@@ -77,10 +78,6 @@ begin
 end;
 
 function TTGPQRPDF.GeneratePDF(const pPathPDF: String = ''): TStream;
-var
-  lBMP: TBitmap;
-  lPicture: TPicture;
-  lFileStream: TFileStream;
 begin
   Result := nil;
 

@@ -8,6 +8,22 @@ uses
   XData.Web.Dataset, XData.Web.Client;
 
 type
+
+  TEATTagTextChange = procedure(const pOldText, pNewText: String) of object;
+  TEATTag = class(TObject)
+  protected
+    FTagText: String;
+    FTextChangeEvent: TEATTagTextChange;
+    procedure UpdateTagText(const pTagText: String);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  published
+    property TagText: String read FTagText write UpdateTagText;
+    property OnTagTextChange: TEATTagTextChange read FTextChangeEvent write FTextChangeEvent;
+  end;
+
   Tdm = class(TWebDataModule)
     XDataConn: TXDataWebConnection;
     XDataClient: TXDataWebClient;
@@ -21,13 +37,21 @@ type
     dbEATClient: TWebIndexedDbClientDataset;
     dbEATClientname: TStringField;
     dbEATClientsettings: TStringField;
+    tTags: TXDataWebDataSet;
+    dsTags: TWebDataSource;
+    tTagsid: TStringField;
+    tTagstagText: TStringField;
+    tTagsdeactivatedDate: TDateTimeField;
     procedure dbEATClientAfterOpen(DataSet: TDataSet);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
     procedure XDataClientLoad(Response: TXDataClientResponse);
+    procedure tTagsAfterOpen(DataSet: TDataSet);
+    procedure XDataConnConnect(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    TagHelper: TEATTag;
   end;
 
 var
@@ -67,16 +91,41 @@ end;
 
 procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
 begin
-  //ShowMessage('Dataset opened');
   frmEAT.LogIt('tAssetType Opened');
-  //dsAssetType.Enabled := False;
   dsAssetType.Enabled := True;
   tAssetType.First;
+end;
+
+procedure Tdm.tTagsAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tTags Opened');
+  dsTags.Enabled := True;
+  tTags.First;
 end;
 
 procedure Tdm.XDataClientLoad(Response: TXDataClientResponse);
 begin
   ShowMessage(TJSJson.stringify(Response.Result));
+end;
+
+procedure Tdm.XDataConnConnect(Sender: TObject);
+begin
+  //tAssetType.Load;
+  //tTags.Load;
+end;
+
+{ TEATTag }
+
+procedure TEATTag.UpdateTagText(const pTagText: String);
+var
+  lOldTagText, lNewTagText: String;
+begin
+  lOldTagText := FTagText;
+  lNewTagText := pTagText;
+
+  FTagText := pTagText;
+  if Assigned(FTextChangeEvent) then
+    FTextChangeEvent(lOldTagText, lNewTagText);
 end;
 
 end.

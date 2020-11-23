@@ -13,7 +13,7 @@ object frmEAT: TfrmEAT
     WidthPercent = 100.000000000000000000
     Align = alClient
     ChildOrder = 13
-    TabIndex = 1
+    TabIndex = 4
     TabOrder = 0
     object tsWelcome: TWebTabSheet
       Left = 0
@@ -583,6 +583,17 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnQRCodeSheet_1BigTGPURI_1BigUUIDClick
+      end
+      object btnTagTest: TWebButton
+        Left = 291
+        Top = 29
+        Width = 96
+        Height = 25
+        Caption = 'TEATTag Test'
+        ChildOrder = 13
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnTagTestClick
       end
     end
   end

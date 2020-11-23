@@ -4,6 +4,7 @@ object dm: Tdm
   Width = 857
   object XDataConn: TXDataWebConnection
     URL = 'https://eduassettracker.ynotwidgets.com/api/'
+    OnConnect = XDataConnConnect
     Left = 16
     Top = 8
   end
@@ -66,5 +67,29 @@ object dm: Tdm
       FieldName = 'value'
       Size = 8192
     end
+  end
+  object tTags: TXDataWebDataSet
+    AfterOpen = tTagsAfterOpen
+    EntitySetName = 'tTags'
+    Connection = XDataConn
+    Left = 248
+    Top = 8
+    object tTagsid: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object tTagstagText: TStringField
+      FieldName = 'tagText'
+      Size = 2047
+    end
+    object tTagsdeactivatedDate: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsTags: TWebDataSource
+    DataSet = tTags
+    Left = 312
+    Top = 8
   end
 end

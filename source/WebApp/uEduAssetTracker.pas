@@ -63,6 +63,7 @@ type
     btnQRCodeSheet_2Big_FullURI: TWebButton;
     btnQRCodeSheet_1BigFullURI_1BigUUID: TWebButton;
     btnQRCodeSheet_1BigTGPURI_1BigUUID: TWebButton;
+    btnTagTest: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -89,6 +90,7 @@ type
     procedure btnQRCodeSheet_2Big_FullURIClick(Sender: TObject);
     procedure btnQRCodeSheet_1BigFullURI_1BigUUIDClick(Sender: TObject);
     procedure btnQRCodeSheet_1BigTGPURI_1BigUUIDClick(Sender: TObject);
+    procedure btnTagTestClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -105,6 +107,7 @@ type
     function IsAssetURI(const pURI: String): TURIType;
     function GetAssetTagTextFromURI(const pURI: String): String;
     function GetQRCodeSheetPDF(const pLayout: String): Boolean;
+    procedure TagTextChangeHandler(const pOldText, pNewText: String);
   public
     { Public declarations }
     function GetUUIDStr(): String;
@@ -242,6 +245,25 @@ end;
 procedure TfrmEAT.btnSignOutClick(Sender: TObject);
 begin
   WebSignIn1.SignOut(stGoogle);
+end;
+
+procedure TfrmEAT.btnTagTestClick(Sender: TObject);
+begin
+  if dm.TagHelper = nil then
+  begin
+    dm.TagHelper := TEATTag.Create;
+    dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
+    dm.TagHelper.TagText := 'Fred';
+  end
+  else
+  begin
+    dm.TagHelper.Free;
+  end;
+end;
+
+procedure TfrmEAT.TagTextChangeHandler(const pOldText, pNewText: String);
+begin
+  ShowMessage('Old Text: ' + pOldText + ' New Text: ' + pNewText);
 end;
 
 procedure TfrmEAT.btnWelcomeContinueClick(Sender: TObject);
@@ -501,7 +523,7 @@ begin
     ShowMessage(Container.EntitySets[I].Name);
   end;
   }
-    dm.tAssetType.Load;
+  //  dm.tAssetType.Load;
   //XDataWebClient1.List('tAssetType');
   //dm.tAssetType.First;
   //XDataWebClient1.Get('tAssetType', '{9D07B232-0296-4072-88B9-EF30D62B24CA}');
@@ -574,6 +596,7 @@ begin
   WebSignIn1.EndUpdate;
 
   dm.dbEATClient.Active := True;
+  dm.XDataConn.Connected := True;
 end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
