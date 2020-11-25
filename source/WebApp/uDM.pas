@@ -15,13 +15,21 @@ type
     FTextChangeEvent: TEATTagTextChange;
     FTextEdit1: TTMSFNCEditButton;
     FTextEdit2: TTMSFNCEditButton;
+    FtTags: TXDataWebDataSet;
+    FXDataConn: TXDataWebConnection;
     procedure UpdateTagText(const pTagText: String);
+    procedure UpdateXDataConn(pXDataWebConn: TXDataWebConnection);
+    procedure tTagsAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
     { Public declarations }
+    constructor Create(const pXDataWebConn: TXDataWebConnection); overload;
+    destructor Free(); overload;
   published
     property TagText: String read FTagText write UpdateTagText;
+    property tTags: TXDataWebDataSet read FtTags write FtTags;
+    property XDataConn: TXDataWebConnection read FXDataConn write UpdateXDataConn;
     property TextEdit1: TTMSFNCEditButton read FTextEdit1 write FTextEdit1;
     property TextEdit2: TTMSFNCEditButton read FTextEdit2 write FTextEdit2;
     property OnTagTextChange: TEATTagTextChange read FTextChangeEvent write FTextChangeEvent;
@@ -119,6 +127,34 @@ end;
 
 { TEATTag }
 
+constructor TEATTag.Create(const pXDataWebConn: TXDataWebConnection);
+begin
+  inherited Create();
+
+  FXDataConn := pXDataWebConn;
+  FtTags := TXDataWebDataSet.Create(nil);
+  FtTags.Connection := FXDataConn;
+  FtTags.EntitySetName := 'tTags';
+  FtTags.AfterOpen := tTagsAfterOpen;
+end;
+
+destructor TEATTag.Free;
+begin
+{
+  if FtTags <> nil then
+    FtTags.ApplyUpdates;
+  FtTags.Free;
+}
+  inherited Free();
+end;
+
+procedure TEATTag.tTagsAfterOpen(DataSet: TDataSet);
+begin
+  //dsTags.Enabled := True;
+  FtTags.First;
+  frmEAT.LogIt('TEATag tTags Opened fTags.id=' + FtTags.FieldByName('id').AsString);
+end;
+
 procedure TEATTag.UpdateTagText(const pTagText: String);
 var
   lOldTagText, lNewTagText: String;
@@ -129,6 +165,13 @@ begin
     lNewTagText := pTagText;
 
     FTagText := pTagText;
+
+    // ALE 20201124 start the lookup of the tag
+    //FtTags.Refresh;
+    FtTags.Close;
+    FtTags.QueryString := '$filter=tagText eq ''' + pTagText + ''' AND deactivatedDate eq null';
+    FtTags.Load;
+
     if Assigned(FTextEdit1) then
     begin
       FTextEdit1.Text := lNewTagText;
@@ -142,6 +185,19 @@ begin
       FTextChangeEvent(lOldTagText, lNewTagText);
     end;
   end;
+end;
+
+procedure TEATTag.UpdateXDataConn(pXDataWebConn: TXDataWebConnection);
+begin
+{
+  if FXDataConn <> pXDataWebConn then
+  begin
+    if (FXDataConn <> nil) AND FXDataConn.Connected then
+      FXDataConn.Close;
+    FXDataConn := pXDataWebConn;
+    FXDataConn.Connected := True;
+  end;
+}
 end;
 
 end.

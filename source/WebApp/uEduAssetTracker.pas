@@ -239,16 +239,9 @@ end;
 
 procedure TfrmEAT.btnTagTestClick(Sender: TObject);
 begin
-  if dm.TagHelper = nil then
-  begin
-    dm.TagHelper := TEATTag.Create;
     dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
+    dm.TagHelper.XDataConn := dm.XDataConn;
     dm.TagHelper.TagText := 'Fred';
-  end
-  else
-  begin
-    dm.TagHelper.Free;
-  end;
 end;
 
 procedure TfrmEAT.TagTextChangeHandler(const pOldText, pNewText: String);
@@ -575,7 +568,7 @@ begin
 
   pc.ActivePageIndex := 0; // ALE 20201121 Welcome page
 
-  dm.TagHelper := TEATTag.Create;
+  dm.TagHelper := TEATTag.Create(dm.XDataConn);
   dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
   dm.TagHelper.TextEdit1 := edtAssetTagText;
   dm.TagHelper.TextEdit2 := edtAssetTagTextTest;
@@ -599,7 +592,7 @@ end;
 
 procedure TfrmEAT.WebFormDestroy(Sender: TObject);
 begin
-  dm.TagHelper.Free;
+  // ALE 20201124 gets called when we are loading the SPA dm.TagHelper.Free;
 end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
