@@ -21,6 +21,7 @@ type
     FTextEdit1: TTMSFNCEditButton;
     FTextEdit2: TTMSFNCEditButton;
     FtTags: TXDataWebDataSet;
+    FdsTags: TWebDataSource;
     FXDataConn: TXDataWebConnection;
     procedure UpdateTagText(const pTagText: String);
     procedure UpdateXDataConn(pXDataWebConn: TXDataWebConnection);
@@ -36,6 +37,7 @@ type
     property TagId: String read FTagId;
     property TagText: String read FTagText write UpdateTagText;
     property tTags: TXDataWebDataSet read FtTags write FtTags;
+    property dsTags: TWebDataSource read FdsTags write FdsTags;
     property XDataConn: TXDataWebConnection read FXDataConn write UpdateXDataConn;
     property TextEdit1: TTMSFNCEditButton read FTextEdit1 write FTextEdit1;
     property TextEdit2: TTMSFNCEditButton read FTextEdit2 write FTextEdit2;
@@ -58,6 +60,8 @@ begin
   FtTags.Connection := FXDataConn;
   FtTags.EntitySetName := 'tTags';
   FtTags.AfterOpen := tTagsAfterOpen;
+  FdsTags := TWebDataSource.Create(nil);
+  FdsTags.DataSet := FtTags;
 end;
 
 destructor TEATTag.Free;

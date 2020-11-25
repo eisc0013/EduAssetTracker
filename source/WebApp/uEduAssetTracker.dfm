@@ -159,17 +159,43 @@ object frmEAT: TfrmEAT
         Padding.Top = 8
         Padding.Right = 8
         Padding.Bottom = 8
-        ExplicitHeight = 199
+        ExplicitTop = 355
+        ExplicitHeight = 101
+        DesignSize = (
+          458
+          196)
+        object WebLabel1: TWebLabel
+          Left = 13
+          Top = 10
+          Width = 32
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'TagId:'
+          Color = clBtnFace
+          HeightPercent = 100.000000000000000000
+          WidthPercent = 100.000000000000000000
+        end
+        object WebLabel6: TWebLabel
+          Left = 13
+          Top = 34
+          Width = 44
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'TagText:'
+          Color = clBtnFace
+          HeightPercent = 100.000000000000000000
+          WidthPercent = 100.000000000000000000
+        end
         object memScanAsset: TWebMemo
           Left = 8
-          Top = 8
+          Top = 88
           Width = 442
-          Height = 180
+          Height = 100
           Margins.Left = 8
           Margins.Top = 8
           Margins.Right = 8
           Margins.Bottom = 8
-          Align = alClient
+          Align = alBottom
           AutoSize = False
           HeightPercent = 100.000000000000000000
           Lines.Strings = (
@@ -177,7 +203,40 @@ object frmEAT: TfrmEAT
           SelLength = 0
           SelStart = 0
           WidthPercent = 100.000000000000000000
-          ExplicitHeight = 181
+        end
+        object btnTagAdd: TWebButton
+          Left = 328
+          Top = 11
+          Width = 96
+          Height = 25
+          Caption = 'Add Tag'
+          ChildOrder = 4
+          Enabled = False
+          HeightPercent = 100.000000000000000000
+          WidthPercent = 100.000000000000000000
+          OnClick = btnTagAddClick
+        end
+        object edtTagText: TWebDBEdit
+          Left = 61
+          Top = 30
+          Width = 230
+          Height = 22
+          Anchors = [akLeft, akBottom]
+          ChildOrder = 3
+          HeightPercent = 100.000000000000000000
+          Text = 'edtTagText'
+          WidthPercent = 100.000000000000000000
+        end
+        object edtTagId: TWebDBEdit
+          Left = 61
+          Top = 6
+          Width = 230
+          Height = 22
+          Anchors = [akLeft, akBottom]
+          ChildOrder = 3
+          HeightPercent = 100.000000000000000000
+          Text = 'edtTagId'
+          WidthPercent = 100.000000000000000000
         end
       end
       object pnlScanHeader: TWebPanel
@@ -609,5 +668,11 @@ object frmEAT: TfrmEAT
     OnTimer = tmrQRDetectPauseTimer
     Left = 64
     Top = 349
+  end
+  object toastAsset: TWebToast
+    Items = <>
+    Position = tpTopLeft
+    Left = 360
+    Top = 444
   end
 end

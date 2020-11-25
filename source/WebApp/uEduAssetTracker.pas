@@ -12,7 +12,7 @@ uses
   Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices,
   WEBLib.WebCtrls, WEBLib.SignIn, WEBLib.IndexedDb, DateUtils, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
-  VCL.TMSFNCEdit;
+  VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast;
 
 type
   TURIType = (Invalid, Full, Shortener);
@@ -63,6 +63,12 @@ type
     btnQRCodeSheet_1BigTGPURI_1BigUUID: TWebButton;
     btnTagTest: TWebButton;
     edtAssetTagTextTest: TTMSFNCEditButton;
+    toastAsset: TWebToast;
+    btnTagAdd: TWebButton;
+    edtTagText: TWebDBEdit;
+    edtTagId: TWebDBEdit;
+    WebLabel1: TWebLabel;
+    WebLabel6: TWebLabel;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -91,6 +97,7 @@ type
     procedure btnTagTestClick(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
     procedure edtAssetTagTextTestButtonClick(Sender: TObject);
+    procedure btnTagAddClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -239,16 +246,32 @@ begin
   WebSignIn1.SignOut(stGoogle);
 end;
 
+procedure TfrmEAT.btnTagAddClick(Sender: TObject);
+begin
+  dm.TagHelper.tTags.Insert;
+  dm.TagHelper.tTags.FieldByName('id').AsString := GetUUIDStr();
+  dm.TagHelper.tTags.FieldByName('tagText').AsString := dm.TagHelper.TagText;
+  dm.TagHelper.tTags.Post;
+  dm.TagHelper.tTags.ApplyUpdates;
+  btnTagAdd.Enabled := False;
+end;
+
 procedure TfrmEAT.btnTagTestClick(Sender: TObject);
 begin
-    dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
-    dm.TagHelper.XDataConn := dm.XDataConn;
-    dm.TagHelper.TagText := 'Fred';
+  dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
+  dm.TagHelper.XDataConn := dm.XDataConn;
+  dm.TagHelper.TagText := 'Fred';
 end;
 
 procedure TfrmEAT.TagIdChangeHandler(const pOldId, pNewId: String);
 begin
   LogIt('TagId Change Old Id: ' + pOldId + ' New Id: ' + pNewId);
+  toastAsset.Items.Add('Asset Tag Detected', 'TagId: ' + pNewId);
+  if (pNewId = '') AND (dm.TagHelper.TagText <> '') then
+  begin
+    btnTagAdd.Enabled := True;
+  end;
+
 end;
 
 procedure TfrmEAT.TagLogItEventHandler(const pLogText: String);
@@ -586,6 +609,10 @@ begin
   dm.TagHelper.OnLogItEvent := TagLogItEventHandler;
   dm.TagHelper.TextEdit1 := edtAssetTagText;
   dm.TagHelper.TextEdit2 := edtAssetTagTextTest;
+  edtTagId.DataSource := dm.TagHelper.dsTags;
+  edtTagId.DataField := 'id';
+  edtTagText.DataSource := dm.TagHelper.dsTags;
+  edtTagText.DataField := 'tagText';
 
   //edtAssetTagText.Text := document.documentURI;
   // ALE 20201104 for AssetTagText
