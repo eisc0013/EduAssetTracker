@@ -121,6 +121,7 @@
             <FormType>dfm</FormType>
             <DesignClass>TWebDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="uTEATTag.pas"/>
         <None Include="EduAssetTracker.html"/>
         <None Include="Manifest.json"/>
         <None Include="ServiceWorker.js"/>

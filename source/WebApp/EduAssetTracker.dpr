@@ -6,7 +6,8 @@ uses
   Vcl.Forms,
   WEBLib.Forms,
   uEduAssetTracker in 'uEduAssetTracker.pas' {frmEAT: TWebForm} {*.html},
-  uDM in 'uDM.pas' {dm: TWebDataModule};
+  uDM in 'uDM.pas' {dm: TWebDataModule},
+  uTEATTag in 'uTEATTag.pas';
 
 {$R *.res}
 

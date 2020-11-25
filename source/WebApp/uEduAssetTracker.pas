@@ -108,6 +108,8 @@ type
     function GetAssetTagTextFromURI(const pURI: String): String;
     function GetQRCodeSheetPDF(const pLayout: String): Boolean;
     procedure TagTextChangeHandler(const pOldText, pNewText: String);
+    procedure TagIdChangeHandler(const pOldId, pNewId: String);
+    procedure TagLogItEventHandler(const pLogText: String);
   public
     { Public declarations }
     function GetUUIDStr(): String;
@@ -130,7 +132,7 @@ implementation
 
 {$R *.dfm}
 
-uses uDM;
+uses uDM, uTEATTag;
 
 procedure TfrmEAT.btnQRCodeGoogleClick(Sender: TObject);
 var
@@ -242,6 +244,16 @@ begin
     dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
     dm.TagHelper.XDataConn := dm.XDataConn;
     dm.TagHelper.TagText := 'Fred';
+end;
+
+procedure TfrmEAT.TagIdChangeHandler(const pOldId, pNewId: String);
+begin
+  LogIt('TagId Change Old Id: ' + pOldId + ' New Id: ' + pNewId);
+end;
+
+procedure TfrmEAT.TagLogItEventHandler(const pLogText: String);
+begin
+  LogIt(pLogText);
 end;
 
 procedure TfrmEAT.TagTextChangeHandler(const pOldText, pNewText: String);
@@ -570,6 +582,8 @@ begin
 
   dm.TagHelper := TEATTag.Create(dm.XDataConn);
   dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
+  dm.TagHelper.OnTagIdChange := TagIdChangeHandler;
+  dm.TagHelper.OnLogItEvent := TagLogItEventHandler;
   dm.TagHelper.TextEdit1 := edtAssetTagText;
   dm.TagHelper.TextEdit2 := edtAssetTagTextTest;
 
