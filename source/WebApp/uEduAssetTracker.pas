@@ -256,7 +256,7 @@ end;
 
 procedure TfrmEAT.btnTagAddClick(Sender: TObject);
 begin
-  dm.TagHelper.AddTag();
+  dm.TagHelper.AddRecord();
   btnTagAdd.Enabled := False;
 end;
 

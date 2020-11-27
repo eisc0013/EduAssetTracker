@@ -34,8 +34,8 @@ type
     constructor Create(const pXDataWebConn: TXDataWebConnection); overload;
     destructor Free(); overload;
     procedure LogIt(const pLogText: String);
-    function AddTag(): String;
-    // TODO function UpdateTag(const pId, pTagText: String; const pDeactivatedDate: TDateTime): Boolean;
+    function AddRecord(): String;
+    // TODO function UpdateRecord(const pId, pTagText: String; const pDeactivatedDate: TDateTime): Boolean;
   published
     property TagId: String read FTagId;
     property TagText: String read FTagText write UpdateTagText;
@@ -55,7 +55,7 @@ implementation
 
 { TEATTag }
 
-function TEATTag.AddTag(): String;
+function TEATTag.AddRecord(): String;
 begin
   FtTags.Insert;
   FtTags.FieldByName('id').AsString := FUtil.GetUUIDStr();
