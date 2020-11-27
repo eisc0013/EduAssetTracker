@@ -32,7 +32,8 @@ var
   lResult: NativeInt;
 begin
   lResult := CreateGUID(lGUID);
-  Result := Copy(LowerCase(GUIDToString(lGUID)), 2, UUID_STR_LEN);
+  //Result := Copy(LowerCase(GUIDToString(lGUID)), 2, UUID_STR_LEN);
+  Result := Copy(GUIDToString(lGUID), 2, UUID_STR_LEN);
 end;
 
 end.

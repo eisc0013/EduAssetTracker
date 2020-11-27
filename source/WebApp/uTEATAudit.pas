@@ -139,9 +139,11 @@ function TEATAudit.PostAuditRecord(const pId, pTable_name, pId_row,
 begin
   Result := False;
 
+  LogIt('TEATAudit PostAuditRecord id=' + pId + ' id_row=' + pId_row);
   if FtAudit.Active then
   begin
     FtAudit.Insert;
+    // ALE 20201127 TXDataWebDataSet doesn't know AsGuid FtAudit.FieldByName('id').AsGuid := StringToGUID(pId);
     FtAudit.FieldByName('id').AsString := pId;
     FtAudit.FieldByName('table_name').AsString := pTable_name;
     FtAudit.FieldByName('id_row').AsString := pId_row;
@@ -164,7 +166,8 @@ begin
   while FAuditItemQueue.Count > 0 do
   begin
     lItem.CommaText := lAI.ValueFromIndex[0];
-    PostAuditRecord(lAI.Names[0], lItem[0], lItem[1], window.btoa(lItem[2]));
+    if PostAuditRecord(lAI.Names[0], lItem[0], lItem[1], window.btoa(lItem[2])) then
+      lItem.Delete(0);
   end;
 
   if Assigned(FAuditOpenEvent) then
