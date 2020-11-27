@@ -12,7 +12,8 @@ uses
   Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices,
   WEBLib.WebCtrls, WEBLib.SignIn, WEBLib.IndexedDb, DateUtils, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
-  VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast, uTEATCommon, uTEATAudit;
+  VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast,
+  WinAPI.Windows, uDM, uTEATCommon, uTEATAudit;
 
 type
   TURIType = (Invalid, Full, Shortener);
@@ -314,7 +315,6 @@ begin
   if IsUUID(edtAssetTagText.Text) then
   begin
     dm.TagHelper.TagText := edtAssetTagText.Text;
-    // TODO ALE 20201121 look up the tTags.id
   end;
 end;
 
@@ -457,7 +457,7 @@ end;
 
 function TfrmEAT.IsUUID(const pUUID: String): Boolean;
 begin
-  Result := TJSRegExp.New('\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b').test(pUUID);
+  Result := TJSRegExp.New('\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b').test(LowerCase(pUUID));
 end;
 
 procedure TfrmEAT.QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);

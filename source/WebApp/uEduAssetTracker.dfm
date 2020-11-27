@@ -20,7 +20,7 @@ object frmEAT: TfrmEAT
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    TabIndex = 4
+    TabIndex = 1
     ParentFont = False
     TabOrder = 0
     object tsWelcome: TWebTabSheet
