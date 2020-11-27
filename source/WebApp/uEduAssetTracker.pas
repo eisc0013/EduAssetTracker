@@ -256,20 +256,13 @@ end;
 
 procedure TfrmEAT.btnTagAddClick(Sender: TObject);
 begin
-  dm.TagHelper.tTags.Insert;
-  dm.TagHelper.tTags.FieldByName('id').AsString := fUtil.GetUUIDStr();
-  dm.TagHelper.tTags.FieldByName('tagText').AsString := dm.TagHelper.TagText;
-  dm.TagHelper.tTags.Post;
-  dm.TagHelper.tTags.ApplyUpdates;
-  fAudit.AuditIt('tTags', dm.TagHelper.tTags.FieldByName('id').AsString,
-   'Asset added with tagText=' + dm.TagHelper.tTags.FieldByName('tagText').AsString);
+  dm.TagHelper.AddTag();
   btnTagAdd.Enabled := False;
 end;
 
 procedure TfrmEAT.btnTagTestClick(Sender: TObject);
 begin
   dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
-  dm.TagHelper.XDataConn := dm.XDataConn;
   dm.TagHelper.TagText := 'Fred';
 end;
 
@@ -281,7 +274,6 @@ begin
   begin
     btnTagAdd.Enabled := True;
   end;
-
 end;
 
 procedure TfrmEAT.TagLogItEventHandler(const pLogText: String);
@@ -610,6 +602,7 @@ begin
   fAudit.OnLogItEvent := TagLogItEventHandler;
 
   dm.TagHelper := TEATTag.Create(dm.XDataConn);
+  dm.TagHelper.Audit := fAudit;
   dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
   dm.TagHelper.OnTagIdChange := TagIdChangeHandler;
   dm.TagHelper.OnLogItEvent := TagLogItEventHandler;
@@ -687,6 +680,7 @@ begin
   memSignIn.Lines.Add('Google Sign In');
   memSignIn.Lines.Add('Username: ' + Args.FirstName + ' ' + Args.LastName);
   memSignIn.Lines.Add('Email: ' + Args.Email);
+
   memSignIn.Lines.Add('ID:' + Args.ID);
   imgWebProfile.URL := Args.ImageUrl;
 

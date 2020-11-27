@@ -5,15 +5,10 @@ interface
 uses
   System.SysUtils, System.Classes, Web, JS, XData.Web.Connection,
   WEBLib.Modules, Data.DB, WEBLib.DB, XData.Web.JsonDataset,
-  XData.Web.Dataset, XData.Web.Client, VCL.TMSFNCEdit, uTEATCommon;
+  XData.Web.Dataset, XData.Web.Client, WEBLib.ExtCtrls,
+  VCL.TMSFNCEdit, uTEATCommon;
 
 type
-  TEATAuditItem = record // ALE 20201127 keep in sync wit tLog
-    id: String;
-    table_name: String;
-    id_row: String;
-    audit: String;
-  end;
   TEATTagTextChange = procedure(const pOldText, pNewText: String) of object;
   TEATAuditOpen = procedure(const pTAudit: TXDataWebDataSet) of object;
   TEATLogItEvent = procedure(const pLogText: String) of object;
@@ -30,10 +25,11 @@ type
     FtAudit: TXDataWebDataSet;
     FdsAudit: TWebDataSource;
     FXDataConn: TXDataWebConnection;
+    FTimerApplyUpdates: TWebTimer;
     FUtil: TEATUtil;
     procedure UpdateTagText(const pTagText: String);
-    procedure UpdateXDataConn(pXDataWebConn: TXDataWebConnection);
     procedure tAuditAfterOpen(DataSet: TDataSet);
+    procedure DoTimerApplyUpdates(Sender: TObject);
   private
     { Private declarations }
     function PostAuditRecord(const pId, pTable_name, pId_row, pAudit: String): Boolean;
@@ -49,7 +45,7 @@ type
     property TagText: String read FTagText write UpdateTagText;
     property tAudit: TXDataWebDataSet read FtAudit write FtAudit;
     property dsTags: TWebDataSource read FdsAudit write FdsAudit;
-    property XDataConn: TXDataWebConnection read FXDataConn write UpdateXDataConn;
+    property XDataConn: TXDataWebConnection read FXDataConn;
     property TextEdit1: TTMSFNCEditButton read FTextEdit1 write FTextEdit1;
     property TextEdit2: TTMSFNCEditButton read FTextEdit2 write FTextEdit2;
     property OnAuditOpen: TEATAuditOpen read FAuditOpenEvent write FAuditOpenEvent;
@@ -88,6 +84,10 @@ begin
 
   FUtil := TEATUtil.Create();
   FAuditItemQueue := TStringList.Create();
+  FTimerApplyUpdates := TWebTimer.Create(nil);
+  FTimerApplyUpdates.OnTimer := DoTimerApplyUpdates;
+  FTimerApplyUpdates.Interval := 15000;
+  FTimerApplyUpdates.Enabled := True;
   FXDataConn := pXDataWebConn;
   FtAudit := TXDataWebDataSet.Create(nil);
   FtAudit.Connection := FXDataConn;
@@ -120,6 +120,8 @@ begin
     FtTags.ApplyUpdates;
   FtTags.Free;
 }
+  FTimerApplyUpdates.Enabled := False;
+  FTimerApplyUpdates.Free;
   FAuditItemQueue.Free;
   FUtil.Free;
 
@@ -132,6 +134,13 @@ begin
   begin
     FLogItEvent(pLogText);
   end;
+end;
+
+procedure TEATAudit.DoTimerApplyUpdates(Sender: TObject);
+begin
+  FTimerApplyUpdates.Enabled := False;
+  FlushToServer();
+  FTimerApplyUpdates.Enabled := True;
 end;
 
 function TEATAudit.PostAuditRecord(const pId, pTable_name, pId_row,
@@ -206,19 +215,6 @@ begin
       FTextChangeEvent(lOldTagText, lNewTagText);
     end;
   end;
-end;
-
-procedure TEATAudit.UpdateXDataConn(pXDataWebConn: TXDataWebConnection);
-begin
-{
-  if FXDataConn <> pXDataWebConn then
-  begin
-    if (FXDataConn <> nil) AND FXDataConn.Connected then
-      FXDataConn.Close;
-    FXDataConn := pXDataWebConn;
-    FXDataConn.Connected := True;
-  end;
-}
 end;
 
 end.

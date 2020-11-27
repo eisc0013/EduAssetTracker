@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, JS, XData.Web.Connection,
   WEBLib.Modules, Data.DB, WEBLib.DB, XData.Web.JsonDataset,
-  XData.Web.Dataset, XData.Web.Client, VCL.TMSFNCEdit;
+  XData.Web.Dataset, XData.Web.Client, VCL.TMSFNCEdit, uTEATAudit, uTEATCommon;
 
 type
   TEATTagTextChange = procedure(const pOldText, pNewText: String) of object;
@@ -23,8 +23,9 @@ type
     FtTags: TXDataWebDataSet;
     FdsTags: TWebDataSource;
     FXDataConn: TXDataWebConnection;
+    FUtil: TEATUtil;
+    FAudit: TEATAudit;
     procedure UpdateTagText(const pTagText: String);
-    procedure UpdateXDataConn(pXDataWebConn: TXDataWebConnection);
     procedure tTagsAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
@@ -33,12 +34,15 @@ type
     constructor Create(const pXDataWebConn: TXDataWebConnection); overload;
     destructor Free(); overload;
     procedure LogIt(const pLogText: String);
+    function AddTag(): String;
+    // TODO function UpdateTag(const pId, pTagText: String; const pDeactivatedDate: TDateTime): Boolean;
   published
     property TagId: String read FTagId;
     property TagText: String read FTagText write UpdateTagText;
     property tTags: TXDataWebDataSet read FtTags write FtTags;
     property dsTags: TWebDataSource read FdsTags write FdsTags;
-    property XDataConn: TXDataWebConnection read FXDataConn write UpdateXDataConn;
+    property XDataConn: TXDataWebConnection read FXDataConn;
+    property Audit: TEATAudit read FAudit write FAudit;
     property TextEdit1: TTMSFNCEditButton read FTextEdit1 write FTextEdit1;
     property TextEdit2: TTMSFNCEditButton read FTextEdit2 write FTextEdit2;
     property OnTagIdChange: TEATTagIdChange read FIdChangeEvent write FIdChangeEvent;
@@ -51,10 +55,22 @@ implementation
 
 { TEATTag }
 
+function TEATTag.AddTag(): String;
+begin
+  FtTags.Insert;
+  FtTags.FieldByName('id').AsString := FUtil.GetUUIDStr();
+  FtTags.FieldByName('tagText').AsString := FTagText;
+  FtTags.Post;
+  FtTags.ApplyUpdates;
+  FAudit.AuditIt('tTags', FtTags.FieldByName('id').AsString,
+   'Asset added with tagText=' + FTagText);
+end;
+
 constructor TEATTag.Create(const pXDataWebConn: TXDataWebConnection);
 begin
   inherited Create();
 
+  FUtil := TEATUtil.Create();
   FXDataConn := pXDataWebConn;
   FtTags := TXDataWebDataSet.Create(nil);
   FtTags.Connection := FXDataConn;
@@ -66,11 +82,8 @@ end;
 
 destructor TEATTag.Free;
 begin
-{
-  if FtTags <> nil then
-    FtTags.ApplyUpdates;
-  FtTags.Free;
-}
+  FUtil.Free;
+
   inherited Free();
 end;
 
@@ -86,7 +99,7 @@ procedure TEATTag.tTagsAfterOpen(DataSet: TDataSet);
 var
   lNewTagId, lOldTagId: String;
 begin
-  //dsTags.Enabled := True;
+  dsTags.Enabled := True;
   FtTags.First;
   lOldTagId := FTagId;
   lNewTagId := FtTags.FieldByName('id').AsString;
@@ -111,7 +124,6 @@ begin
     FTagText := pTagText;
 
     // ALE 20201124 start the lookup of the tag
-    //FtTags.Refresh;
     FtTags.Close;
     FtTags.QueryString := '$filter=tagText eq ''' + pTagText + ''' AND deactivatedDate eq null';
     FtTags.Load;
@@ -129,19 +141,6 @@ begin
       FTextChangeEvent(lOldTagText, lNewTagText);
     end;
   end;
-end;
-
-procedure TEATTag.UpdateXDataConn(pXDataWebConn: TXDataWebConnection);
-begin
-{
-  if FXDataConn <> pXDataWebConn then
-  begin
-    if (FXDataConn <> nil) AND FXDataConn.Connected then
-      FXDataConn.Close;
-    FXDataConn := pXDataWebConn;
-    FXDataConn.Connected := True;
-  end;
-}
 end;
 
 end.
