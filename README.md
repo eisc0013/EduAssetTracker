@@ -17,3 +17,10 @@ Notes:
    when covered with 3M Scotch Shipping Packaging Tape Heavy Duty.
   2020-11-21 The TMS Web Core Camera component reports cam.Paused == True at
    initialization so we ignore that and create our own paused variable.
+   
+CI/CD Setup:
+  2020-11-27 I use WinSCP to automaticall upload the changed files.  
+   This is the "Keeping remote directory up to date..." function in 
+   WinSCP.
+   
+

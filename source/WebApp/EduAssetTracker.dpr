@@ -7,7 +7,9 @@ uses
   WEBLib.Forms,
   uEduAssetTracker in 'uEduAssetTracker.pas' {frmEAT: TWebForm} {*.html},
   uDM in 'uDM.pas' {dm: TWebDataModule},
-  uTEATTag in 'uTEATTag.pas';
+  uTEATTag in 'uTEATTag.pas',
+  uTEATAudit in 'uTEATAudit.pas',
+  uTEATCommon in 'uTEATCommon.pas';
 
 {$R *.res}
 

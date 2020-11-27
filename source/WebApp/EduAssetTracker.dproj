@@ -60,11 +60,11 @@
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
         <SanitizedProjectName>EduAssetTracker</SanitizedProjectName>
         <TMSWebPWAResIconHighFile>IconResHigh.png</TMSWebPWAResIconHighFile>
-        <TMSWebPWAResIconLowFile>IconResLow.png</TMSWebPWAResIconLowFile>
-        <TMSWebPWAResIconMidFile>IconResMid.png</TMSWebPWAResIconMidFile>
         <TMSPWAManifestFile>Manifest.json</TMSPWAManifestFile>
         <TMSWebPWAServiceWorkerFile>ServiceWorker.js</TMSWebPWAServiceWorkerFile>
         <TMSWebHTMLFile>EduAssetTracker.html</TMSWebHTMLFile>
+        <TMSWebPWAResIconMidFile>IconResMid.png</TMSWebPWAResIconMidFile>
+        <TMSWebPWAResIconLowFile>IconResLow.png</TMSWebPWAResIconLowFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;RESTComponents;DBXInterBaseDriver;vclactnband;VCLTMSFNCDashboardPackPkgDXE13;vclFireDAC;bindcompvclsmp;tethering;svnui;JvGlobus;FireDACADSDriver;JvPluginSystem;JvMM;QRCodeJS;unidac270;vcltouch;JvBands;FMXTMSFNCDashboardPackPkgDXE13;vcldb;bindcompfmx;svn;JvJans;JvNet;crcontrols270;inetdb;JvAppFrm;TMSFMXPackPkgDXE13;VCLTMSFNCCloudPackPkgDXE13;FmxTeeUI;JvDotNetCtrls;TMSVCLUIPackPkgWizDXE13;fmx;FireDACIBDriver;fmxdae;vcledge;TMSMQTTPkgDXE13;JvWizards;FMXTMSFNCCloudPackPkgDXE13;VCLTMSFNCChartPkgDXE13;dbexpress;IndyCore;TMSVCLUIPackPkgXlsDXE13;xdata;vclx;JvPageComps;dsnap;FireDACCommon;JvDB;RESTBackendComponents;VCLTMSFNCCorePkgDXE13;VCLRESTComponents;soapserver;JclDeveloperTools;FMXTMSFNCUIPackPkgDXE13;dacfmx270;VCLTMSFNCUIPackPkgDXE13;remotedb;vclie;TMSVCLUIPackPkgDXE13;bindengine;DBXMySQLDriver;CloudService;JvCmp;FireDACMySQLDriver;JvHMI;FireDACCommonODBC;FireDACCommonDriver;FMXTMSFNCBloxPkgDXE13;TMSWEBCorePkgLibDXE13;inet;TGlobe5_10_4;TMSVCLUIPackPkgExDXE13;IndyIPCommon;bindcompdbx;JvCustom;vcl;IndyIPServer;JvXPCtrls;dacvcl270;IndySystem;vquery270;tmsbcl;sparkle;dac270;VCLTMSFNCBloxPkgDXE13;VCLTMSFNCMapsPkgDXE13;dsnapcon;FireDACMSAccDriver;fmxFireDAC;unidacfmx270;vclimg;FMXTMSFNCCorePkgDXE13;TeeDB;FireDAC;Jcl;JvCore;JvCrypt;FireDACSqliteDriver;FireDACPgDriver;FMXTMSFNCMapsPkgDXE13;TMSWEBCorePkgDXE13;FMXTee;TMSMQTTPkgDEDXE13;soaprtl;DbxCommonDriver;JvDlgs;JvRuntimeDesign;JvManagedThreads;Tee;DCPcrypt;xmlrtl;soapmidas;JvTimeFramework;fmxobj;vclwinx;rtl;DbxClientDriver;CustomIPTransport;vcldsnap;unidacvcl270;JvSystem;JvStdCtrls;bindcomp;appanalytics;IndyIPClient;bindcompvcl;TeeUI;JvDocking;dbxcds;VclSmp;JvPascalInterpreter;adortl;JclVcl;aurelius;dsnapxml;FMXTMSFNCChartPkgDXE13;dbrtl;IndyProtocols;inetdbxpress;JvControls;JvPrintPreview;JclContainers;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -122,6 +122,8 @@
             <DesignClass>TWebDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="uTEATTag.pas"/>
+        <DCCReference Include="uTEATAudit.pas"/>
+        <DCCReference Include="uTEATCommon.pas"/>
         <None Include="EduAssetTracker.html"/>
         <None Include="Manifest.json"/>
         <None Include="ServiceWorker.js"/>
@@ -161,7 +163,7 @@
                 </Source>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="ServiceWorker.js" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="IconResLow.png" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -209,7 +211,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="IconResLow.png" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ServiceWorker.js" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

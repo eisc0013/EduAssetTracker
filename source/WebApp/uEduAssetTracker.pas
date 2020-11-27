@@ -12,7 +12,7 @@ uses
   Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices,
   WEBLib.WebCtrls, WEBLib.SignIn, WEBLib.IndexedDb, DateUtils, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
-  VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast;
+  VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast, uTEATCommon;
 
 type
   TURIType = (Invalid, Full, Shortener);
@@ -98,6 +98,7 @@ type
     procedure WebFormDestroy(Sender: TObject);
     procedure edtAssetTagTextTestButtonClick(Sender: TObject);
     procedure btnTagAddClick(Sender: TObject);
+    procedure WebFormUnload(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -105,6 +106,7 @@ type
     fCamStopped: Boolean;
     fCamPaused: Boolean;
     fCamQRReader: Boolean;
+    fUtil: TEATUtil;
     procedure DrawAssetTag(APDF: TTMSFNCPDFLib; ALeft, ATop, ARight, ABottom: Integer; AQR: TBitmap);
     function GetAssetTagTextURLFragment(): String;
     procedure StartCamera();
@@ -119,7 +121,6 @@ type
     procedure TagLogItEventHandler(const pLogText: String);
   public
     { Public declarations }
-    function GetUUIDStr(): String;
     procedure LogIt(pLogText: String);
     procedure GoCamera();
   end;
@@ -130,7 +131,6 @@ const
   WEBAPP_URL = BASE_URL + '/EduAssetTracker.html';
   SHORTENER_URL = 'https://s.tgp.net/EAT/';
   API_URL = BASE_URL + '/api/';
-  UUID_STR_LEN = 36;
 
 var
   frmEAT: TfrmEAT;
@@ -249,7 +249,7 @@ end;
 procedure TfrmEAT.btnTagAddClick(Sender: TObject);
 begin
   dm.TagHelper.tTags.Insert;
-  dm.TagHelper.tTags.FieldByName('id').AsString := GetUUIDStr();
+  dm.TagHelper.tTags.FieldByName('id').AsString := fUtil.GetUUIDStr();
   dm.TagHelper.tTags.FieldByName('tagText').AsString := dm.TagHelper.TagText;
   dm.TagHelper.tTags.Post;
   dm.TagHelper.tTags.ApplyUpdates;
@@ -328,7 +328,7 @@ end;
 
 function TfrmEAT.GetAssetTagTextURLFragment: String;
 begin
-  Result := '?AssetId=' + GetUUIDStr;
+  Result := '?AssetId=' + fUtil.GetUUIDStr;
 end;
 
 function TfrmEAT.GetQRCodeSheetPDF(const pLayout: String): Boolean;
@@ -421,14 +421,6 @@ begin
   begin
     Result := Copy(pURI, Length(SHORTENER_URL) + 1, UUID_STR_LEN);
   end;
-end;
-
-function TfrmEAT.GetUUIDStr(): String;
-var
-  lGUID: TGUID;
-begin
-  CreateGUID(lGUID);
-  Result := Copy(LowerCase(GUIDToString(lGUID)), 2, UUID_STR_LEN);
 end;
 
 function TfrmEAT.IsAssetURI(const pURI: String): TURIType;
@@ -603,6 +595,8 @@ begin
 
   pc.ActivePageIndex := 0; // ALE 20201121 Welcome page
 
+  fUtil := TEATUtil.Create();
+
   dm.TagHelper := TEATTag.Create(dm.XDataConn);
   dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
   dm.TagHelper.OnTagIdChange := TagIdChangeHandler;
@@ -639,6 +633,11 @@ end;
 procedure TfrmEAT.WebFormShow(Sender: TObject);
 begin
 // Works fine  edtAssetTagText.Text := document.documentURI;
+end;
+
+procedure TfrmEAT.WebFormUnload(Sender: TObject);
+begin
+  fUtil.Free;
 end;
 
 procedure TfrmEAT.qrDecodeDecoded(Sender: TObject; ADecoded: string);

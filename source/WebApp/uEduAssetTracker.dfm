@@ -5,6 +5,7 @@ object frmEAT: TfrmEAT
   OnCreate = WebFormCreate
   OnDestroy = WebFormDestroy
   OnShow = WebFormShow
+  OnUnload = WebFormUnload
   object pc: TWebPageControl
     Left = 0
     Top = 0
@@ -14,7 +15,13 @@ object frmEAT: TfrmEAT
     WidthPercent = 100.000000000000000000
     Align = alClient
     ChildOrder = 13
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
     TabIndex = 1
+    ParentFont = False
     TabOrder = 0
     object tsWelcome: TWebTabSheet
       Left = 0
@@ -159,8 +166,6 @@ object frmEAT: TfrmEAT
         Padding.Top = 8
         Padding.Right = 8
         Padding.Bottom = 8
-        ExplicitTop = 355
-        ExplicitHeight = 101
         DesignSize = (
           458
           196)
