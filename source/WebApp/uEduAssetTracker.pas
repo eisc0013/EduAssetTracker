@@ -12,7 +12,7 @@ uses
   Vcl.Grids, Vcl.Menus, WEBLib.Menus, WEBLib.ComCtrls, WEBLib.Devices,
   WEBLib.WebCtrls, WEBLib.SignIn, WEBLib.IndexedDb, DateUtils, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
-  VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast, uTEATCommon;
+  VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast, uTEATCommon, uTEATAudit;
 
 type
   TURIType = (Invalid, Full, Shortener);
@@ -69,6 +69,7 @@ type
     edtTagId: TWebDBEdit;
     WebLabel1: TWebLabel;
     WebLabel6: TWebLabel;
+    btnFlushAudit: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -99,6 +100,7 @@ type
     procedure edtAssetTagTextTestButtonClick(Sender: TObject);
     procedure btnTagAddClick(Sender: TObject);
     procedure WebFormUnload(Sender: TObject);
+    procedure btnFlushAuditClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -107,6 +109,7 @@ type
     fCamPaused: Boolean;
     fCamQRReader: Boolean;
     fUtil: TEATUtil;
+    fAudit: TEATAudit;
     procedure DrawAssetTag(APDF: TTMSFNCPDFLib; ALeft, ATop, ARight, ABottom: Integer; AQR: TBitmap);
     function GetAssetTagTextURLFragment(): String;
     procedure StartCamera();
@@ -140,6 +143,11 @@ implementation
 {$R *.dfm}
 
 uses uDM, uTEATTag;
+
+procedure TfrmEAT.btnFlushAuditClick(Sender: TObject);
+begin
+  fAudit.FlushToServer;
+end;
 
 procedure TfrmEAT.btnQRCodeGoogleClick(Sender: TObject);
 var
@@ -253,6 +261,8 @@ begin
   dm.TagHelper.tTags.FieldByName('tagText').AsString := dm.TagHelper.TagText;
   dm.TagHelper.tTags.Post;
   dm.TagHelper.tTags.ApplyUpdates;
+  fAudit.AuditIt('tTags', dm.TagHelper.tTags.FieldByName('id').AsString,
+   'Asset added with tagText=' + dm.TagHelper.tTags.FieldByName('tagText').AsString);
   btnTagAdd.Enabled := False;
 end;
 
@@ -596,6 +606,8 @@ begin
   pc.ActivePageIndex := 0; // ALE 20201121 Welcome page
 
   fUtil := TEATUtil.Create();
+  fAudit := TEATAudit.Create(dm.XDataConn);
+  fAudit.OnLogItEvent := TagLogItEventHandler;
 
   dm.TagHelper := TEATTag.Create(dm.XDataConn);
   dm.TagHelper.OnTagTextChange := TagTextChangeHandler;
@@ -637,6 +649,8 @@ end;
 
 procedure TfrmEAT.WebFormUnload(Sender: TObject);
 begin
+  fAudit.FlushToServer;
+  fAudit.Free;
   fUtil.Free;
 end;
 

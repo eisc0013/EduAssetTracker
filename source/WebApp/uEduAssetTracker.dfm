@@ -20,7 +20,7 @@ object frmEAT: TfrmEAT
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    TabIndex = 1
+    TabIndex = 4
     ParentFont = False
     TabOrder = 0
     object tsWelcome: TWebTabSheet
@@ -651,6 +651,17 @@ object frmEAT: TfrmEAT
         ButtonSize = 24
         OnButtonClick = edtAssetTagTextTestButtonClick
         Text = ''
+      end
+      object btnFlushAudit: TWebButton
+        Left = 291
+        Top = 60
+        Width = 96
+        Height = 25
+        Caption = 'Flush Audit Log'
+        ChildOrder = 13
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnFlushAuditClick
       end
     end
   end

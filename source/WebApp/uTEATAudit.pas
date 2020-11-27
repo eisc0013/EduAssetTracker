@@ -3,7 +3,7 @@ unit uTEATAudit;
 interface
 
 uses
-  System.SysUtils, System.Classes, JS, XData.Web.Connection,
+  System.SysUtils, System.Classes, Web, JS, XData.Web.Connection,
   WEBLib.Modules, Data.DB, WEBLib.DB, XData.Web.JsonDataset,
   XData.Web.Dataset, XData.Web.Client, VCL.TMSFNCEdit, uTEATCommon;
 
@@ -36,11 +36,13 @@ type
     procedure tAuditAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
+    function PostAuditRecord(const pId, pTable_name, pId_row, pAudit: String): Boolean;
   public
     { Public declarations }
     constructor Create(const pXDataWebConn: TXDataWebConnection); overload;
     destructor Free(); overload;
     function AuditIt(const pTable_name, pId_row, pAudit: String): String;
+    procedure FlushToServer();
     procedure LogIt(const pLogText: String);
   published
     property TagId: String read FTagId;
@@ -61,15 +63,21 @@ implementation
 { TEATAudit }
 
 function TEATAudit.AuditIt(const pTable_name, pId_row, pAudit: String): String;
+var
+  lEncodedAudit: String;
 begin
   if FtAudit.Active then
   begin
-
+    LogIt('TEATAudit AuditIt to WebDataSet');
+    PostAuditRecord(FUtil.GetUUIDStr(), pTable_name, pId_row, pAudit);
   end
   else
   begin
+    LogIt('TEATAudit AuditIt to AuditItemQueue');
+    lEncodedAudit := window.btoa(pAudit);
     // ALE 20201127 Add item to the queue
-    FAuditItemQueue.Add(FUtil.GetUUIDStr);
+    FAuditItemQueue.Add(Format('%s="%s","%s","%s"',
+     [FUtil.GetUUIDStr(), pTable_name, pId_row, lEncodedAudit]));
   end;
 
 end;
@@ -87,6 +95,22 @@ begin
   FtAudit.AfterOpen := tAuditAfterOpen;
   FdsAudit := TWebDataSource.Create(nil);
   FdsAudit.DataSet := FtAudit;
+
+  FtAudit.QueryString := '$filter=id eq null';
+  FtAudit.Load;
+end;
+
+procedure TEATAudit.FlushToServer;
+begin
+  if FtAudit.Active then
+  begin
+    LogIt('TEATAudit FlushToServer triggered');
+    FtAudit.ApplyUpdates;
+  end
+  else
+  begin
+    LogIt('TEATAudit FlushToServer table not active');
+  end;
 end;
 
 destructor TEATAudit.Free;
@@ -110,12 +134,38 @@ begin
   end;
 end;
 
+function TEATAudit.PostAuditRecord(const pId, pTable_name, pId_row,
+  pAudit: String): Boolean;
+begin
+  Result := False;
+
+  if FtAudit.Active then
+  begin
+    FtAudit.Insert;
+    FtAudit.FieldByName('id').AsString := pId;
+    FtAudit.FieldByName('table_name').AsString := pTable_name;
+    FtAudit.FieldByName('id_row').AsString := pId_row;
+    FtAudit.FieldByName('audit').AsString := pAudit;
+    FtAudit.Post;
+    Result := True;
+  end;
+end;
+
 procedure TEATAudit.tAuditAfterOpen(DataSet: TDataSet);
+var
+  lAI, lItem: TStringList;
 begin
   //dsTags.Enabled := True;
   LogIt('TEATAudit tAudit Opened');
 
   // TODO ALE 20201127 replay our queued audit items to the dataset
+  lItem := TStringList.Create;
+  lAI := FAuditItemQueue;
+  while FAuditItemQueue.Count > 0 do
+  begin
+    lItem.CommaText := lAI.ValueFromIndex[0];
+    PostAuditRecord(lAI.Names[0], lItem[0], lItem[1], window.btoa(lItem[2]));
+  end;
 
   if Assigned(FAuditOpenEvent) then
   begin
@@ -137,7 +187,7 @@ begin
     // ALE 20201124 start the lookup of the tag
     //FtTags.Refresh;
     FtAudit.Close;
-    FtAudit.QueryString := '$filter=tagText eq ''' + pTagText + ''' AND deactivatedDate eq null';
+    FtAudit.QueryString := '$filter=id eq null';
     FtAudit.Load;
 
     if Assigned(FTextEdit1) then
