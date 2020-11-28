@@ -1116,6 +1116,56 @@ object frmEAT: TfrmEAT
               end
             end
           end
+          object pnlAITag: TWebPanel
+            AlignWithMargins = True
+            Left = 1147
+            Top = 319
+            Width = 377
+            Height = 311
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            ChildOrder = 4
+            object WebPanel3: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 31
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel14: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'Tags'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 40
+              end
+            end
+          end
         end
       end
     end
