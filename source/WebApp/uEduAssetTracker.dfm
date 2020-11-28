@@ -1,16 +1,17 @@
 object frmEAT: TfrmEAT
-  Width = 458
-  Height = 499
+  Width = 1900
+  Height = 1000
   Caption = 'EduAssetTracker'
   OnCreate = WebFormCreate
   OnDestroy = WebFormDestroy
+  OnResize = WebFormResize
   OnShow = WebFormShow
   OnUnload = WebFormUnload
   object pc: TWebPageControl
     Left = 0
     Top = 0
-    Width = 458
-    Height = 499
+    Width = 1900
+    Height = 1000
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     Align = alClient
@@ -20,34 +21,38 @@ object frmEAT: TfrmEAT
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    TabIndex = 1
+    TabIndex = 5
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 1200
+    ExplicitHeight = 499
     object tsWelcome: TWebTabSheet
       Left = 0
       Top = 20
-      Width = 458
-      Height = 479
+      Width = 1900
+      Height = 980
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       Caption = 'Welcome'
       DesignSize = (
-        458
-        479)
+        1900
+        980)
       object lblFirstAccess: TWebLabel
         Left = 8
-        Top = 456
-        Width = 314
+        Top = 957
+        Width = 1756
         Height = 13
         Anchors = [akLeft, akRight, akBottom]
         AutoSize = False
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
+        ExplicitTop = 456
+        ExplicitWidth = 314
       end
       object btnWelcomeContinue: TWebButton
         Left = 159
         Top = 5
-        Width = 96
+        Width = 1538
         Height = 38
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Continue'
@@ -55,10 +60,11 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnWelcomeContinueClick
+        ExplicitWidth = 96
       end
       object btnWelcomeResetFirstAccess: TWebButton
-        Left = 328
-        Top = 451
+        Left = 1770
+        Top = 952
         Width = 105
         Height = 25
         Anchors = [akRight, akBottom]
@@ -68,12 +74,14 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnWelcomeResetFirstAccessClick
+        ExplicitLeft = 328
+        ExplicitTop = 451
       end
       object lblWelcomeMessage: TTMSFNCHTMLText
         Left = 3
         Top = 48
-        Width = 444
-        Height = 402
+        Width = 1886
+        Height = 903
         ParentDoubleBuffered = False
         Anchors = [akLeft, akTop, akRight, akBottom]
         Color = clBtnFace
@@ -99,13 +107,15 @@ object frmEAT: TfrmEAT
           'The App interprets the QR code entirely on your device and extra' +
           'cts the AssetId embedded in the QR code.</FONT> '
         WordWrapping = True
+        ExplicitWidth = 444
+        ExplicitHeight = 402
       end
     end
     object tsScanAsset: TWebTabSheet
       Left = 0
       Top = 20
-      Width = 458
-      Height = 479
+      Width = 1900
+      Height = 980
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       Caption = 'Scan Asset'
@@ -115,7 +125,7 @@ object frmEAT: TfrmEAT
       object pnlCam: TWebPanel
         Left = 0
         Top = 33
-        Width = 458
+        Width = 1900
         Height = 224
         Margins.Left = 4
         Margins.Top = 4
@@ -125,11 +135,12 @@ object frmEAT: TfrmEAT
         Align = alTop
         BorderColor = clSilver
         BorderStyle = bsSingle
+        ExplicitWidth = 458
         object cam: TWebCamera
           AlignWithMargins = True
           Left = 4
           Top = 4
-          Width = 450
+          Width = 1892
           Height = 216
           Margins.Left = 4
           Margins.Top = 4
@@ -144,13 +155,14 @@ object frmEAT: TfrmEAT
           OnCameraResume = camCameraResume
           OnCameraStreamPlay = camCameraStreamPlay
           OnCameraStop = camCameraStop
+          ExplicitWidth = 450
         end
       end
       object pnlScanMemo: TWebPanel
         Left = 0
         Top = 257
-        Width = 458
-        Height = 196
+        Width = 1900
+        Height = 697
         Margins.Left = 8
         Margins.Top = 8
         Margins.Right = 8
@@ -166,12 +178,14 @@ object frmEAT: TfrmEAT
         Padding.Top = 8
         Padding.Right = 8
         Padding.Bottom = 8
+        ExplicitWidth = 458
+        ExplicitHeight = 196
         DesignSize = (
-          458
-          196)
+          1900
+          697)
         object WebLabel1: TWebLabel
           Left = 13
-          Top = 10
+          Top = 511
           Width = 32
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -179,10 +193,11 @@ object frmEAT: TfrmEAT
           Color = clBtnFace
           HeightPercent = 100.000000000000000000
           WidthPercent = 100.000000000000000000
+          ExplicitTop = 10
         end
         object WebLabel6: TWebLabel
           Left = 13
-          Top = 34
+          Top = 535
           Width = 44
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -190,11 +205,12 @@ object frmEAT: TfrmEAT
           Color = clBtnFace
           HeightPercent = 100.000000000000000000
           WidthPercent = 100.000000000000000000
+          ExplicitTop = 34
         end
         object memScanAsset: TWebMemo
           Left = 8
-          Top = 88
-          Width = 442
+          Top = 589
+          Width = 1884
           Height = 100
           Margins.Left = 8
           Margins.Top = 8
@@ -208,6 +224,8 @@ object frmEAT: TfrmEAT
           SelLength = 0
           SelStart = 0
           WidthPercent = 100.000000000000000000
+          ExplicitTop = 88
+          ExplicitWidth = 442
         end
         object btnTagAdd: TWebButton
           Left = 328
@@ -223,7 +241,7 @@ object frmEAT: TfrmEAT
         end
         object edtTagText: TWebDBEdit
           Left = 61
-          Top = 30
+          Top = 531
           Width = 230
           Height = 22
           Anchors = [akLeft, akBottom]
@@ -231,10 +249,11 @@ object frmEAT: TfrmEAT
           HeightPercent = 100.000000000000000000
           Text = 'edtTagText'
           WidthPercent = 100.000000000000000000
+          ExplicitTop = 30
         end
         object edtTagId: TWebDBEdit
           Left = 61
-          Top = 6
+          Top = 507
           Width = 230
           Height = 22
           Anchors = [akLeft, akBottom]
@@ -242,12 +261,13 @@ object frmEAT: TfrmEAT
           HeightPercent = 100.000000000000000000
           Text = 'edtTagId'
           WidthPercent = 100.000000000000000000
+          ExplicitTop = 6
         end
       end
       object pnlScanHeader: TWebPanel
         Left = 0
         Top = 0
-        Width = 458
+        Width = 1900
         Height = 33
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
@@ -262,11 +282,12 @@ object frmEAT: TfrmEAT
         Font.Name = 'Tahoma'
         Font.Style = [fsUnderline]
         ParentFont = False
+        ExplicitWidth = 458
       end
       object pnlAssetTagText: TWebPanel
         Left = 0
-        Top = 453
-        Width = 458
+        Top = 954
+        Width = 1900
         Height = 26
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
@@ -274,8 +295,10 @@ object frmEAT: TfrmEAT
         BorderColor = clSilver
         BorderStyle = bsSingle
         ChildOrder = 3
+        ExplicitTop = 453
+        ExplicitWidth = 458
         DesignSize = (
-          458
+          1900
           26)
         object lblAssetTagText: TWebLabel
           AlignWithMargins = True
@@ -294,7 +317,7 @@ object frmEAT: TfrmEAT
         object edtAssetTagText: TTMSFNCEditButton
           Left = 88
           Top = 1
-          Width = 357
+          Width = 1799
           Height = 22
           ParentDoubleBuffered = False
           Anchors = [akLeft, akTop, akRight, akBottom]
@@ -302,14 +325,15 @@ object frmEAT: TfrmEAT
           TabOrder = 0
           OnButtonClick = edtAssetTagTextButtonClick
           Text = ''
+          ExplicitWidth = 357
         end
       end
     end
     object tsSignIn: TWebTabSheet
       Left = 0
       Top = 20
-      Width = 458
-      Height = 479
+      Width = 1900
+      Height = 980
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       Caption = 'Sign In'
@@ -361,8 +385,8 @@ object frmEAT: TfrmEAT
     object tsLog: TWebTabSheet
       Left = 0
       Top = 20
-      Width = 458
-      Height = 479
+      Width = 1900
+      Height = 980
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       Caption = 'Log'
@@ -370,8 +394,8 @@ object frmEAT: TfrmEAT
       object memLog: TWebMemo
         Left = 0
         Top = 0
-        Width = 458
-        Height = 479
+        Width = 1900
+        Height = 980
         Align = alClient
         AutoSize = False
         HeightPercent = 100.000000000000000000
@@ -381,20 +405,22 @@ object frmEAT: TfrmEAT
         SelStart = 0
         WidthPercent = 100.000000000000000000
         WordWrap = False
+        ExplicitWidth = 458
+        ExplicitHeight = 479
       end
     end
     object tsDev: TWebTabSheet
       Left = 0
       Top = 20
-      Width = 458
-      Height = 479
+      Width = 1900
+      Height = 980
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       Caption = 'Development'
       ChildOrder = 4
       DesignSize = (
-        458
-        479)
+        1900
+        980)
       object WebLabel3: TWebLabel
         Left = 16
         Top = 0
@@ -461,7 +487,7 @@ object frmEAT: TfrmEAT
       object WebDBGrid1: TWebDBGrid
         Left = 8
         Top = 367
-        Width = 439
+        Width = 1881
         Height = 120
         Anchors = [akLeft, akTop, akRight]
         Columns = <
@@ -486,6 +512,7 @@ object frmEAT: TfrmEAT
         TabOrder = 3
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
+        ExplicitWidth = 439
         ColWidths = (
           24
           64
@@ -495,8 +522,8 @@ object frmEAT: TfrmEAT
       end
       object pnlAssetType: TWebPanel
         Left = 0
-        Top = 355
-        Width = 458
+        Top = 856
+        Width = 1900
         Height = 124
         Margins.Left = 4
         Margins.Top = 4
@@ -512,6 +539,8 @@ object frmEAT: TfrmEAT
         Padding.Top = 4
         Padding.Right = 4
         Padding.Bottom = 4
+        ExplicitTop = 355
+        ExplicitWidth = 458
         object WebLabel2: TWebLabel
           Left = 8
           Top = 8
@@ -662,6 +691,432 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnFlushAuditClick
+      end
+    end
+    object tsAssetInfo: TWebTabSheet
+      AlignWithMargins = True
+      Left = 0
+      Top = 20
+      Width = 1900
+      Height = 980
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = 'Asset Information'
+      ChildOrder = 5
+      object pnlAITagText: TWebPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 1892
+        Height = 60
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        Align = alTop
+        BorderColor = clSilver
+        BorderStyle = bsSingle
+        Caption = 'Tag Text: <no active tag>'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -21
+        Font.Name = 'Tahoma'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        ExplicitLeft = -12
+        ExplicitTop = 5
+        ExplicitWidth = 150
+      end
+      object pnlAIAssetInfo: TWebPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 68
+        Width = 1892
+        Height = 908
+        Margins.Left = 4
+        Margins.Top = 0
+        Margins.Right = 4
+        Margins.Bottom = 4
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        Align = alClient
+        BorderColor = clSilver
+        BorderStyle = bsSingle
+        ChildOrder = 1
+        ExplicitLeft = 72
+        ExplicitTop = 144
+        ExplicitWidth = 150
+        ExplicitHeight = 60
+        object scAI: TWebScrollBox
+          AlignWithMargins = True
+          Left = 4
+          Top = 4
+          Width = 1884
+          Height = 900
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          HeightPercent = 100.000000000000000000
+          WidthPercent = 100.000000000000000000
+          Align = alClient
+          AutoScroll = True
+          BorderStyle = bsSingle
+          ExplicitTop = 24
+          object pnlAIAsset: TWebPanel
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 377
+            Height = 626
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            object pnlAIAssetId: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 32
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel7: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'Assets'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 51
+              end
+            end
+          end
+          object pnlAIAssetType: TWebPanel
+            AlignWithMargins = True
+            Left = 385
+            Top = 4
+            Width = 377
+            Height = 311
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            ChildOrder = 1
+            object WebPanel2: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 31
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel8: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'Asset Types'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 98
+              end
+            end
+          end
+          object pnlAIPerson: TWebPanel
+            AlignWithMargins = True
+            Left = 766
+            Top = 4
+            Width = 377
+            Height = 311
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            ChildOrder = 2
+            object WebPanel4: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 31
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel9: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'People'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 55
+              end
+            end
+          end
+          object pnlAIRoom: TWebPanel
+            Left = 1147
+            Top = 4
+            Width = 377
+            Height = 311
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            ChildOrder = 3
+            object WebPanel6: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 31
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel10: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'Rooms'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 56
+              end
+            end
+          end
+          object pnlAIBuilding: TWebPanel
+            Left = 1528
+            Top = 4
+            Width = 377
+            Height = 311
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            ChildOrder = 4
+            object WebPanel8: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 31
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel11: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'Buildings'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 75
+              end
+            end
+          end
+          object pnlAIVendor: TWebPanel
+            AlignWithMargins = True
+            Left = 385
+            Top = 319
+            Width = 377
+            Height = 311
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            ChildOrder = 4
+            object WebPanel10: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 31
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel12: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'Vendors'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 68
+              end
+            end
+          end
+          object pnlAIDocument: TWebPanel
+            AlignWithMargins = True
+            Left = 766
+            Top = 319
+            Width = 377
+            Height = 311
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 0
+            Margins.Bottom = 0
+            HeightPercent = 100.000000000000000000
+            WidthPercent = 100.000000000000000000
+            BorderColor = clSilver
+            BorderStyle = bsSingle
+            ChildOrder = 4
+            object WebPanel12: TWebPanel
+              Left = 0
+              Top = 0
+              Width = 377
+              Height = 31
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              object WebLabel13: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 23
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Align = alTop
+                Alignment = taCenter
+                Caption = 'Documents'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -19
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeightPercent = 100.000000000000000000
+                ParentFont = False
+                WidthPercent = 100.000000000000000000
+                ExplicitWidth = 94
+              end
+            end
+          end
+        end
       end
     end
   end

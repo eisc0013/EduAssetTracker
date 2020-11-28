@@ -71,6 +71,31 @@ type
     WebLabel1: TWebLabel;
     WebLabel6: TWebLabel;
     btnFlushAudit: TWebButton;
+    tsAssetInfo: TWebTabSheet;
+    pnlAITagText: TWebPanel;
+    pnlAIAssetInfo: TWebPanel;
+    scAI: TWebScrollBox;
+    pnlAIAsset: TWebPanel;
+    pnlAIAssetId: TWebPanel;
+    pnlAIAssetType: TWebPanel;
+    WebPanel2: TWebPanel;
+    pnlAIPerson: TWebPanel;
+    WebPanel4: TWebPanel;
+    pnlAIRoom: TWebPanel;
+    WebPanel6: TWebPanel;
+    pnlAIBuilding: TWebPanel;
+    WebPanel8: TWebPanel;
+    WebLabel7: TWebLabel;
+    WebLabel8: TWebLabel;
+    WebLabel9: TWebLabel;
+    WebLabel10: TWebLabel;
+    WebLabel11: TWebLabel;
+    pnlAIVendor: TWebPanel;
+    WebPanel10: TWebPanel;
+    WebLabel12: TWebLabel;
+    pnlAIDocument: TWebPanel;
+    WebPanel12: TWebPanel;
+    WebLabel13: TWebLabel;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -102,6 +127,7 @@ type
     procedure btnTagAddClick(Sender: TObject);
     procedure WebFormUnload(Sender: TObject);
     procedure btnFlushAuditClick(Sender: TObject);
+    procedure WebFormResize(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -274,6 +300,12 @@ begin
   if (pNewId = '') AND (dm.TagHelper.TagText <> '') then
   begin
     btnTagAdd.Enabled := True;
+  end
+  else
+  begin
+    pnlAITagText.Caption := 'Tag Text: ' + dm.TagHelper.TagText;
+    PauseCamera;
+    pc.ActivePage := tsAssetInfo;
   end;
 end;
 
@@ -633,6 +665,119 @@ end;
 procedure TfrmEAT.WebFormDestroy(Sender: TObject);
 begin
   // ALE 20201124 gets called when we are loading the SPA dm.TagHelper.Free;
+end;
+
+procedure TfrmEAT.WebFormResize(Sender: TObject);
+var
+  lCols: NativeInt;
+  lRows: NativeInt;
+  lRow, lCol: NativeInt;
+  lTop, lLeft: NativeInt;
+  lPanel: NativeInt;
+begin
+  // ALE 20201127 Crazy responsive layout code here
+  //  the individual panels on the Asset Info tab can be 377 pixels
+  //  to work with the Google Pixel 4a
+  // With margins, the main form can be 401 pixels to host that 377 pixel
+  //  wide panel.  385 pixels is width of scAI at one column
+  // Order when stacked vertical one column
+  //  0 - Assets
+  //  1 - Asset Types
+  //  2 - People
+  //  3 - Rooms
+  //  4 - Buildings
+  //  5 - Vendors
+  //  6 - Docments
+  //  7 - Tags if needed
+  // When stacked vertical two column
+  //  0 - Assets,    1 - Asset Types
+  //                 2 - People
+  //  3 - Rooms,     4 - Buildings
+  //  5 - Vendors,   6 - Documents
+  //  7 - Tags
+  // When stacked vertical three column
+  //  0 - Assets,    1 - Asset Types, 2 - People
+  //                 3 - Rooms,       4 - Buildings
+  //  5 - Vendors,   6 - Documents,   7 - Tags
+  // When stacked vertical four column
+  //  0 - Assets,    1 - Asset Types, 2 - People,    3 - Rooms
+  //  4 - Buildings, 5 - Vendors,     6 - Documents, 7 - Tags
+
+
+  //scAI.Width;
+  //scAI.Height;
+  lCols := (frmEAT.Width - 30) div  (pnlAIAsset.Width + 4);
+  if lCols < 1 then
+    lCols := 1
+  else if lCols > 4 then
+    lCols := 4;
+
+  case lCols of
+    1: lRows := 8;
+    2: lRows := 5;
+    3: lRows := 3;
+    4: lRows := 2;
+  end;
+
+  lTop := 4;
+  lLeft := 4;
+  lPanel := 0;
+  for lRow := 0 to lRows do
+  begin
+    for lCol := 0 to lCols do
+    begin
+      case lPanel of
+        0:
+        begin
+          pnlAIAsset.Left := lLeft;
+          pnlAIAsset.Top := lTop;
+        end;
+        1:
+        begin
+          case lCols of
+            1:
+            begin
+              pnlAIAssetType.Left := 4;
+              pnlAIAssetType.Top := pnlAIAsset.Top + pnlAIAsset.Height + 4;
+            end;
+            2:
+            begin
+              pnlAIAssetType.Left := pnlAIAsset.Left + pnlAIAsset.Width + 4;
+              pnlAIAssetType.Top := 4;
+            end;
+          end;
+        end;
+        2:
+        begin
+
+        end;
+        3:
+        begin
+
+        end;
+        4:
+        begin
+
+        end;
+        5:
+        begin
+
+        end;
+        6:
+        begin
+
+        end;
+        7:
+        begin
+
+        end;
+      end;
+      Inc(lPanel);
+    end;
+  end;
+
+
+  LogIt('Max Columns: ' + IntToStr(lCols));
 end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
