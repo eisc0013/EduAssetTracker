@@ -19,8 +19,8 @@ object dm: Tdm
     EntitySetName = 'tAssetType'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount
-    Left = 88
-    Top = 8
+    Left = 248
+    Top = 64
     object tAssetTypeid: TStringField
       FieldName = 'id'
       ReadOnly = True
@@ -42,8 +42,8 @@ object dm: Tdm
   object dsAssetType: TWebDataSource
     DataSet = tAssetType
     Enabled = False
-    Left = 152
-    Top = 8
+    Left = 312
+    Top = 64
   end
   object dsEATClient: TWebDataSource
     DataSet = dbEATClient
@@ -90,6 +90,71 @@ object dm: Tdm
   object dsTags: TWebDataSource
     DataSet = tTags
     Left = 312
+    Top = 8
+  end
+  object tAsset: TXDataWebDataSet
+    AfterOpen = tAssetAfterOpen
+    EntitySetName = 'tAsset'
+    Connection = XDataConn
+    Left = 88
+    Top = 8
+    object tAssettagId: TXDataWebEntityField
+      FieldName = 'tagId'
+    end
+    object tAssetroomId: TXDataWebEntityField
+      FieldName = 'roomId'
+    end
+    object tAssettypeId2: TXDataWebEntityField
+      FieldName = 'typeId'
+    end
+    object tAssetvendorId: TXDataWebEntityField
+      FieldName = 'vendorId'
+    end
+    object tAssetid: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object tAssetmake: TStringField
+      FieldName = 'make'
+      Size = 50
+    end
+    object tAssetmodel: TStringField
+      FieldName = 'model'
+      Size = 50
+    end
+    object tAssetserialNumber: TStringField
+      FieldName = 'serialNumber'
+      Size = 50
+    end
+    object tAssetpurchaseDate: TDateTimeField
+      FieldName = 'purchaseDate'
+    end
+    object tAssetpurchaseInvoice: TStringField
+      FieldName = 'purchaseInvoice'
+      Size = 50
+    end
+    object tAssetpurchasePrice: TIntegerField
+      FieldName = 'purchasePrice'
+    end
+    object tAssetwarrantyDurationDays: TIntegerField
+      FieldName = 'warrantyDurationDays'
+    end
+    object tAssetpurchaseNotes: TStringField
+      FieldName = 'purchaseNotes'
+      Size = 2047
+    end
+    object tAssetnotes: TStringField
+      FieldName = 'notes'
+      Size = 2047
+    end
+    object tAssetdeactivatedDate: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsAsset: TWebDataSource
+    DataSet = tAsset
+    Left = 144
     Top = 8
   end
 end

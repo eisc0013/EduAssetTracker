@@ -26,11 +26,30 @@ uses
     tTagsid: TStringField;
     tTagstagText: TStringField;
     tTagsdeactivatedDate: TDateTimeField;
+    tAsset: TXDataWebDataSet;
+    dsAsset: TWebDataSource;
+    tAssettagId: TXDataWebEntityField;
+    tAssetroomId: TXDataWebEntityField;
+    tAssettypeId2: TXDataWebEntityField;
+    tAssetvendorId: TXDataWebEntityField;
+    tAssetid: TStringField;
+    tAssetmake: TStringField;
+    tAssetmodel: TStringField;
+    tAssetserialNumber: TStringField;
+    tAssetpurchaseDate: TDateTimeField;
+    tAssetpurchaseInvoice: TStringField;
+    tAssetpurchasePrice: TIntegerField;
+    tAssetwarrantyDurationDays: TIntegerField;
+    tAssetpurchaseNotes: TStringField;
+    tAssetnotes: TStringField;
+    tAssetdeactivatedDate: TDateTimeField;
     procedure dbEATClientAfterOpen(DataSet: TDataSet);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
     procedure XDataClientLoad(Response: TXDataClientResponse);
     procedure tTagsAfterOpen(DataSet: TDataSet);
     procedure XDataConnConnect(Sender: TObject);
+    procedure tAssetAfterOpen(DataSet: TDataSet);
+    procedure tTagsdeactivatedChange(Sender: TField);
   private
     { Private declarations }
   public
@@ -73,6 +92,13 @@ begin
   frmEAT.btnWelcomeResetFirstAccess.Enabled := True;
 end;
 
+procedure Tdm.tAssetAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tAsset Opened');
+  dsAsset.Enabled := True;
+  tAsset.First;
+end;
+
 procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetType Opened');
@@ -85,6 +111,12 @@ begin
   frmEAT.LogIt('tTags Opened');
   dsTags.Enabled := True;
   tTags.First;
+  frmEAT.LogIt('tTags.id=' + tTags.FieldByName('id').AsString);
+end;
+
+procedure Tdm.tTagsdeactivatedChange(Sender: TField);
+begin
+  ShowMessage('OnChange');
 end;
 
 procedure Tdm.XDataClientLoad(Response: TXDataClientResponse);
@@ -94,8 +126,9 @@ end;
 
 procedure Tdm.XDataConnConnect(Sender: TObject);
 begin
-  //tAssetType.Load;
-  //tTags.Load;
+  tAsset.Load;
+  tAssetType.Load;
+  tTags.Load;
 end;
 
 end.

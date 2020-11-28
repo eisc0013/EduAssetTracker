@@ -13,7 +13,7 @@ uses
   WEBLib.WebCtrls, WEBLib.SignIn, WEBLib.IndexedDb, DateUtils, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
   VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast,
-  WinAPI.Windows, uDM, uTEATCommon, uTEATAudit;
+  WinAPI.Windows, uDM, uTEATCommon, uTEATAudit, Vcl.Mask, WEBLib.Mask;
 
 type
   TURIType = (Invalid, Full, Shortener);
@@ -76,7 +76,7 @@ type
     pnlAIAssetInfo: TWebPanel;
     scAI: TWebScrollBox;
     pnlAIAsset: TWebPanel;
-    pnlAIAssetId: TWebPanel;
+    pnlAIAssetHeader: TWebPanel;
     pnlAIAssetType: TWebPanel;
     WebPanel2: TWebPanel;
     pnlAIPerson: TWebPanel;
@@ -99,6 +99,28 @@ type
     pnlAITag: TWebPanel;
     WebPanel3: TWebPanel;
     WebLabel14: TWebLabel;
+    pnlAIAssetId: TWebPanel;
+    edtAIAssetId: TWebDBEdit;
+    WebLabel15: TWebLabel;
+    pnlAIAssetsDBNav: TWebPanel;
+    dbnAsset: TWebDBNavigator;
+    WebLabel16: TWebLabel;
+    edtAITagId: TWebDBLookupComboBox;
+    WebLabel17: TWebLabel;
+    edtAITypeId: TWebDBLookupComboBox;
+    edtRoomId: TWebDBLookupComboBox;
+    WebLabel18: TWebLabel;
+    pnlAITagDBNav: TWebPanel;
+    dbnTag: TWebDBNavigator;
+    WebPanel1: TWebPanel;
+    WebLabel19: TWebLabel;
+    edtAITagTagId: TWebDBEdit;
+    pnlAITagDetail: TWebPanel;
+    WebLabel20: TWebLabel;
+    edtAITagText: TWebDBEdit;
+    WebLabel21: TWebLabel;
+    WebDBEdit4: TWebDBEdit;
+    btnAITagsFlush: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -131,6 +153,7 @@ type
     procedure WebFormUnload(Sender: TObject);
     procedure btnFlushAuditClick(Sender: TObject);
     procedure WebFormResize(Sender: TObject);
+    procedure btnAITagsFlushClick(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -152,6 +175,7 @@ type
     procedure TagTextChangeHandler(const pOldText, pNewText: String);
     procedure TagIdChangeHandler(const pOldId, pNewId: String);
     procedure TagLogItEventHandler(const pLogText: String);
+    procedure ArrangeAIPanels();
   public
     { Public declarations }
     procedure LogIt(pLogText: String);
@@ -173,6 +197,184 @@ implementation
 {$R *.dfm}
 
 uses uDM, uTEATTag;
+
+procedure TfrmEAT.ArrangeAIPanels;
+const
+  P_ASSET = 0;
+  P_ASSETT = 1;
+  P_PER = 2;
+  P_ROOM = 3;
+  P_BLDG = 4;
+  P_VEND = 5;
+  P_DOC = 6;
+  P_TAG = 7;
+  MRG = 4;
+var
+  lCols: NativeInt;
+  lRows: NativeInt;
+  lTop, lLeft: NativeInt;
+  lPH: array[P_ASSET..P_TAG] of NativeInt; // ALE 20201128 heights of panels
+  lPW: array[P_ASSET..P_TAG] of NativeInt; // ALE 20201128 widths of panels
+begin
+  // ALE 20201127 Crazy responsive layout code here
+  //  the individual panels on the Asset Info tab can be 377 pixels
+  //  to work with the Google Pixel 4a
+  // With margins, the main form can be 401 pixels to host that 377 pixel
+  //  wide panel.  385 pixels is width of scAI at one column
+  // Order when stacked vertical one column
+  //  0 - Assets
+  //  1 - Asset Types
+  //  2 - People
+  //  3 - Rooms
+  //  4 - Buildings
+  //  5 - Vendors
+  //  6 - Docments
+  //  7 - Tags if needed
+  // When stacked vertical two column
+  //  0 - Assets,    1 - Asset Types
+  //                 2 - People
+  //  3 - Rooms,     4 - Buildings
+  //  5 - Vendors,   6 - Documents
+  //  7 - Tags
+  // When stacked vertical three column
+  //  0 - Assets,    1 - Asset Types, 2 - People
+  //                 3 - Rooms,       4 - Buildings
+  //  5 - Vendors,   6 - Documents,   7 - Tags
+  // When stacked vertical four column
+  //  0 - Assets,    1 - Asset Types, 2 - People,    3 - Rooms
+  //                 4 - Buildings,   5 - Vendors,   6 - Documents,
+  //  7 - Tags
+  lPH[P_ASSET] := pnlAIAsset.Height + MRG;
+  lPH[P_ASSETT] := pnlAIAssetType.Height + MRG;
+  lPH[P_PER] := pnlAIPerson.Height + MRG;
+  lPH[P_ROOM] := pnlAIRoom.Height + MRG;
+  lPH[P_BLDG] := pnlAIBuilding.Height + MRG;
+  lPH[P_VEND] := pnlAIVendor.Height + MRG;
+  lPH[P_DOC] := pnlAIDocument.Height + MRG;
+  lPH[P_TAG] := pnlAITag.Height + MRG;
+  lPW[P_ASSET] := pnlAIAsset.Width + MRG;
+  lPW[P_ASSETT] := pnlAIAssetType.Width + MRG;
+  lPW[P_PER] := pnlAIPerson.Width + MRG;
+  lPW[P_ROOM] := pnlAIRoom.Width + MRG;
+  lPW[P_BLDG] := pnlAIBuilding.Width + MRG;
+  lPW[P_VEND] := pnlAIVendor.Width + MRG;
+  lPW[P_DOC] := pnlAIDocument.Width + MRG;
+  lPw[P_TAG] := pnlAITag.Width + MRG;
+
+  //scAI.Width;
+  //scAI.Height;
+  lCols := (frmEAT.Width - 30) div  (pnlAIAsset.Width + MRG);
+  LogIt('ArrangeAIPanels Max Columns: ' + IntToStr(lCols));
+  if lCols < 1 then
+    lCols := 1
+  else if lCols > 4 then
+    lCols := 4;
+
+  lTop := MRG;
+  lLeft := MRG;
+
+  if lCols = 1 then
+  begin
+    pnlAIAsset.Left := lLeft;
+    pnlAIAsset.Top := lTop;
+    pnlAIAssetType.Left := lLeft;
+    pnlAIAssetType.Top := lTop + lPH[P_ASSET];
+    pnlAIPerson.Left := lLeft;
+    pnlAIPerson.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT];
+    pnlAIRoom.Left := lLeft;
+    pnlAIRoom.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER];
+    pnlAIBuilding.Left := lLeft;
+    pnlAIBuilding.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM];
+    pnlAIVendor.Left := lLeft;
+    pnlAIVendor.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM] + lPH[P_ROOM];
+    pnlAIDocument.Left := lLeft;
+    pnlAIDocument.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM] + lPH[P_ROOM] + lPH[P_VEND];
+    pnlAITag.Left := lLeft;
+    pnlAITag.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM] + lPH[P_ROOM] + lPH[P_VEND] + lPH[P_DOC];
+  end
+  else if lCols = 2 then
+  begin
+    // ALE 20201128 Row 0, Col 0
+    pnlAIAsset.Left := lLeft;
+    pnlAIAsset.Top := lTop;
+    // ALE 20201128 Row 0, Col 1
+    pnlAIAssetType.Left := lLeft + lPW[P_ASSET];
+    pnlAIAssetType.Top := lTop;
+    // ALE 20201128 Row 1, Col 1
+    pnlAIPerson.Left := lLeft + lPW[P_ASSET];
+    pnlAIPerson.Top := lTop + lPH[P_ASSETT];
+    // ALE 20201128 Row 2
+    pnlAIRoom.Left := lLeft;
+    pnlAIRoom.Top := lTop + lPH[P_ASSET];
+    pnlAIBuilding.Left := lLeft + lPW[P_ASSET];
+    pnlAIBuilding.Top := lTop + lPH[P_ASSETT] + lPH[P_PER];
+    // ALE 20201128 Row 3
+    pnlAIVendor.Left := lLeft;
+    pnlAIVendor.Top := lTop + lPH[P_ASSET] + lPH[P_PER];
+    pnlAIDocument.Left := lLeft + lPW[P_ASSET];
+    pnlAIDocument.Top := lTop + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_BLDG];
+    // ALE 20201128 Row 4
+    pnlAITag.Left := lLeft;
+    pnlAITag.Top := lTop + lPH[P_ASSET] + lPH[P_PER] + lPH[P_VEND];
+  end
+  else if lCols = 3 then
+  begin
+    // ALE 20201128 Row 0, Col 0
+    pnlAIAsset.Left := lLeft;
+    pnlAIAsset.Top := lTop;
+    // ALE 20201128 Row 0, Col 1
+    pnlAIAssetType.Left := lLeft + lPW[P_ASSET];
+    pnlAIAssetType.Top := lTop;
+    // ALE 20201128 Row 0, Col 2
+    pnlAIPerson.Left := lLeft + lPW[P_ASSET] + lPW[P_ASSETT];
+    pnlAIPerson.Top := lTop;
+    // ALE 20201128 Row 1, Col 1
+    pnlAIRoom.Left := lLeft + lPW[P_ASSET];
+    pnlAIRoom.Top := lTop + lPH[P_ASSETT];
+    // ALE 20201128 Row 1, Col 2
+    pnlAIBuilding.Left := lLeft + lPW[P_ASSET] + lPW[P_ROOM];
+    pnlAIBuilding.Top := lTop + lPH[P_ASSETT];
+    // ALE 20201128 Row 2
+    pnlAIVendor.Left := lLeft;
+    pnlAIVendor.Top := lTop + lPH[P_ASSET];
+    pnlAIDocument.Left := lLeft + lPW[P_VEND];
+    pnlAIDocument.Top := lTop + lPH[P_ASSETT] + lPH[P_ROOM];
+    pnlAITag.Left := lLeft + lPW[P_VEND] + lPW[P_DOC];
+    pnlAITag.Top :=  lTop + lPH[P_ASSETT] + lPH[P_ROOM];
+  end
+  else if lCols = 4 then
+  begin
+    // ALE 20201128 Row 0, Col 0
+    pnlAIAsset.Left := lLeft;
+    pnlAIAsset.Top := lTop;
+    // ALE 20201128 Row 0, Col 1
+    pnlAIAssetType.Left := lLeft + lPW[P_ASSET];
+    pnlAIAssetType.Top := lTop;
+    // ALE 20201128 Row 0, Col 2
+    pnlAIPerson.Left := lLeft + lPW[P_ASSET] + lPW[P_ASSETT];
+    pnlAIPerson.Top := lTop;
+    // ALE 20201128 Row 0, Col 3
+    pnlAIRoom.Left := lLeft + lPW[P_ASSET] + lPW[P_ASSETT] + lPW[P_PER];
+    pnlAIRoom.Top := lTop;
+    // ALE 20201128 Row 1, Col 1
+    pnlAIBuilding.Left := lLeft + lPW[P_ASSET];
+    pnlAIBuilding.Top := lTop + lPH[P_ROOM];
+    // ALE 20201128 Row 1, Col 2
+    pnlAIVendor.Left := lLeft + lPW[P_ROOM] + lPW[P_BLDG];
+    pnlAIVendor.Top := lTop + lPH[P_PER];
+    // ALE 20201128 Row 1, Col 3
+    pnlAIDocument.Left := lLeft + lPW[P_ROOM] + lPW[P_BLDG] + lPW[P_VEND];
+    pnlAIDocument.Top := lTop + lPH[P_ROOM];
+    // ALE 20201128 Row 2
+    pnlAITag.Left := lLeft;
+    pnlAITag.Top :=  lTop + lPH[P_ASSET];
+  end;
+end;
+
+procedure TfrmEAT.btnAITagsFlushClick(Sender: TObject);
+begin
+  dm.tTags.ApplyUpdates;
+end;
 
 procedure TfrmEAT.btnFlushAuditClick(Sender: TObject);
 begin
@@ -671,176 +873,8 @@ begin
 end;
 
 procedure TfrmEAT.WebFormResize(Sender: TObject);
-const
-  P_ASSET = 0;
-  P_ASSETT = 1;
-  P_PER = 2;
-  P_ROOM = 3;
-  P_BLDG = 4;
-  P_VEND = 5;
-  P_DOC = 6;
-  P_TAG = 7;
-  MRG = 4;
-var
-  lCols: NativeInt;
-  lRows: NativeInt;
-  lTop, lLeft: NativeInt;
-  lPH: array[P_ASSET..P_TAG] of NativeInt; // ALE 20201128 heights of panels
-  lPW: array[P_ASSET..P_TAG] of NativeInt; // ALE 20201128 widths of panels
 begin
-  // ALE 20201127 Crazy responsive layout code here
-  //  the individual panels on the Asset Info tab can be 377 pixels
-  //  to work with the Google Pixel 4a
-  // With margins, the main form can be 401 pixels to host that 377 pixel
-  //  wide panel.  385 pixels is width of scAI at one column
-  // Order when stacked vertical one column
-  //  0 - Assets
-  //  1 - Asset Types
-  //  2 - People
-  //  3 - Rooms
-  //  4 - Buildings
-  //  5 - Vendors
-  //  6 - Docments
-  //  7 - Tags if needed
-  // When stacked vertical two column
-  //  0 - Assets,    1 - Asset Types
-  //                 2 - People
-  //  3 - Rooms,     4 - Buildings
-  //  5 - Vendors,   6 - Documents
-  //  7 - Tags
-  // When stacked vertical three column
-  //  0 - Assets,    1 - Asset Types, 2 - People
-  //                 3 - Rooms,       4 - Buildings
-  //  5 - Vendors,   6 - Documents,   7 - Tags
-  // When stacked vertical four column
-  //  0 - Assets,    1 - Asset Types, 2 - People,    3 - Rooms
-  //                 4 - Buildings,   5 - Vendors,   6 - Documents,
-  //  7 - Tags
-  lPH[P_ASSET] := pnlAIAsset.Height + MRG;
-  lPH[P_ASSETT] := pnlAIAssetType.Height + MRG;
-  lPH[P_PER] := pnlAIPerson.Height + MRG;
-  lPH[P_ROOM] := pnlAIRoom.Height + MRG;
-  lPH[P_BLDG] := pnlAIBuilding.Height + MRG;
-  lPH[P_VEND] := pnlAIVendor.Height + MRG;
-  lPH[P_DOC] := pnlAIDocument.Height + MRG;
-  lPH[P_TAG] := pnlAITag.Height + MRG;
-  lPW[P_ASSET] := pnlAIAsset.Width + MRG;
-  lPW[P_ASSETT] := pnlAIAssetType.Width + MRG;
-  lPW[P_PER] := pnlAIPerson.Width + MRG;
-  lPW[P_ROOM] := pnlAIRoom.Width + MRG;
-  lPW[P_BLDG] := pnlAIBuilding.Width + MRG;
-  lPW[P_VEND] := pnlAIVendor.Width + MRG;
-  lPW[P_DOC] := pnlAIDocument.Width + MRG;
-  lPw[P_TAG] := pnlAITag.Width + MRG;
-
-  //scAI.Width;
-  //scAI.Height;
-  lCols := (frmEAT.Width - 30) div  (pnlAIAsset.Width + MRG);
-  LogIt('Max Columns: ' + IntToStr(lCols));
-  if lCols < 1 then
-    lCols := 1
-  else if lCols > 4 then
-    lCols := 4;
-
-  lTop := MRG;
-  lLeft := MRG;
-
-  if lCols = 1 then
-  begin
-    pnlAIAsset.Left := lLeft;
-    pnlAIAsset.Top := lTop;
-    pnlAIAssetType.Left := lLeft;
-    pnlAIAssetType.Top := lTop + lPH[P_ASSET];
-    pnlAIPerson.Left := lLeft;
-    pnlAIPerson.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT];
-    pnlAIRoom.Left := lLeft;
-    pnlAIRoom.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER];
-    pnlAIBuilding.Left := lLeft;
-    pnlAIBuilding.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM];
-    pnlAIVendor.Left := lLeft;
-    pnlAIVendor.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM] + lPH[P_ROOM];
-    pnlAIDocument.Left := lLeft;
-    pnlAIDocument.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM] + lPH[P_ROOM] + lPH[P_VEND];
-    pnlAITag.Left := lLeft;
-    pnlAITag.Top := lTop + lPH[P_ASSET] + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_ROOM] + lPH[P_ROOM] + lPH[P_VEND] + lPH[P_DOC];
-  end
-  else if lCols = 2 then
-  begin
-    // ALE 20201128 Row 0, Col 0
-    pnlAIAsset.Left := lLeft;
-    pnlAIAsset.Top := lTop;
-    // ALE 20201128 Row 0, Col 1
-    pnlAIAssetType.Left := lLeft + lPW[P_ASSET];
-    pnlAIAssetType.Top := lTop;
-    // ALE 20201128 Row 1, Col 1
-    pnlAIPerson.Left := lLeft + lPW[P_ASSET];
-    pnlAIPerson.Top := lTop + lPH[P_ASSETT];
-    // ALE 20201128 Row 2
-    pnlAIRoom.Left := lLeft;
-    pnlAIRoom.Top := lTop + lPH[P_ASSET];
-    pnlAIBuilding.Left := lLeft + lPW[P_ASSET];
-    pnlAIBuilding.Top := lTop + lPH[P_ASSETT] + lPH[P_PER];
-    // ALE 20201128 Row 3
-    pnlAIVendor.Left := lLeft;
-    pnlAIVendor.Top := lTop + lPH[P_ASSET] + lPH[P_PER];
-    pnlAIDocument.Left := lLeft + lPW[P_ASSET];
-    pnlAIDocument.Top := lTop + lPH[P_ASSETT] + lPH[P_PER] + lPH[P_BLDG];
-    // ALE 20201128 Row 4
-    pnlAITag.Left := lLeft;
-    pnlAITag.Top := lTop + lPH[P_ASSET] + lPH[P_PER] + lPH[P_VEND];
-  end
-  else if lCols = 3 then
-  begin
-    // ALE 20201128 Row 0, Col 0
-    pnlAIAsset.Left := lLeft;
-    pnlAIAsset.Top := lTop;
-    // ALE 20201128 Row 0, Col 1
-    pnlAIAssetType.Left := lLeft + lPW[P_ASSET];
-    pnlAIAssetType.Top := lTop;
-    // ALE 20201128 Row 0, Col 2
-    pnlAIPerson.Left := lLeft + lPW[P_ASSET] + lPW[P_ASSETT];
-    pnlAIPerson.Top := lTop;
-    // ALE 20201128 Row 1, Col 1
-    pnlAIRoom.Left := lLeft + lPW[P_ASSET];
-    pnlAIRoom.Top := lTop + lPH[P_ASSETT];
-    // ALE 20201128 Row 1, Col 2
-    pnlAIBuilding.Left := lLeft + lPW[P_ASSET] + lPW[P_ROOM];
-    pnlAIBuilding.Top := lTop + lPH[P_ASSETT];
-    // ALE 20201128 Row 2
-    pnlAIVendor.Left := lLeft;
-    pnlAIVendor.Top := lTop + lPH[P_ASSET];
-    pnlAIDocument.Left := lLeft + lPW[P_VEND];
-    pnlAIDocument.Top := lTop + lPH[P_ASSETT] + lPH[P_ROOM];
-    pnlAITag.Left := lLeft + lPW[P_VEND] + lPW[P_DOC];
-    pnlAITag.Top :=  lTop + lPH[P_ASSETT] + lPH[P_ROOM];
-  end
-  else if lCols = 4 then
-  begin
-    // ALE 20201128 Row 0, Col 0
-    pnlAIAsset.Left := lLeft;
-    pnlAIAsset.Top := lTop;
-    // ALE 20201128 Row 0, Col 1
-    pnlAIAssetType.Left := lLeft + lPW[P_ASSET];
-    pnlAIAssetType.Top := lTop;
-    // ALE 20201128 Row 0, Col 2
-    pnlAIPerson.Left := lLeft + lPW[P_ASSET] + lPW[P_ASSETT];
-    pnlAIPerson.Top := lTop;
-    // ALE 20201128 Row 0, Col 3
-    pnlAIRoom.Left := lLeft + lPW[P_ASSET] + lPW[P_ASSETT] + lPW[P_PER];
-    pnlAIRoom.Top := lTop;
-    // ALE 20201128 Row 1, Col 1
-    pnlAIBuilding.Left := lLeft + lPW[P_ASSET];
-    pnlAIBuilding.Top := lTop + lPH[P_ROOM];
-    // ALE 20201128 Row 1, Col 2
-    pnlAIVendor.Left := lLeft + lPW[P_ROOM] + lPW[P_BLDG];
-    pnlAIVendor.Top := lTop + lPH[P_PER];
-    // ALE 20201128 Row 1, Col 3
-    pnlAIDocument.Left := lLeft + lPW[P_ROOM] + lPW[P_BLDG] + lPW[P_VEND];
-    pnlAIDocument.Top := lTop + lPH[P_ROOM];
-    // ALE 20201128 Row 2
-    pnlAITag.Left := lLeft;
-    pnlAITag.Top :=  lTop + lPH[P_ASSET];
-  end;
+  ArrangeAIPanels();
 end;
 
 procedure TfrmEAT.WebFormShow(Sender: TObject);
