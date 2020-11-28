@@ -923,7 +923,8 @@ object frmEAT: TfrmEAT
                 WidthPercent = 100.000000000000000000
                 DataField = 'tagId'
                 DataSource = dm.dsAsset
-                ListField = 'id'
+                KeyField = 'id'
+                ListField = 'tagText'
                 ListSource = dm.dsTags
               end
               object edtAITypeId: TWebDBLookupComboBox
@@ -994,6 +995,7 @@ object frmEAT: TfrmEAT
                   'Insert'
                   'Delete'
                   'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
                 ExplicitLeft = 3
                 ExplicitTop = 5
                 ExplicitWidth = 330
@@ -1050,6 +1052,45 @@ object frmEAT: TfrmEAT
                 ExplicitWidth = 98
               end
             end
+            object pnlAIAssetTypeDBNav: TWebPanel
+              Left = 0
+              Top = 31
+              Width = 377
+              Height = 41
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 39
+              object dbnAssetType: TWebDBNavigator
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 33
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                Align = alClient
+                DataSource = dm.dsAsset
+                Hints.Strings = (
+                  'First'
+                  'Prior'
+                  'Next'
+                  'Last'
+                  'Edit'
+                  'Post'
+                  'Insert'
+                  'Delete'
+                  'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
+              end
+            end
           end
           object pnlAIPerson: TWebPanel
             AlignWithMargins = True
@@ -1098,6 +1139,45 @@ object frmEAT: TfrmEAT
                 ParentFont = False
                 WidthPercent = 100.000000000000000000
                 ExplicitWidth = 55
+              end
+            end
+            object pnlAIPersonDBNav: TWebPanel
+              Left = 0
+              Top = 31
+              Width = 377
+              Height = 41
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 39
+              object dbnPerson: TWebDBNavigator
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 33
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                Align = alClient
+                DataSource = dm.dsAsset
+                Hints.Strings = (
+                  'First'
+                  'Prior'
+                  'Next'
+                  'Last'
+                  'Edit'
+                  'Post'
+                  'Insert'
+                  'Delete'
+                  'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
               end
             end
           end
@@ -1149,6 +1229,45 @@ object frmEAT: TfrmEAT
                 ExplicitWidth = 56
               end
             end
+            object pnlAIRoomDBNav: TWebPanel
+              Left = 0
+              Top = 31
+              Width = 377
+              Height = 41
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 39
+              object dbnRoom: TWebDBNavigator
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 33
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                Align = alClient
+                DataSource = dm.dsAsset
+                Hints.Strings = (
+                  'First'
+                  'Prior'
+                  'Next'
+                  'Last'
+                  'Edit'
+                  'Post'
+                  'Insert'
+                  'Delete'
+                  'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
+              end
+            end
           end
           object pnlAIBuilding: TWebPanel
             Left = 1528
@@ -1196,6 +1315,45 @@ object frmEAT: TfrmEAT
                 ParentFont = False
                 WidthPercent = 100.000000000000000000
                 ExplicitWidth = 75
+              end
+            end
+            object pnlAIBuildingDBNav: TWebPanel
+              Left = 0
+              Top = 31
+              Width = 377
+              Height = 41
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 39
+              object dbnBuilding: TWebDBNavigator
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 33
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                Align = alClient
+                DataSource = dm.dsAsset
+                Hints.Strings = (
+                  'First'
+                  'Prior'
+                  'Next'
+                  'Last'
+                  'Edit'
+                  'Post'
+                  'Insert'
+                  'Delete'
+                  'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
               end
             end
           end
@@ -1248,6 +1406,46 @@ object frmEAT: TfrmEAT
                 ExplicitWidth = 68
               end
             end
+            object pnlAIVendorDBNav: TWebPanel
+              Left = 0
+              Top = 31
+              Width = 377
+              Height = 41
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 39
+              object dbnVendor: TWebDBNavigator
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 33
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                Align = alClient
+                DataSource = dm.dsAsset
+                Hints.Strings = (
+                  'First'
+                  'Prior'
+                  'Next'
+                  'Last'
+                  'Edit'
+                  'Post'
+                  'Insert'
+                  'Delete'
+                  'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
+                ExplicitLeft = 5
+              end
+            end
           end
           object pnlAIDocument: TWebPanel
             AlignWithMargins = True
@@ -1296,6 +1494,45 @@ object frmEAT: TfrmEAT
                 ParentFont = False
                 WidthPercent = 100.000000000000000000
                 ExplicitWidth = 94
+              end
+            end
+            object pnlAIDocumentDBNav: TWebPanel
+              Left = 0
+              Top = 31
+              Width = 377
+              Height = 41
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 39
+              object dbnDocument: TWebDBNavigator
+                AlignWithMargins = True
+                Left = 4
+                Top = 4
+                Width = 369
+                Height = 33
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                Align = alClient
+                DataSource = dm.dsAsset
+                Hints.Strings = (
+                  'First'
+                  'Prior'
+                  'Next'
+                  'Last'
+                  'Edit'
+                  'Post'
+                  'Insert'
+                  'Delete'
+                  'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
               end
             end
           end
@@ -1404,6 +1641,7 @@ object frmEAT: TfrmEAT
                   'Insert'
                   'Delete'
                   'Cancel')
+                VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
               end
             end
             object WebPanel1: TWebPanel

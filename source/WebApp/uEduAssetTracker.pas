@@ -121,6 +121,18 @@ type
     WebLabel21: TWebLabel;
     WebDBEdit4: TWebDBEdit;
     btnAITagsFlush: TWebButton;
+    pnlAIAssetTypeDBNav: TWebPanel;
+    dbnAssetType: TWebDBNavigator;
+    pnlAIPersonDBNav: TWebPanel;
+    dbnPerson: TWebDBNavigator;
+    pnlAIRoomDBNav: TWebPanel;
+    dbnRoom: TWebDBNavigator;
+    pnlAIVendorDBNav: TWebPanel;
+    dbnVendor: TWebDBNavigator;
+    pnlAIDocumentDBNav: TWebPanel;
+    dbnDocument: TWebDBNavigator;
+    pnlAIBuildingDBNav: TWebPanel;
+    dbnBuilding: TWebDBNavigator;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
