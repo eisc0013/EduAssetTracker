@@ -222,11 +222,14 @@ end;
 
 procedure Tdm.DataSetAfterPost(DataSet: TDataSet);
 begin
+  frmEAT.LogIt(DataSet.Name + ' AfterPost');
   DataSet.DisableControls;
+  FlushTables();
 end;
 
 procedure Tdm.DataSetBeforeInsertEdit(DataSet: TDataSet);
 begin
+  frmEAT.LogIt(DataSet.Name + ' BeforeInsertEdit');
   DataSet.EnableControls;
 end;
 

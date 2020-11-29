@@ -1116,7 +1116,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsAsset
+                DataSource = dm.dsAssetType
                 Hints.Strings = (
                   'First'
                   'Prior'
@@ -1291,7 +1291,7 @@ object frmEAT: TfrmEAT
                 SelStart = 0
                 WidthPercent = 100.000000000000000000
                 DataField = 'description'
-                DataSource = dm.dsAssetDocuments
+                DataSource = dm.dsAssetType
               end
             end
           end
@@ -1369,7 +1369,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsAsset
+                DataSource = dm.dsPerson
                 Hints.Strings = (
                   'First'
                   'Prior'
@@ -1505,7 +1505,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsAsset
+                DataSource = dm.dsRoom
                 Hints.Strings = (
                   'First'
                   'Prior'
@@ -1641,7 +1641,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsAsset
+                DataSource = dm.dsBuilding
                 Hints.Strings = (
                   'First'
                   'Prior'
@@ -1778,7 +1778,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsAsset
+                DataSource = dm.dsVendor
                 Hints.Strings = (
                   'First'
                   'Prior'
@@ -1916,7 +1916,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsAsset
+                DataSource = dm.dsDocuments
                 Hints.Strings = (
                   'First'
                   'Prior'
