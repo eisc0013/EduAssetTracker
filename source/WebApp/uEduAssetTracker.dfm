@@ -821,7 +821,7 @@ object frmEAT: TfrmEAT
               Left = 0
               Top = 73
               Width = 377
-              Height = 124
+              Height = 152
               Margins.Left = 4
               Margins.Top = 4
               Margins.Right = 4
@@ -834,7 +834,7 @@ object frmEAT: TfrmEAT
               ChildOrder = 1
               DesignSize = (
                 377
-                124)
+                152)
               object WebLabel15: TWebLabel
                 AlignWithMargins = True
                 Left = 4
@@ -853,34 +853,34 @@ object frmEAT: TfrmEAT
                 AlignWithMargins = True
                 Left = 4
                 Top = 38
-                Width = 35
+                Width = 22
                 Height = 13
                 Margins.Left = 4
                 Margins.Top = 0
                 Margins.Right = 4
                 Margins.Bottom = 4
-                Caption = 'Tag Id:'
+                Caption = 'Tag:'
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
               end
               object WebLabel17: TWebLabel
                 AlignWithMargins = True
                 Left = 4
-                Top = 68
-                Width = 51
+                Top = 98
+                Width = 38
                 Height = 13
                 Margins.Left = 4
                 Margins.Top = 0
                 Margins.Right = 4
                 Margins.Bottom = 4
-                Caption = 'Vendor Id:'
+                Caption = 'Vendor:'
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
               end
               object WebLabel18: TWebLabel
                 AlignWithMargins = True
                 Left = 4
-                Top = 95
+                Top = 125
                 Width = 44
                 Height = 13
                 Margins.Left = 4
@@ -888,6 +888,20 @@ object frmEAT: TfrmEAT
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Caption = 'Room Id:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel22: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 68
+                Width = 28
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Type:'
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
               end
@@ -927,7 +941,42 @@ object frmEAT: TfrmEAT
                 ListField = 'tagText'
                 ListSource = dm.dsTags
               end
-              object edtAITypeId: TWebDBLookupComboBox
+              object edtAIVendorId: TWebDBLookupComboBox
+                AlignWithMargins = True
+                Left = 55
+                Top = 93
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                DataField = 'vendorId'
+                DataSource = dm.dsAsset
+                KeyField = 'id'
+                ListField = 'name'
+                ListSource = dm.dsVendor
+              end
+              object edtRoomId: TWebDBLookupComboBox
+                AlignWithMargins = True
+                Left = 55
+                Top = 120
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                DataField = 'roomId'
+                DataSource = dm.dsAsset
+              end
+              object WebDBLookupComboBox1: TWebDBLookupComboBox
                 AlignWithMargins = True
                 Left = 55
                 Top = 63
@@ -940,24 +989,11 @@ object frmEAT: TfrmEAT
                 Anchors = [akLeft, akTop, akRight]
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
-                DataField = 'vendorId'
+                DataField = 'typeId'
                 DataSource = dm.dsAsset
-              end
-              object edtRoomId: TWebDBLookupComboBox
-                AlignWithMargins = True
-                Left = 55
-                Top = 90
-                Width = 318
-                Height = 22
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Anchors = [akLeft, akTop, akRight]
-                HeightPercent = 100.000000000000000000
-                WidthPercent = 100.000000000000000000
-                DataField = 'roomId'
-                DataSource = dm.dsAsset
+                KeyField = 'id'
+                ListField = 'name'
+                ListSource = dm.dsAssetType
               end
             end
             object pnlAIAssetsDBNav: TWebPanel
@@ -1018,7 +1054,7 @@ object frmEAT: TfrmEAT
             BorderColor = clSilver
             BorderStyle = bsSingle
             ChildOrder = 1
-            object WebPanel2: TWebPanel
+            object pnlAIAssetTypeHeader: TWebPanel
               Left = 0
               Top = 0
               Width = 377
@@ -1089,6 +1125,54 @@ object frmEAT: TfrmEAT
                   'Delete'
                   'Cancel')
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
+              end
+            end
+            object pnlAIAssetTypeId: TWebPanel
+              Left = 0
+              Top = 72
+              Width = 377
+              Height = 33
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 80
+              DesignSize = (
+                377
+                33)
+              object WebLabel23: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 71
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Asset Type Id:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIAssetTypeId: TWebDBEdit
+                AlignWithMargins = True
+                Left = 83
+                Top = 4
+                Width = 290
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetTypeId'
+                WidthPercent = 100.000000000000000000
+                DataField = 'id'
+                DataSource = dm.dsAssetType
               end
             end
           end
@@ -1180,6 +1264,54 @@ object frmEAT: TfrmEAT
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
               end
             end
+            object pnlAIPersonId: TWebPanel
+              Left = 0
+              Top = 72
+              Width = 377
+              Height = 33
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 80
+              DesignSize = (
+                377
+                33)
+              object WebLabel24: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 50
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Person Id:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIPersonId: TWebDBEdit
+                AlignWithMargins = True
+                Left = 62
+                Top = 4
+                Width = 311
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIPersonId'
+                WidthPercent = 100.000000000000000000
+                DataField = 'id'
+                DataSource = dm.dsPerson
+              end
+            end
           end
           object pnlAIRoom: TWebPanel
             Left = 1147
@@ -1268,6 +1400,54 @@ object frmEAT: TfrmEAT
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
               end
             end
+            object pnlAIRoomId: TWebPanel
+              Left = 0
+              Top = 72
+              Width = 377
+              Height = 33
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 80
+              DesignSize = (
+                377
+                33)
+              object WebLabel25: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 44
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Room Id:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIRoomId: TWebDBEdit
+                AlignWithMargins = True
+                Left = 62
+                Top = 4
+                Width = 311
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIRoomId'
+                WidthPercent = 100.000000000000000000
+                DataField = 'id'
+                DataSource = dm.dsRoom
+              end
+            end
           end
           object pnlAIBuilding: TWebPanel
             Left = 1528
@@ -1354,6 +1534,54 @@ object frmEAT: TfrmEAT
                   'Delete'
                   'Cancel')
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
+              end
+            end
+            object pnlAIBuildingId: TWebPanel
+              Left = 0
+              Top = 72
+              Width = 377
+              Height = 33
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 80
+              DesignSize = (
+                377
+                33)
+              object WebLabel26: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 53
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Building Id:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIBuildingId: TWebDBEdit
+                AlignWithMargins = True
+                Left = 62
+                Top = 4
+                Width = 311
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIBuildingId'
+                WidthPercent = 100.000000000000000000
+                DataField = 'id'
+                DataSource = dm.dsBuilding
               end
             end
           end
@@ -1446,6 +1674,54 @@ object frmEAT: TfrmEAT
                 ExplicitLeft = 5
               end
             end
+            object pnlAIVendorId: TWebPanel
+              Left = 0
+              Top = 72
+              Width = 377
+              Height = 33
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 80
+              DesignSize = (
+                377
+                33)
+              object WebLabel27: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 51
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Vendor Id:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIVendorVendorId: TWebDBEdit
+                AlignWithMargins = True
+                Left = 62
+                Top = 4
+                Width = 311
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIVendorVendorId'
+                WidthPercent = 100.000000000000000000
+                DataField = 'id'
+                DataSource = dm.dsVendor
+              end
+            end
           end
           object pnlAIDocument: TWebPanel
             AlignWithMargins = True
@@ -1533,6 +1809,54 @@ object frmEAT: TfrmEAT
                   'Delete'
                   'Cancel')
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
+              end
+            end
+            object pnlAIDocumentsId: TWebPanel
+              Left = 0
+              Top = 72
+              Width = 377
+              Height = 33
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alTop
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 2
+              ExplicitTop = 80
+              DesignSize = (
+                377
+                33)
+              object WebLabel28: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 70
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Documents Id:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIDocumentsId: TWebDBEdit
+                AlignWithMargins = True
+                Left = 82
+                Top = 4
+                Width = 291
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIDocumentsId'
+                WidthPercent = 100.000000000000000000
+                DataField = 'id'
+                DataSource = dm.dsDocuments
               end
             end
           end
