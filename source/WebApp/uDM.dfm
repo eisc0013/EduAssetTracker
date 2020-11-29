@@ -41,7 +41,6 @@ object dm: Tdm
   end
   object dsAssetType: TWebDataSource
     DataSet = tAssetType
-    Enabled = False
     Left = 312
     Top = 64
   end
@@ -156,5 +155,185 @@ object dm: Tdm
     DataSet = tAsset
     Left = 144
     Top = 8
+  end
+  object tPerson: TXDataWebDataSet
+    AfterOpen = tPersonAfterOpen
+    EntitySetName = 'tPerson'
+    Connection = XDataConn
+    ServerRecordCountMode = smInlineCount
+    Left = 248
+    Top = 120
+    object StringField1: TStringField
+      FieldName = 'id'
+      ReadOnly = True
+      Required = True
+      Size = 38
+    end
+    object StringField2: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField3: TStringField
+      FieldName = 'description'
+      Size = 2047
+    end
+    object DateTimeField1: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsPerson: TWebDataSource
+    DataSet = tPerson
+    Left = 312
+    Top = 120
+  end
+  object tRoom: TXDataWebDataSet
+    AfterOpen = tRoomAfterOpen
+    EntitySetName = 'tRoom'
+    Connection = XDataConn
+    ServerRecordCountMode = smInlineCount
+    Left = 248
+    Top = 176
+    object StringField4: TStringField
+      FieldName = 'id'
+      ReadOnly = True
+      Required = True
+      Size = 38
+    end
+    object StringField5: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField6: TStringField
+      FieldName = 'description'
+      Size = 2047
+    end
+    object DateTimeField2: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsRoom: TWebDataSource
+    DataSet = tRoom
+    Left = 312
+    Top = 176
+  end
+  object tBuilding: TXDataWebDataSet
+    AfterOpen = tBuildingAfterOpen
+    EntitySetName = 'tBuilding'
+    Connection = XDataConn
+    ServerRecordCountMode = smInlineCount
+    Left = 248
+    Top = 232
+    object StringField7: TStringField
+      FieldName = 'id'
+      ReadOnly = True
+      Required = True
+      Size = 38
+    end
+    object StringField8: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField9: TStringField
+      FieldName = 'description'
+      Size = 2047
+    end
+    object DateTimeField3: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsBuilding: TWebDataSource
+    DataSet = tBuilding
+    Left = 312
+    Top = 232
+  end
+  object tVendor: TXDataWebDataSet
+    AfterOpen = tVendorAfterOpen
+    EntitySetName = 'tVendor'
+    Connection = XDataConn
+    ServerRecordCountMode = smInlineCount
+    Left = 248
+    Top = 288
+    object StringField10: TStringField
+      FieldName = 'id'
+      ReadOnly = True
+      Required = True
+      Size = 38
+    end
+    object StringField11: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField12: TStringField
+      FieldName = 'description'
+      Size = 2047
+    end
+    object DateTimeField4: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsVendor: TWebDataSource
+    DataSet = tVendor
+    Left = 312
+    Top = 288
+  end
+  object tDocuments: TXDataWebDataSet
+    AfterOpen = tDocumentsAfterOpen
+    EntitySetName = 'tDocuments'
+    Connection = XDataConn
+    ServerRecordCountMode = smInlineCount
+    Left = 248
+    Top = 344
+    object StringField13: TStringField
+      FieldName = 'id'
+      ReadOnly = True
+      Required = True
+      Size = 38
+    end
+    object StringField14: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField15: TStringField
+      FieldName = 'description'
+      Size = 2047
+    end
+    object DateTimeField5: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsDocuments: TWebDataSource
+    DataSet = tDocuments
+    Left = 312
+    Top = 344
+  end
+  object tAssetDocuments: TXDataWebDataSet
+    AfterOpen = tAssetDocumentsAfterOpen
+    EntitySetName = 'tAssetDocuments'
+    Connection = XDataConn
+    ServerRecordCountMode = smInlineCount
+    Left = 248
+    Top = 400
+    object StringField16: TStringField
+      FieldName = 'id'
+      ReadOnly = True
+      Required = True
+      Size = 38
+    end
+    object StringField17: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField18: TStringField
+      FieldName = 'description'
+      Size = 2047
+    end
+    object DateTimeField6: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsAssetDocuments: TWebDataSource
+    DataSet = tAssetDocuments
+    Left = 312
+    Top = 400
   end
 end
