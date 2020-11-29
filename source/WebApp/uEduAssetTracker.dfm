@@ -975,6 +975,9 @@ object frmEAT: TfrmEAT
                 WidthPercent = 100.000000000000000000
                 DataField = 'roomId'
                 DataSource = dm.dsAsset
+                KeyField = 'id'
+                ListField = 'name'
+                ListSource = dm.dsRoom
               end
               object WebDBLookupComboBox1: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -1173,6 +1176,122 @@ object frmEAT: TfrmEAT
                 WidthPercent = 100.000000000000000000
                 DataField = 'id'
                 DataSource = dm.dsAssetType
+              end
+            end
+            object pnlAIAssetTypesDetail: TWebPanel
+              Left = 0
+              Top = 105
+              Width = 377
+              Height = 206
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alClient
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 3
+              ExplicitTop = 100
+              DesignSize = (
+                377
+                206)
+              object WebLabel29: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 31
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Name:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel30: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 184
+                Width = 88
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akBottom]
+                Caption = 'Deactivated Date:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel31: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 36
+                Width = 57
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Description:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIAssetTypeName: TWebDBEdit
+                AlignWithMargins = True
+                Left = 73
+                Top = 4
+                Width = 300
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetTypeName'
+                WidthPercent = 100.000000000000000000
+                DataField = 'name'
+                DataSource = dm.dsAssetType
+              end
+              object WebDBEdit6: TWebDBEdit
+                AlignWithMargins = True
+                Left = 100
+                Top = 180
+                Width = 101
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akBottom]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAITagDeactivatedDate'
+                WidthPercent = 100.000000000000000000
+                DataField = 'deactivatedDate'
+                DataSource = dm.dsTags
+              end
+              object edtAIAssetTypesDescription: TWebDBMemo
+                AlignWithMargins = True
+                Left = 4
+                Top = 56
+                Width = 369
+                Height = 116
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight, akBottom]
+                AutoSize = False
+                HeightPercent = 100.000000000000000000
+                Lines.Strings = (
+                  'edtAIAssetTypesDescription')
+                SelLength = 0
+                SelStart = 0
+                WidthPercent = 100.000000000000000000
+                DataField = 'description'
+                DataSource = dm.dsAssetDocuments
               end
             end
           end

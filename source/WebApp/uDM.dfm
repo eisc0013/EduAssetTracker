@@ -16,6 +16,9 @@ object dm: Tdm
   end
   object tAssetType: TXDataWebDataSet
     AfterOpen = tAssetTypeAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tAssetType'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount
@@ -69,6 +72,9 @@ object dm: Tdm
   end
   object tTags: TXDataWebDataSet
     AfterOpen = tTagsAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tTags'
     Connection = XDataConn
     Left = 248
@@ -93,6 +99,9 @@ object dm: Tdm
   end
   object tAsset: TXDataWebDataSet
     AfterOpen = tAssetAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tAsset'
     Connection = XDataConn
     Left = 88
@@ -158,6 +167,9 @@ object dm: Tdm
   end
   object tPerson: TXDataWebDataSet
     AfterOpen = tPersonAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tPerson'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount
@@ -188,6 +200,9 @@ object dm: Tdm
   end
   object tRoom: TXDataWebDataSet
     AfterOpen = tRoomAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tRoom'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount
@@ -218,6 +233,9 @@ object dm: Tdm
   end
   object tBuilding: TXDataWebDataSet
     AfterOpen = tBuildingAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tBuilding'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount
@@ -248,6 +266,9 @@ object dm: Tdm
   end
   object tVendor: TXDataWebDataSet
     AfterOpen = tVendorAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tVendor'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount
@@ -278,6 +299,9 @@ object dm: Tdm
   end
   object tDocuments: TXDataWebDataSet
     AfterOpen = tDocumentsAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tDocuments'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount
@@ -308,6 +332,9 @@ object dm: Tdm
   end
   object tAssetDocuments: TXDataWebDataSet
     AfterOpen = tAssetDocumentsAfterOpen
+    BeforeInsert = DataSetBeforeInsertEdit
+    BeforeEdit = DataSetBeforeInsertEdit
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tAssetDocuments'
     Connection = XDataConn
     ServerRecordCountMode = smInlineCount

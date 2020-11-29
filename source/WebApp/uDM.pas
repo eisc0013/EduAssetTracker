@@ -92,12 +92,15 @@ uses
     procedure tVendorAfterOpen(DataSet: TDataSet);
     procedure tDocumentsAfterOpen(DataSet: TDataSet);
     procedure tAssetDocumentsAfterOpen(DataSet: TDataSet);
+    procedure DataSetAfterPost(DataSet: TDataSet);
+    procedure DataSetBeforeInsertEdit(DataSet: TDataSet);
   private
     { Private declarations }
   public
     { Public declarations }
     TagHelper: TEATTag;
     procedure LoadTables();
+    procedure FlushTables();
   end;
 
 var
@@ -133,6 +136,19 @@ begin
     frmEAT.lblFirstAccess.Caption := 'Device first access: ' + dm.dbEATClient.FieldByName('value').AsString;
   end;
   frmEAT.btnWelcomeResetFirstAccess.Enabled := True;
+end;
+
+procedure Tdm.FlushTables;
+begin
+  tAsset.ApplyUpdates;
+  tAssetType.ApplyUpdates;
+  tPerson.ApplyUpdates;
+  tRoom.ApplyUpdates;
+  tBuilding.ApplyUpdates;
+  tVendor.ApplyUpdates;
+  tDocuments.ApplyUpdates;
+  tAssetDocuments.ApplyUpdates;
+  tTags.ApplyUpdates;
 end;
 
 procedure Tdm.LoadTables;
@@ -202,6 +218,16 @@ begin
   frmEAT.LogIt('tTags Opened');
   dsTags.Enabled := True;
   tTags.First;
+end;
+
+procedure Tdm.DataSetAfterPost(DataSet: TDataSet);
+begin
+  DataSet.DisableControls;
+end;
+
+procedure Tdm.DataSetBeforeInsertEdit(DataSet: TDataSet);
+begin
+  DataSet.EnableControls;
 end;
 
 procedure Tdm.tTagsdeactivatedChange(Sender: TField);

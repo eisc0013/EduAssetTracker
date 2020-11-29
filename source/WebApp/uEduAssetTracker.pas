@@ -153,6 +153,13 @@ type
     pnlAIDocumentsId: TWebPanel;
     WebLabel28: TWebLabel;
     edtAIDocumentsId: TWebDBEdit;
+    pnlAIAssetTypesDetail: TWebPanel;
+    WebLabel29: TWebLabel;
+    WebLabel30: TWebLabel;
+    edtAIAssetTypeName: TWebDBEdit;
+    WebDBEdit6: TWebDBEdit;
+    WebLabel31: TWebLabel;
+    edtAIAssetTypesDescription: TWebDBMemo;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
