@@ -154,6 +154,7 @@ uses
     TagHelper: TEATTag;
     procedure LoadTables();
     procedure FlushTables(const pTableName: String);
+    procedure CloneDataset(pDataIn, pDataOut: TXDataWebDataSet);
   end;
 
 var
@@ -200,44 +201,44 @@ begin
   else if pTableName = 'tAssetType' then
   begin
     tAssetType.ApplyUpdates;
-    tAssetTypeList.SetJsonData(tAssetType.CurrentData);
+    CloneDataset(tAssetType, tAssetTypeList);
   end
   else if pTableName = 'tPerson' then
   begin
     tPerson.ApplyUpdates;
-    tPersonList.SetJsonData(tPerson.CurrentData);
+    CloneDataset(tPerson, tPersonList);
   end
   else if pTableName = 'tRoom' then
   begin
     tRoom.ApplyUpdates;
-    tRoomList.SetJsonData(tRoom.CurrentData);
+    CloneDataset(tRoom, tRoomList);
   end
   else if pTableName = 'tBuilding' then
   begin
     tBuilding.ApplyUpdates;
-    tBuildingList.SetJsonData(tBuilding.CurrentData);
+    CloneDataset(tBuilding, tBuildingList);
   end
   else if pTableName = 'tVendor' then
   begin
     tVendor.ApplyUpdates;
-    tVendorList.SetJsonData(tVendor.CurrentData);
+    CloneDataset(tVendor, tVendorList);
   end
   else { ALE 20201201 not implemented
   if pTableName = 'tDocuments' then
   begin
     tDocuments.ApplyUpdates;
-    tDocumentsList.SetJsonData(tDocuments.CurrentData);
+    CloneDataset(tDocuments, tDocumentsList);
   end;
   if pTableName = 'tAssetDocuments' then
   begin
     tAssetDocuments.ApplyUpdates;
-    tAssetDocumentsList.SetJsonData(tAssetDocuments.CurrentData);
+    CloneDataset(tAssetDocuments, tAssetDocumentsList);
   end;
   }
   if pTableName = 'tTags' then
   begin
     tTags.ApplyUpdates;
-    tTagsList.SetJsonData(tTags.CurrentData);
+    CloneDataset(tTags, tTagsList);
   end;
 
 
@@ -266,7 +267,7 @@ end;
 procedure Tdm.tAssetDocumentsAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetDocuments Opened');
-  // ALE 20201201 not implemented tAssetDocumentsList.SetJsonData(tAssetDocuments.CurrentData);
+  // ALE 20201201 not implemented CloneDataset(dsAssetDocuments, tAssetDocumentsList);
   // ALE 20201201 not implemented tAssetDocumentsList.Open;
   dsAssetDocuments.Enabled := True;
   tAssetDocuments.First;
@@ -275,7 +276,7 @@ end;
 procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetType Opened');
-  tAssetTypeList.SetJsonData(tAssetType.CurrentData);
+  CloneDataset(tAssetType, tAssetTypeList);
   tAssetTypeList.Open;
   dsAssetType.Enabled := True;
   tAssetType.First;
@@ -291,7 +292,7 @@ end;
 procedure Tdm.tBuildingAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tBuilding Opened');
-  tBuildingList.SetJsonData(tBuilding.CurrentData);
+  CloneDataset(tBuilding, tBuildingList);
   tBuildingList.Open;
   dsBuilding.Enabled := True;
   tBuilding.First;
@@ -307,7 +308,7 @@ end;
 procedure Tdm.tDocumentsAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tDocuments Opened');
-  // ALE 20201201 not implemented tDocumentsList.SetJsonData(tDocuments.CurrentData);
+  // ALE 20201201 not implemented CloneDataset(tDocuments, tDocumentsList);
   // ALE 20201201 not implemented tDocumentsList.Open;
   dsDocuments.Enabled := True;
   tDocuments.First;
@@ -316,7 +317,7 @@ end;
 procedure Tdm.tPersonAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tPerson Opened');
-  tPersonList.SetJsonData(tPerson.CurrentData);
+  CloneDataset(tPerson, tPersonList);
   tPersonList.Open;
   dsPerson.Enabled := True;
   tPerson.First;
@@ -332,7 +333,7 @@ end;
 procedure Tdm.tRoomAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tRoom Opened');
-  tRoomList.SetJsonData(tRoom.CurrentData);
+  CloneDataset(tRoom, tRoomList);
   tRoomList.Open;
   dsRoom.Enabled := True;
   tRoom.First;
@@ -348,10 +349,24 @@ end;
 procedure Tdm.tTagsAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tTags Opened');
-  tTagsList.SetJsonData(tTags.CurrentData);
+  CloneDataset(tTags, tTagsList);
   tTagsList.Open;
   dsTags.Enabled := True;
   tTags.First;
+end;
+
+procedure Tdm.CloneDataset(pDataIn, pDataOut: TXDataWebDataSet);
+var
+  Rows: TJSArray;
+begin
+  Rows := TJSArray.new;
+  pDataIn.First;
+  while not pDataIn.Eof do
+  begin
+    Rows.push(pDataIn.CurrentData);
+    pDataIn.Next;
+  end;
+  pDataOut.SetJsonData(Rows);
 end;
 
 procedure Tdm.DataSetAfterPost(DataSet: TDataSet);
@@ -381,7 +396,7 @@ end;
 procedure Tdm.tVendorAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tVendor Opened');
-  tVendorList.SetJsonData(tVendor.CurrentData);
+  CloneDataset(tVendor, tVendorList);
   tVendorList.Open;
   dsVendor.Enabled := True;
   tVendor.First;

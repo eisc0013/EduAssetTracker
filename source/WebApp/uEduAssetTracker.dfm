@@ -21,7 +21,7 @@ object frmEAT: TfrmEAT
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    TabIndex = 5
+    TabIndex = 0
     ParentFont = False
     TabOrder = 0
     object tsWelcome: TWebTabSheet
@@ -906,6 +906,8 @@ object frmEAT: TfrmEAT
                 DataField = 'tagId'
                 DataSource = dm.dsAsset
                 KeyField = 'id'
+                ListField = 'tagText'
+                ListSource = dm.dsTagsList
               end
               object edtAIVendorId: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -924,6 +926,7 @@ object frmEAT: TfrmEAT
                 DataSource = dm.dsAsset
                 KeyField = 'id'
                 ListField = 'name'
+                ListSource = dm.dsVendorList
               end
               object edtRoomId: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -941,6 +944,8 @@ object frmEAT: TfrmEAT
                 DataField = 'roomId'
                 DataSource = dm.dsAsset
                 KeyField = 'id'
+                ListField = 'nameplate'
+                ListSource = dm.dsRoomList
               end
               object WebDBLookupComboBox1: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -958,6 +963,8 @@ object frmEAT: TfrmEAT
                 DataField = 'typeId'
                 DataSource = dm.dsAsset
                 KeyField = 'id'
+                ListField = 'name'
+                ListSource = dm.dsAssetTypeList
               end
             end
             object pnlAIAssetsDBNav: TWebPanel
