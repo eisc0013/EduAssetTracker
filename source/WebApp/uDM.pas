@@ -85,6 +85,47 @@ uses
     tAssetDocumentsassetId: TXDataWebEntityField;
     tAssetDocumentsdocumentId: TXDataWebEntityField;
     tAssetDocumentsid: TStringField;
+    tTagsList: TXDataWebDataSet;
+    StringField1: TStringField;
+    StringField2: TStringField;
+    DateTimeField1: TDateTimeField;
+    dsTagsList: TWebDataSource;
+    tAssetTypeList: TXDataWebDataSet;
+    StringField3: TStringField;
+    StringField4: TStringField;
+    StringField5: TStringField;
+    DateTimeField2: TDateTimeField;
+    dsAssetTypeList: TWebDataSource;
+    tPersonList: TXDataWebDataSet;
+    StringField6: TStringField;
+    StringField7: TStringField;
+    StringField8: TStringField;
+    DateTimeField3: TDateTimeField;
+    dsPersonList: TWebDataSource;
+    tRoomList: TXDataWebDataSet;
+    XDataWebEntityField1: TXDataWebEntityField;
+    XDataWebEntityField2: TXDataWebEntityField;
+    StringField9: TStringField;
+    StringField10: TStringField;
+    StringField11: TStringField;
+    DateTimeField4: TDateTimeField;
+    dsRoomList: TWebDataSource;
+    tBuildingList: TXDataWebDataSet;
+    StringField12: TStringField;
+    StringField13: TStringField;
+    StringField14: TStringField;
+    StringField15: TStringField;
+    DateTimeField5: TDateTimeField;
+    dsBuildingList: TWebDataSource;
+    tVendorList: TXDataWebDataSet;
+    StringField16: TStringField;
+    StringField17: TStringField;
+    StringField18: TStringField;
+    StringField19: TStringField;
+    StringField20: TStringField;
+    StringField21: TStringField;
+    DateTimeField6: TDateTimeField;
+    dsVendorList: TWebDataSource;
     procedure dbEATClientAfterOpen(DataSet: TDataSet);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
     procedure XDataClientLoad(Response: TXDataClientResponse);
@@ -100,6 +141,12 @@ uses
     procedure tAssetDocumentsAfterOpen(DataSet: TDataSet);
     procedure DataSetAfterPost(DataSet: TDataSet);
     procedure DataSetBeforeInsertEdit(DataSet: TDataSet);
+    procedure tTagsListAfterOpen(DataSet: TDataSet);
+    procedure tAssetTypeListAfterOpen(DataSet: TDataSet);
+    procedure tPersonListAfterOpen(DataSet: TDataSet);
+    procedure tRoomListAfterOpen(DataSet: TDataSet);
+    procedure tBuildingListAfterOpen(DataSet: TDataSet);
+    procedure tVendorListAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -191,11 +238,25 @@ begin
   tAssetType.First;
 end;
 
+procedure Tdm.tAssetTypeListAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tAssetTypeList Opened');
+  dsAssetTypeList.Enabled := True;
+  tAssetTypeList.First;
+end;
+
 procedure Tdm.tBuildingAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tBuilding Opened');
   dsBuilding.Enabled := True;
   tBuilding.First;
+end;
+
+procedure Tdm.tBuildingListAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tBuildingList Opened');
+  dsBuildingList.Enabled := True;
+  tBuildingList.First;
 end;
 
 procedure Tdm.tDocumentsAfterOpen(DataSet: TDataSet);
@@ -212,11 +273,25 @@ begin
   tPerson.First;
 end;
 
+procedure Tdm.tPersonListAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tPersonList Opened');
+  dsPersonList.Enabled := True;
+  tPersonList.First;
+end;
+
 procedure Tdm.tRoomAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tRoom Opened');
   dsRoom.Enabled := True;
   tRoom.First;
+end;
+
+procedure Tdm.tRoomListAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tRoomList Opened');
+  dsRoomList.Enabled := True;
+  tRoomList.First;
 end;
 
 procedure Tdm.tTagsAfterOpen(DataSet: TDataSet);
@@ -243,11 +318,25 @@ begin
   ShowMessage('OnChange');
 end;
 
+procedure Tdm.tTagsListAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tTagsList Opened');
+  dsTagsList.Enabled := True;
+  tTagsList.First;
+end;
+
 procedure Tdm.tVendorAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tVendor Opened');
   dsVendor.Enabled := True;
   tVendor.First;
+end;
+
+procedure Tdm.tVendorListAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tVendorList Opened');
+  dsVendorList.Enabled := True;
+  tVendorList.First;
 end;
 
 procedure Tdm.XDataClientLoad(Response: TXDataClientResponse);

@@ -360,4 +360,196 @@ object dm: Tdm
     Left = 312
     Top = 400
   end
+  object tTagsList: TXDataWebDataSet
+    AfterOpen = tTagsListAfterOpen
+    EntitySetName = 'tTags'
+    Connection = XDataConn
+    Left = 512
+    Top = 8
+    object StringField1: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField2: TStringField
+      FieldName = 'tagText'
+      Size = 2047
+    end
+    object DateTimeField1: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsTagsList: TWebDataSource
+    AutoEdit = False
+    DataSet = tTagsList
+    Left = 576
+    Top = 8
+  end
+  object tAssetTypeList: TXDataWebDataSet
+    AfterOpen = tAssetTypeListAfterOpen
+    EntitySetName = 'tAssetType'
+    Connection = XDataConn
+    Left = 512
+    Top = 64
+    object StringField3: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField4: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField5: TStringField
+      FieldName = 'description'
+      Size = 2047
+    end
+    object DateTimeField2: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsAssetTypeList: TWebDataSource
+    AutoEdit = False
+    DataSet = tAssetTypeList
+    Left = 576
+    Top = 64
+  end
+  object tPersonList: TXDataWebDataSet
+    AfterOpen = tPersonListAfterOpen
+    EntitySetName = 'tPerson'
+    Connection = XDataConn
+    Left = 512
+    Top = 120
+    object StringField6: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField7: TStringField
+      FieldName = 'name'
+      Size = 96
+    end
+    object StringField8: TStringField
+      FieldName = 'email'
+      Size = 128
+    end
+    object DateTimeField3: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsPersonList: TWebDataSource
+    AutoEdit = False
+    DataSet = tPersonList
+    Left = 576
+    Top = 120
+  end
+  object tRoomList: TXDataWebDataSet
+    AfterOpen = tRoomListAfterOpen
+    EntitySetName = 'tRoom'
+    Connection = XDataConn
+    Left = 512
+    Top = 176
+    object XDataWebEntityField1: TXDataWebEntityField
+      FieldName = 'personId'
+    end
+    object XDataWebEntityField2: TXDataWebEntityField
+      FieldName = 'buildingId'
+    end
+    object StringField9: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField10: TStringField
+      FieldName = 'nameplate'
+      Size = 24
+    end
+    object StringField11: TStringField
+      FieldName = 'grade'
+      Size = 24
+    end
+    object DateTimeField4: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsRoomList: TWebDataSource
+    AutoEdit = False
+    DataSet = tRoomList
+    Left = 576
+    Top = 176
+  end
+  object tBuildingList: TXDataWebDataSet
+    AfterOpen = tBuildingListAfterOpen
+    EntitySetName = 'tBuilding'
+    Connection = XDataConn
+    Left = 512
+    Top = 232
+    object StringField12: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField13: TStringField
+      FieldName = 'name'
+      Size = 50
+    end
+    object StringField14: TStringField
+      FieldName = 'phone'
+      Size = 50
+    end
+    object StringField15: TStringField
+      FieldName = 'address'
+      Size = 1024
+    end
+    object DateTimeField5: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsBuildingList: TWebDataSource
+    AutoEdit = False
+    DataSet = tBuildingList
+    Left = 576
+    Top = 232
+  end
+  object tVendorList: TXDataWebDataSet
+    AfterOpen = tVendorListAfterOpen
+    EntitySetName = 'tVendor'
+    Connection = XDataConn
+    Left = 512
+    Top = 288
+    object StringField16: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField17: TStringField
+      FieldName = 'name'
+      Size = 128
+    end
+    object StringField18: TStringField
+      FieldName = 'website'
+      Size = 2047
+    end
+    object StringField19: TStringField
+      FieldName = 'email'
+      Size = 128
+    end
+    object StringField20: TStringField
+      FieldName = 'phone'
+      Size = 48
+    end
+    object StringField21: TStringField
+      FieldName = 'notes'
+      Size = 2047
+    end
+    object DateTimeField6: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsVendorList: TWebDataSource
+    AutoEdit = False
+    DataSet = tVendorList
+    Left = 576
+    Top = 288
+  end
 end
