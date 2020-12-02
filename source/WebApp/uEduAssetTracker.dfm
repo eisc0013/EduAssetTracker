@@ -24,8 +24,6 @@ object frmEAT: TfrmEAT
     TabIndex = 5
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 1200
-    ExplicitHeight = 499
     object tsWelcome: TWebTabSheet
       Left = 0
       Top = 20
@@ -60,7 +58,6 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnWelcomeContinueClick
-        ExplicitWidth = 96
       end
       object btnWelcomeResetFirstAccess: TWebButton
         Left = 1770
@@ -74,8 +71,6 @@ object frmEAT: TfrmEAT
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
         OnClick = btnWelcomeResetFirstAccessClick
-        ExplicitLeft = 328
-        ExplicitTop = 451
       end
       object lblWelcomeMessage: TTMSFNCHTMLText
         Left = 3
@@ -107,8 +102,6 @@ object frmEAT: TfrmEAT
           'The App interprets the QR code entirely on your device and extra' +
           'cts the AssetId embedded in the QR code.</FONT> '
         WordWrapping = True
-        ExplicitWidth = 444
-        ExplicitHeight = 402
       end
     end
     object tsScanAsset: TWebTabSheet
@@ -135,7 +128,6 @@ object frmEAT: TfrmEAT
         Align = alTop
         BorderColor = clSilver
         BorderStyle = bsSingle
-        ExplicitWidth = 458
         object cam: TWebCamera
           AlignWithMargins = True
           Left = 4
@@ -155,7 +147,6 @@ object frmEAT: TfrmEAT
           OnCameraResume = camCameraResume
           OnCameraStreamPlay = camCameraStreamPlay
           OnCameraStop = camCameraStop
-          ExplicitWidth = 450
         end
       end
       object pnlScanMemo: TWebPanel
@@ -178,8 +169,6 @@ object frmEAT: TfrmEAT
         Padding.Top = 8
         Padding.Right = 8
         Padding.Bottom = 8
-        ExplicitWidth = 458
-        ExplicitHeight = 196
         DesignSize = (
           1900
           697)
@@ -224,8 +213,6 @@ object frmEAT: TfrmEAT
           SelLength = 0
           SelStart = 0
           WidthPercent = 100.000000000000000000
-          ExplicitTop = 88
-          ExplicitWidth = 442
         end
         object btnTagAdd: TWebButton
           Left = 328
@@ -249,7 +236,6 @@ object frmEAT: TfrmEAT
           HeightPercent = 100.000000000000000000
           Text = 'edtTagText'
           WidthPercent = 100.000000000000000000
-          ExplicitTop = 30
         end
         object edtTagId: TWebDBEdit
           Left = 61
@@ -261,7 +247,6 @@ object frmEAT: TfrmEAT
           HeightPercent = 100.000000000000000000
           Text = 'edtTagId'
           WidthPercent = 100.000000000000000000
-          ExplicitTop = 6
         end
       end
       object pnlScanHeader: TWebPanel
@@ -282,7 +267,6 @@ object frmEAT: TfrmEAT
         Font.Name = 'Tahoma'
         Font.Style = [fsUnderline]
         ParentFont = False
-        ExplicitWidth = 458
       end
       object pnlAssetTagText: TWebPanel
         Left = 0
@@ -295,8 +279,6 @@ object frmEAT: TfrmEAT
         BorderColor = clSilver
         BorderStyle = bsSingle
         ChildOrder = 3
-        ExplicitTop = 453
-        ExplicitWidth = 458
         DesignSize = (
           1900
           26)
@@ -325,7 +307,6 @@ object frmEAT: TfrmEAT
           TabOrder = 0
           OnButtonClick = edtAssetTagTextButtonClick
           Text = ''
-          ExplicitWidth = 357
         end
       end
     end
@@ -405,8 +386,6 @@ object frmEAT: TfrmEAT
         SelStart = 0
         WidthPercent = 100.000000000000000000
         WordWrap = False
-        ExplicitWidth = 458
-        ExplicitHeight = 479
       end
     end
     object tsDev: TWebTabSheet
@@ -485,8 +464,8 @@ object frmEAT: TfrmEAT
         OnClick = btnQRCodeGoogleClick
       end
       object WebDBGrid1: TWebDBGrid
-        Left = 8
-        Top = 367
+        Left = 3
+        Top = 370
         Width = 1881
         Height = 120
         Anchors = [akLeft, akTop, akRight]
@@ -512,7 +491,6 @@ object frmEAT: TfrmEAT
         TabOrder = 3
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
-        ExplicitWidth = 439
         ColWidths = (
           24
           64
@@ -539,8 +517,6 @@ object frmEAT: TfrmEAT
         Padding.Top = 4
         Padding.Right = 4
         Padding.Bottom = 4
-        ExplicitTop = 355
-        ExplicitWidth = 458
         object WebLabel2: TWebLabel
           Left = 8
           Top = 8
@@ -729,9 +705,6 @@ object frmEAT: TfrmEAT
         Font.Name = 'Tahoma'
         Font.Style = [fsUnderline]
         ParentFont = False
-        ExplicitLeft = -12
-        ExplicitTop = 5
-        ExplicitWidth = 150
       end
       object pnlAIAssetInfo: TWebPanel
         AlignWithMargins = True
@@ -749,10 +722,6 @@ object frmEAT: TfrmEAT
         BorderColor = clSilver
         BorderStyle = bsSingle
         ChildOrder = 1
-        ExplicitLeft = 72
-        ExplicitTop = 144
-        ExplicitWidth = 150
-        ExplicitHeight = 60
         object scAI: TWebScrollBox
           AlignWithMargins = True
           Left = 4
@@ -768,7 +737,6 @@ object frmEAT: TfrmEAT
           Align = alClient
           AutoScroll = True
           BorderStyle = bsSingle
-          ExplicitTop = 24
           object pnlAIAsset: TWebPanel
             AlignWithMargins = True
             Left = 4
@@ -881,13 +849,13 @@ object frmEAT: TfrmEAT
                 AlignWithMargins = True
                 Left = 4
                 Top = 125
-                Width = 44
+                Width = 31
                 Height = 13
                 Margins.Left = 4
                 Margins.Top = 0
                 Margins.Right = 4
                 Margins.Bottom = 4
-                Caption = 'Room Id:'
+                Caption = 'Room:'
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
               end
@@ -938,8 +906,6 @@ object frmEAT: TfrmEAT
                 DataField = 'tagId'
                 DataSource = dm.dsAsset
                 KeyField = 'id'
-                ListField = 'tagText'
-                ListSource = dm.dsTags
               end
               object edtAIVendorId: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -958,7 +924,6 @@ object frmEAT: TfrmEAT
                 DataSource = dm.dsAsset
                 KeyField = 'id'
                 ListField = 'name'
-                ListSource = dm.dsVendor
               end
               object edtRoomId: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -976,8 +941,6 @@ object frmEAT: TfrmEAT
                 DataField = 'roomId'
                 DataSource = dm.dsAsset
                 KeyField = 'id'
-                ListField = 'name'
-                ListSource = dm.dsRoom
               end
               object WebDBLookupComboBox1: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -995,8 +958,6 @@ object frmEAT: TfrmEAT
                 DataField = 'typeId'
                 DataSource = dm.dsAsset
                 KeyField = 'id'
-                ListField = 'name'
-                ListSource = dm.dsAssetType
               end
             end
             object pnlAIAssetsDBNav: TWebPanel
@@ -1035,10 +996,6 @@ object frmEAT: TfrmEAT
                   'Delete'
                   'Cancel')
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
-                ExplicitLeft = 3
-                ExplicitTop = 5
-                ExplicitWidth = 330
-                ExplicitHeight = 25
               end
             end
           end
@@ -1102,7 +1059,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 39
               object dbnAssetType: TWebDBNavigator
                 AlignWithMargins = True
                 Left = 4
@@ -1141,7 +1097,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 80
               DesignSize = (
                 377
                 33)
@@ -1189,7 +1144,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 3
-              ExplicitTop = 100
               DesignSize = (
                 377
                 206)
@@ -1254,7 +1208,7 @@ object frmEAT: TfrmEAT
                 DataField = 'name'
                 DataSource = dm.dsAssetType
               end
-              object WebDBEdit6: TWebDBEdit
+              object edtAIAssetTypeDeactivatedDate: TWebDBEdit
                 AlignWithMargins = True
                 Left = 100
                 Top = 180
@@ -1267,10 +1221,10 @@ object frmEAT: TfrmEAT
                 Anchors = [akLeft, akBottom]
                 ChildOrder = 1
                 HeightPercent = 100.000000000000000000
-                Text = 'edtAITagDeactivatedDate'
+                Text = 'edtAIAssetTypeDeactivatedDate'
                 WidthPercent = 100.000000000000000000
                 DataField = 'deactivatedDate'
-                DataSource = dm.dsTags
+                DataSource = dm.dsAssetType
               end
               object edtAIAssetTypesDescription: TWebDBMemo
                 AlignWithMargins = True
@@ -1355,7 +1309,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 39
               object dbnPerson: TWebDBNavigator
                 AlignWithMargins = True
                 Left = 4
@@ -1394,7 +1347,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 80
               DesignSize = (
                 377
                 33)
@@ -1428,6 +1380,116 @@ object frmEAT: TfrmEAT
                 Text = 'edtAIPersonId'
                 WidthPercent = 100.000000000000000000
                 DataField = 'id'
+                DataSource = dm.dsPerson
+              end
+            end
+            object pnlAIPersonDetail: TWebPanel
+              Left = 0
+              Top = 105
+              Width = 377
+              Height = 206
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alClient
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 3
+              DesignSize = (
+                377
+                206)
+              object WebLabel32: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 31
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Name:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel33: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 87
+                Width = 88
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Deactivated Date:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel34: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 38
+                Width = 32
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'E-mail:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIPersonName: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 4
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIPersonName'
+                WidthPercent = 100.000000000000000000
+                DataField = 'name'
+                DataSource = dm.dsPerson
+              end
+              object edtAIPersonDateDeactivated: TWebDBEdit
+                AlignWithMargins = True
+                Left = 100
+                Top = 83
+                Width = 101
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIPersonDateDeactivated'
+                WidthPercent = 100.000000000000000000
+                DataField = 'deactivatedDate'
+                DataSource = dm.dsPerson
+              end
+              object edtAIPersonEmail: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 34
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIPersonEmail'
+                WidthPercent = 100.000000000000000000
+                DataField = 'email'
                 DataSource = dm.dsPerson
               end
             end
@@ -1491,7 +1553,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 39
               object dbnRoom: TWebDBNavigator
                 AlignWithMargins = True
                 Left = 4
@@ -1530,7 +1591,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 80
               DesignSize = (
                 377
                 33)
@@ -1627,7 +1687,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 39
               object dbnBuilding: TWebDBNavigator
                 AlignWithMargins = True
                 Left = 4
@@ -1666,7 +1725,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 80
               DesignSize = (
                 377
                 33)
@@ -1764,7 +1822,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 39
               object dbnVendor: TWebDBNavigator
                 AlignWithMargins = True
                 Left = 4
@@ -1790,7 +1847,6 @@ object frmEAT: TfrmEAT
                   'Delete'
                   'Cancel')
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
-                ExplicitLeft = 5
               end
             end
             object pnlAIVendorId: TWebPanel
@@ -1804,7 +1860,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 80
               DesignSize = (
                 377
                 33)
@@ -1902,7 +1957,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 39
               object dbnDocument: TWebDBNavigator
                 AlignWithMargins = True
                 Left = 4
@@ -1941,7 +1995,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 80
               DesignSize = (
                 377
                 33)
@@ -2059,7 +2112,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 32
               object dbnTag: TWebDBNavigator
                 AlignWithMargins = True
                 Left = 4
@@ -2145,10 +2197,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 3
-              ExplicitLeft = 24
-              ExplicitTop = 111
-              ExplicitWidth = 150
-              ExplicitHeight = 60
               DesignSize = (
                 377
                 206)

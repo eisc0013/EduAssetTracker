@@ -11,6 +11,7 @@ object dm: Tdm
   object XDataClient: TXDataWebClient
     Connection = XDataConn
     OnLoad = XDataClientLoad
+    ReferenceSolvingMode = rsNone
     Left = 16
     Top = 56
   end
@@ -24,7 +25,6 @@ object dm: Tdm
     Top = 64
     object tAssetTypeid: TStringField
       FieldName = 'id'
-      ReadOnly = True
       Required = True
       Size = 38
     end
@@ -70,7 +70,6 @@ object dm: Tdm
   end
   object tTags: TXDataWebDataSet
     AfterOpen = tTagsAfterOpen
-    AfterPost = DataSetAfterPost
     EntitySetName = 'tTags'
     Connection = XDataConn
     Left = 248
@@ -167,21 +166,20 @@ object dm: Tdm
     ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 120
-    object StringField1: TStringField
+    object tPersonid: TStringField
       FieldName = 'id'
-      ReadOnly = True
       Required = True
       Size = 38
     end
-    object StringField2: TStringField
+    object tPersonname: TStringField
       FieldName = 'name'
       Size = 96
     end
-    object StringField3: TStringField
-      FieldName = 'description'
-      Size = 2047
+    object tPersonemail: TStringField
+      FieldName = 'email'
+      Size = 128
     end
-    object DateTimeField1: TDateTimeField
+    object tPersondeactivatedDate: TDateTimeField
       FieldName = 'deactivatedDate'
     end
   end
@@ -198,21 +196,26 @@ object dm: Tdm
     ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 176
-    object StringField4: TStringField
+    object tRoompersonId: TXDataWebEntityField
+      FieldName = 'personId'
+    end
+    object tRoombuildingId: TXDataWebEntityField
+      FieldName = 'buildingId'
+    end
+    object tRoomid: TStringField
       FieldName = 'id'
-      ReadOnly = True
       Required = True
       Size = 38
     end
-    object StringField5: TStringField
-      FieldName = 'name'
-      Size = 96
+    object tRoomnameplate: TStringField
+      FieldName = 'nameplate'
+      Size = 24
     end
-    object StringField6: TStringField
-      FieldName = 'description'
-      Size = 2047
+    object tRoomgrade: TStringField
+      FieldName = 'grade'
+      Size = 24
     end
-    object DateTimeField2: TDateTimeField
+    object tRoomdeactivatedDate: TDateTimeField
       FieldName = 'deactivatedDate'
     end
   end
@@ -230,21 +233,24 @@ object dm: Tdm
     ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 232
-    object StringField7: TStringField
+    object tBuildingid: TStringField
       FieldName = 'id'
-      ReadOnly = True
       Required = True
       Size = 38
     end
-    object StringField8: TStringField
+    object tBuildingname: TStringField
       FieldName = 'name'
-      Size = 96
+      Size = 50
     end
-    object StringField9: TStringField
-      FieldName = 'description'
-      Size = 2047
+    object tBuildingphone: TStringField
+      FieldName = 'phone'
+      Size = 50
     end
-    object DateTimeField3: TDateTimeField
+    object tBuildingaddress: TStringField
+      FieldName = 'address'
+      Size = 1024
+    end
+    object tBuildingdeactivatedDate: TDateTimeField
       FieldName = 'deactivatedDate'
     end
   end
@@ -262,21 +268,32 @@ object dm: Tdm
     ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 288
-    object StringField10: TStringField
+    object tVendorid: TStringField
       FieldName = 'id'
-      ReadOnly = True
       Required = True
       Size = 38
     end
-    object StringField11: TStringField
+    object tVendorname: TStringField
       FieldName = 'name'
-      Size = 96
+      Size = 128
     end
-    object StringField12: TStringField
-      FieldName = 'description'
+    object tVendorwebsite: TStringField
+      FieldName = 'website'
       Size = 2047
     end
-    object DateTimeField4: TDateTimeField
+    object tVendoremail: TStringField
+      FieldName = 'email'
+      Size = 128
+    end
+    object tVendorphone: TStringField
+      FieldName = 'phone'
+      Size = 48
+    end
+    object tVendornotes: TStringField
+      FieldName = 'notes'
+      Size = 2047
+    end
+    object tVendordeactivatedDate: TDateTimeField
       FieldName = 'deactivatedDate'
     end
   end
@@ -294,21 +311,22 @@ object dm: Tdm
     ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 344
-    object StringField13: TStringField
+    object tDocumentsid: TStringField
       FieldName = 'id'
-      ReadOnly = True
       Required = True
       Size = 38
     end
-    object StringField14: TStringField
-      FieldName = 'name'
-      Size = 96
+    object tDocumentsprivate_: TIntegerField
+      FieldName = 'private_'
     end
-    object StringField15: TStringField
-      FieldName = 'description'
+    object tDocumentsurl: TStringField
+      FieldName = 'url'
       Size = 2047
     end
-    object DateTimeField5: TDateTimeField
+    object tDocumentssizeBytes: TIntegerField
+      FieldName = 'sizeBytes'
+    end
+    object tDocumentsdeactivatedDate: TDateTimeField
       FieldName = 'deactivatedDate'
     end
   end
@@ -325,22 +343,16 @@ object dm: Tdm
     ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 400
-    object StringField16: TStringField
+    object tAssetDocumentsassetId: TXDataWebEntityField
+      FieldName = 'assetId'
+    end
+    object tAssetDocumentsdocumentId: TXDataWebEntityField
+      FieldName = 'documentId'
+    end
+    object tAssetDocumentsid: TStringField
       FieldName = 'id'
-      ReadOnly = True
       Required = True
       Size = 38
-    end
-    object StringField17: TStringField
-      FieldName = 'name'
-      Size = 96
-    end
-    object StringField18: TStringField
-      FieldName = 'description'
-      Size = 2047
-    end
-    object DateTimeField6: TDateTimeField
-      FieldName = 'deactivatedDate'
     end
   end
   object dsAssetDocuments: TWebDataSource

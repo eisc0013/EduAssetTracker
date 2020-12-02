@@ -157,9 +157,16 @@ type
     WebLabel29: TWebLabel;
     WebLabel30: TWebLabel;
     edtAIAssetTypeName: TWebDBEdit;
-    WebDBEdit6: TWebDBEdit;
+    edtAIAssetTypeDeactivatedDate: TWebDBEdit;
     WebLabel31: TWebLabel;
     edtAIAssetTypesDescription: TWebDBMemo;
+    pnlAIPersonDetail: TWebPanel;
+    WebLabel32: TWebLabel;
+    WebLabel33: TWebLabel;
+    edtAIPersonName: TWebDBEdit;
+    edtAIPersonDateDeactivated: TWebDBEdit;
+    WebLabel34: TWebLabel;
+    edtAIPersonEmail: TWebDBEdit;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
