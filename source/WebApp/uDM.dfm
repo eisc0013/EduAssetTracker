@@ -70,6 +70,7 @@ object dm: Tdm
   end
   object tTags: TXDataWebDataSet
     AfterOpen = tTagsAfterOpen
+    AfterPost = DataSetAfterPost
     EntitySetName = 'tTags'
     Connection = XDataConn
     Left = 248

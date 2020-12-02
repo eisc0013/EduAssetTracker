@@ -153,7 +153,7 @@ uses
     { Public declarations }
     TagHelper: TEATTag;
     procedure LoadTables();
-    procedure FlushTables();
+    procedure FlushTables(const pTableName: String);
   end;
 
 var
@@ -191,17 +191,56 @@ begin
   frmEAT.btnWelcomeResetFirstAccess.Enabled := True;
 end;
 
-procedure Tdm.FlushTables;
+procedure Tdm.FlushTables(const pTableName: String);
 begin
-  tAsset.ApplyUpdates;
-  tAssetType.ApplyUpdates;
-  tPerson.ApplyUpdates;
-  tRoom.ApplyUpdates;
-  tBuilding.ApplyUpdates;
-  tVendor.ApplyUpdates;
-  tDocuments.ApplyUpdates;
-  tAssetDocuments.ApplyUpdates;
-  tTags.ApplyUpdates;
+  if pTableName = 'tAsset' then
+  begin
+    tAsset.ApplyUpdates;
+  end
+  else if pTableName = 'tAssetType' then
+  begin
+    tAssetType.ApplyUpdates;
+    tAssetTypeList.SetJsonData(tAssetType.CurrentData);
+  end
+  else if pTableName = 'tPerson' then
+  begin
+    tPerson.ApplyUpdates;
+    tPersonList.SetJsonData(tPerson.CurrentData);
+  end
+  else if pTableName = 'tRoom' then
+  begin
+    tRoom.ApplyUpdates;
+    tRoomList.SetJsonData(tRoom.CurrentData);
+  end
+  else if pTableName = 'tBuilding' then
+  begin
+    tBuilding.ApplyUpdates;
+    tBuildingList.SetJsonData(tBuilding.CurrentData);
+  end
+  else if pTableName = 'tVendor' then
+  begin
+    tVendor.ApplyUpdates;
+    tVendorList.SetJsonData(tVendor.CurrentData);
+  end
+  else { ALE 20201201 not implemented
+  if pTableName = 'tDocuments' then
+  begin
+    tDocuments.ApplyUpdates;
+    tDocumentsList.SetJsonData(tDocuments.CurrentData);
+  end;
+  if pTableName = 'tAssetDocuments' then
+  begin
+    tAssetDocuments.ApplyUpdates;
+    tAssetDocumentsList.SetJsonData(tAssetDocuments.CurrentData);
+  end;
+  }
+  if pTableName = 'tTags' then
+  begin
+    tTags.ApplyUpdates;
+    tTagsList.SetJsonData(tTags.CurrentData);
+  end;
+
+
 end;
 
 procedure Tdm.LoadTables;
@@ -304,7 +343,7 @@ end;
 procedure Tdm.DataSetAfterPost(DataSet: TDataSet);
 begin
   frmEAT.LogIt(DataSet.Name + ' AfterPost, Flushing Tables');
-  FlushTables();
+  FlushTables(DataSet.Name);
 end;
 
 procedure Tdm.DataSetBeforeInsertEdit(DataSet: TDataSet);
