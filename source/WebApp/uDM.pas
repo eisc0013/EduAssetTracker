@@ -266,6 +266,8 @@ end;
 procedure Tdm.tAssetDocumentsAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetDocuments Opened');
+  // ALE 20201201 not implemented tAssetDocumentsList.SetJsonData(tAssetDocuments.CurrentData);
+  // ALE 20201201 not implemented tAssetDocumentsList.Open;
   dsAssetDocuments.Enabled := True;
   tAssetDocuments.First;
 end;
@@ -273,6 +275,8 @@ end;
 procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetType Opened');
+  tAssetTypeList.SetJsonData(tAssetType.CurrentData);
+  tAssetTypeList.Open;
   dsAssetType.Enabled := True;
   tAssetType.First;
 end;
@@ -287,6 +291,8 @@ end;
 procedure Tdm.tBuildingAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tBuilding Opened');
+  tBuildingList.SetJsonData(tBuilding.CurrentData);
+  tBuildingList.Open;
   dsBuilding.Enabled := True;
   tBuilding.First;
 end;
@@ -301,6 +307,8 @@ end;
 procedure Tdm.tDocumentsAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tDocuments Opened');
+  // ALE 20201201 not implemented tDocumentsList.SetJsonData(tDocuments.CurrentData);
+  // ALE 20201201 not implemented tDocumentsList.Open;
   dsDocuments.Enabled := True;
   tDocuments.First;
 end;
@@ -308,6 +316,8 @@ end;
 procedure Tdm.tPersonAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tPerson Opened');
+  tPersonList.SetJsonData(tPerson.CurrentData);
+  tPersonList.Open;
   dsPerson.Enabled := True;
   tPerson.First;
 end;
@@ -322,6 +332,8 @@ end;
 procedure Tdm.tRoomAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tRoom Opened');
+  tRoomList.SetJsonData(tRoom.CurrentData);
+  tRoomList.Open;
   dsRoom.Enabled := True;
   tRoom.First;
 end;
@@ -336,6 +348,8 @@ end;
 procedure Tdm.tTagsAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tTags Opened');
+  tTagsList.SetJsonData(tTags.CurrentData);
+  tTagsList.Open;
   dsTags.Enabled := True;
   tTags.First;
 end;
@@ -367,6 +381,8 @@ end;
 procedure Tdm.tVendorAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tVendor Opened');
+  tVendorList.SetJsonData(tVendor.CurrentData);
+  tVendorList.Open;
   dsVendor.Enabled := True;
   tVendor.First;
 end;
