@@ -752,10 +752,15 @@ object frmEAT: TfrmEAT
             BorderColor = clSilver
             BorderStyle = bsSingle
             object pnlAIAssetHeader: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 0
               Width = 377
               Height = 32
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -786,14 +791,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIAssetId: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 73
               Width = 377
               Height = 152
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -968,10 +974,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIAssetsDBNav: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 32
               Width = 377
               Height = 41
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1005,6 +1016,27 @@ object frmEAT: TfrmEAT
                 VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbEdit, nbPost, nbCancel]
               end
             end
+            object pnlAIAssetDetail: TWebPanel
+              AlignWithMargins = True
+              Left = 0
+              Top = 225
+              Width = 377
+              Height = 401
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alClient
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 3
+              ExplicitLeft = 112
+              ExplicitTop = 320
+              ExplicitWidth = 150
+              ExplicitHeight = 60
+            end
           end
           object pnlAIAssetType: TWebPanel
             AlignWithMargins = True
@@ -1022,10 +1054,15 @@ object frmEAT: TfrmEAT
             BorderStyle = bsSingle
             ChildOrder = 1
             object pnlAIAssetTypeHeader: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 0
               Width = 377
               Height = 31
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1056,10 +1093,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIAssetTypeDBNav: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 31
               Width = 377
               Height = 41
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1094,10 +1136,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIAssetTypeId: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 72
               Width = 377
               Height = 33
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1141,10 +1188,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIAssetTypesDetail: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 105
               Width = 377
               Height = 206
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alClient
@@ -1272,10 +1324,15 @@ object frmEAT: TfrmEAT
             BorderStyle = bsSingle
             ChildOrder = 2
             object WebPanel4: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 0
               Width = 377
               Height = 31
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1306,10 +1363,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIPersonDBNav: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 31
               Width = 377
               Height = 41
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1344,10 +1406,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIPersonId: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 72
               Width = 377
               Height = 33
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1391,10 +1458,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIPersonDetail: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 105
               Width = 377
               Height = 206
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alClient
@@ -1573,7 +1645,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsRoom
+                DataSource = dm.dsRoomNA
                 Hints.Strings = (
                   'First'
                   'Prior'
@@ -1631,7 +1703,7 @@ object frmEAT: TfrmEAT
                 Text = 'edtAIRoomId'
                 WidthPercent = 100.000000000000000000
                 DataField = 'id'
-                DataSource = dm.dsRoom
+                DataSource = dm.dsRoomNA
               end
             end
           end
@@ -1650,10 +1722,15 @@ object frmEAT: TfrmEAT
             BorderStyle = bsSingle
             ChildOrder = 4
             object WebPanel8: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 0
               Width = 377
               Height = 31
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1684,10 +1761,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIBuildingDBNav: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 31
               Width = 377
               Height = 41
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1722,10 +1804,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIBuildingId: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 72
               Width = 377
               Height = 33
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1785,10 +1872,15 @@ object frmEAT: TfrmEAT
             BorderStyle = bsSingle
             ChildOrder = 4
             object WebPanel10: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 0
               Width = 377
               Height = 31
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1819,10 +1911,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIVendorDBNav: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 31
               Width = 377
               Height = 41
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1857,10 +1954,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIVendorId: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 72
               Width = 377
               Height = 33
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1920,10 +2022,15 @@ object frmEAT: TfrmEAT
             BorderStyle = bsSingle
             ChildOrder = 4
             object WebPanel12: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 0
               Width = 377
               Height = 31
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1954,10 +2061,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIDocumentDBNav: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 31
               Width = 377
               Height = 41
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -1992,10 +2104,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAIDocumentsId: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 72
               Width = 377
               Height = 33
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -2055,10 +2172,15 @@ object frmEAT: TfrmEAT
             BorderStyle = bsSingle
             ChildOrder = 4
             object WebPanel3: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 0
               Width = 377
               Height = 31
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -2109,10 +2231,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAITagDBNav: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 31
               Width = 377
               Height = 41
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -2147,10 +2274,15 @@ object frmEAT: TfrmEAT
               end
             end
             object WebPanel1: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 72
               Width = 377
               Height = 33
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alTop
@@ -2194,10 +2326,15 @@ object frmEAT: TfrmEAT
               end
             end
             object pnlAITagDetail: TWebPanel
+              AlignWithMargins = True
               Left = 0
               Top = 105
               Width = 377
               Height = 206
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
               HeightPercent = 100.000000000000000000
               WidthPercent = 100.000000000000000000
               Align = alClient

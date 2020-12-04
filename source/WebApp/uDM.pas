@@ -143,6 +143,14 @@ uses
     StringField28: TStringField;
     DateTimeField8: TDateTimeField;
     dsAssetNA: TWebDataSource;
+    tRoomNA: TXDataWebDataSet;
+    XDataWebEntityField7: TXDataWebEntityField;
+    XDataWebEntityField8: TXDataWebEntityField;
+    StringField29: TStringField;
+    StringField30: TStringField;
+    StringField31: TStringField;
+    DateTimeField9: TDateTimeField;
+    dsRoomNA: TWebDataSource;
     procedure dbEATClientAfterOpen(DataSet: TDataSet);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
     procedure XDataClientLoad(Response: TXDataClientResponse);
@@ -165,6 +173,7 @@ uses
     procedure tBuildingListAfterOpen(DataSet: TDataSet);
     procedure tVendorListAfterOpen(DataSet: TDataSet);
     procedure tAssetNAAfterOpen(DataSet: TDataSet);
+    procedure tRoomNAAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -236,6 +245,13 @@ begin
   begin
     tRoom.ApplyUpdates;
     CloneDataset(tRoom, tRoomList);
+    tRoomNA.Load;
+  end
+  else if pTableName = 'tRoomNA' then
+  begin
+    tRoomNA.ApplyUpdates;
+    tRoom.Load;
+    tRoomList.Load;
   end
   else if pTableName = 'tBuilding' then
   begin
@@ -376,6 +392,13 @@ begin
   frmEAT.LogIt('tRoomList Opened');
   dsRoomList.Enabled := True;
   tRoomList.First;
+end;
+
+procedure Tdm.tRoomNAAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tRoomNA Opened');
+  dsRoomNA.Enabled := True;
+  tRoomNA.First;
 end;
 
 procedure Tdm.tTagsAfterOpen(DataSet: TDataSet);

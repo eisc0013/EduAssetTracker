@@ -20,7 +20,6 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tAssetType'
     Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 64
     object tAssetTypeid: TStringField
@@ -164,7 +163,6 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tPerson'
     Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 120
     object tPersonid: TStringField
@@ -194,7 +192,6 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tRoom'
     Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 176
     object tRoompersonId: TXDataWebEntityField
@@ -231,7 +228,6 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tBuilding'
     Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 232
     object tBuildingid: TStringField
@@ -266,7 +262,6 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tVendor'
     Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 288
     object tVendorid: TStringField
@@ -309,7 +304,6 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tDocuments'
     Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 344
     object tDocumentsid: TStringField
@@ -341,7 +335,6 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tAssetDocuments'
     Connection = XDataConn
-    ServerRecordCountMode = smInlineCount
     Left = 248
     Top = 400
     object tAssetDocumentsassetId: TXDataWebEntityField
@@ -618,5 +611,40 @@ object dm: Tdm
     DataSet = tAssetNA
     Left = 144
     Top = 64
+  end
+  object tRoomNA: TXDataWebDataSet
+    AfterOpen = tRoomNAAfterOpen
+    AfterPost = DataSetAfterPost
+    EntitySetName = 'tRoomNA'
+    Connection = XDataConn
+    Left = 80
+    Top = 176
+    object XDataWebEntityField7: TXDataWebEntityField
+      FieldName = 'personId'
+    end
+    object XDataWebEntityField8: TXDataWebEntityField
+      FieldName = 'buildingId'
+    end
+    object StringField29: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField30: TStringField
+      FieldName = 'nameplate'
+      Size = 24
+    end
+    object StringField31: TStringField
+      FieldName = 'grade'
+      Size = 24
+    end
+    object DateTimeField9: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsRoomNA: TWebDataSource
+    DataSet = tRoomNA
+    Left = 144
+    Top = 176
   end
 end

@@ -167,6 +167,7 @@ type
     edtAIPersonDateDeactivated: TWebDBEdit;
     WebLabel34: TWebLabel;
     edtAIPersonEmail: TWebDBEdit;
+    pnlAIAssetDetail: TWebPanel;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);

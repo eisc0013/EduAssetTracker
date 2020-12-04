@@ -22,6 +22,7 @@ type
   TtLog = class;
   TtPerson = class;
   TtRoom = class;
+  TtRoomNA = class;
   TtTags = class;
   TtVendor = class;
   TtLogTableDictionary = class;
@@ -401,24 +402,24 @@ type
     [Column('id', [TColumnProp.Required])]
     [Description('')]
     Fid: TGuid;
-    
+
     [Column('nameplate', [], 24)]
     [Description('Room number (101, 208, Media, Gym)')]
     Fnameplate: Nullable<string>;
-    
+
     [Column('grade', [], 24)]
     [Description('K, 1, 2, 3, ...')]
     Fgrade: Nullable<string>;
-    
+
     [Column('deactivatedDate', [])]
     [Description('')]
     FdeactivatedDate: Nullable<TDateTime>;
-    
+
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('personId', [], 'id')]
     [Description('')]
     FpersonId: Proxy<TtPerson>;
-    
+
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('buildingId', [], 'id')]
     [Description('')]
@@ -435,7 +436,45 @@ type
     property personId: TtPerson read GetpersonId write SetpersonId;
     property buildingId: TtBuilding read GetbuildingId write SetbuildingId;
   end;
-  
+
+  [Entity]
+  [Table('tRoom')]
+  [Description('')]
+  [Id('Fid', TIdGenerator.Guid)]
+  TtRoomNA = class
+  private
+    [Column('id', [TColumnProp.Required])]
+    [Description('')]
+    Fid: TGuid;
+
+    [Column('nameplate', [], 24)]
+    [Description('Room number (101, 208, Media, Gym)')]
+    Fnameplate: Nullable<string>;
+
+    [Column('grade', [], 24)]
+    [Description('K, 1, 2, 3, ...')]
+    Fgrade: Nullable<string>;
+
+    [Column('deactivatedDate', [])]
+    [Description('')]
+    FdeactivatedDate: Nullable<TDateTime>;
+
+    [Column('personId', [])]
+    [Description('')]
+    FpersonId: Nullable<TGuid>;
+
+    [Column('buildingId', [])]
+    [Description('')]
+    FbuildingId: Nullable<TGuid>;
+  public
+    property id: TGuid read Fid write Fid;
+    property nameplate: Nullable<string> read Fnameplate write Fnameplate;
+    property grade: Nullable<string> read Fgrade write Fgrade;
+    property deactivatedDate: Nullable<TDateTime> read FdeactivatedDate write FdeactivatedDate;
+    property personId: Nullable<TGuid> read FpersonId write FpersonId;
+    property buildingId: Nullable<TGuid> read FbuildingId write FbuildingId;
+  end;
+
   [Entity]
   [Table('tTags')]
   [Description('')]
@@ -445,11 +484,11 @@ type
     [Column('id', [TColumnProp.Required])]
     [Description('')]
     Fid: TGuid;
-    
+
     [Column('tagText', [], 2047)]
     [Description('')]
     FtagText: Nullable<string>;
-    
+
     [Column('deactivatedDate', [])]
     [Description('')]
     FdeactivatedDate: Nullable<TDateTime>;
@@ -1022,6 +1061,7 @@ initialization
   RegisterEntity(TtPerson);
   RegisterEntity(TtBuilding);
   RegisterEntity(TtRoom);
+  RegisterEntity(TtRoomNA);
   RegisterEntity(TtAssetType);
   RegisterEntity(TtVendor);
 
