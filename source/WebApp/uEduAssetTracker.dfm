@@ -21,7 +21,7 @@ object frmEAT: TfrmEAT
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    TabIndex = 0
+    TabIndex = 5
     ParentFont = False
     TabOrder = 0
     object tsWelcome: TWebTabSheet
@@ -888,7 +888,7 @@ object frmEAT: TfrmEAT
                 Text = 'edtAIAssetId'
                 WidthPercent = 100.000000000000000000
                 DataField = 'id'
-                DataSource = dm.dsAsset
+                DataSource = dm.dsAssetNA
               end
               object edtAITagId: TWebDBLookupComboBox
                 AlignWithMargins = True
@@ -904,7 +904,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 DataField = 'tagId'
-                DataSource = dm.dsAsset
+                DataSource = dm.dsAssetNA
                 KeyField = 'id'
                 ListField = 'tagText'
                 ListSource = dm.dsTagsList
@@ -923,7 +923,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 DataField = 'vendorId'
-                DataSource = dm.dsAsset
+                DataSource = dm.dsAssetNA
                 KeyField = 'id'
                 ListField = 'name'
                 ListSource = dm.dsVendorList
@@ -942,7 +942,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 DataField = 'roomId'
-                DataSource = dm.dsAsset
+                DataSource = dm.dsAssetNA
                 KeyField = 'id'
                 ListField = 'nameplate'
                 ListSource = dm.dsRoomList
@@ -961,7 +961,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 DataField = 'typeId'
-                DataSource = dm.dsAsset
+                DataSource = dm.dsAssetNA
                 KeyField = 'id'
                 ListField = 'name'
                 ListSource = dm.dsAssetTypeList
@@ -991,7 +991,7 @@ object frmEAT: TfrmEAT
                 HeightPercent = 100.000000000000000000
                 WidthPercent = 100.000000000000000000
                 Align = alClient
-                DataSource = dm.dsAsset
+                DataSource = dm.dsAssetNA
                 Hints.Strings = (
                   'First'
                   'Prior'

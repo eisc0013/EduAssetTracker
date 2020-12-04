@@ -13,7 +13,7 @@ object dm: Tdm
     OnLoad = XDataClientLoad
     ReferenceSolvingMode = rsNone
     Left = 16
-    Top = 56
+    Top = 64
   end
   object tAssetType: TXDataWebDataSet
     AfterOpen = tAssetTypeAfterOpen
@@ -552,5 +552,71 @@ object dm: Tdm
     DataSet = tVendorList
     Left = 576
     Top = 288
+  end
+  object tAssetNA: TXDataWebDataSet
+    AfterOpen = tAssetNAAfterOpen
+    AfterPost = DataSetAfterPost
+    EntitySetName = 'tAssetNA'
+    Connection = XDataConn
+    Left = 88
+    Top = 64
+    object XDataWebEntityField3: TXDataWebEntityField
+      FieldName = 'tagId'
+    end
+    object XDataWebEntityField4: TXDataWebEntityField
+      FieldName = 'roomId'
+    end
+    object XDataWebEntityField5: TXDataWebEntityField
+      FieldName = 'typeId'
+    end
+    object XDataWebEntityField6: TXDataWebEntityField
+      FieldName = 'vendorId'
+    end
+    object StringField22: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField23: TStringField
+      FieldName = 'make'
+      Size = 50
+    end
+    object StringField24: TStringField
+      FieldName = 'model'
+      Size = 50
+    end
+    object StringField25: TStringField
+      FieldName = 'serialNumber'
+      Size = 50
+    end
+    object DateTimeField7: TDateTimeField
+      FieldName = 'purchaseDate'
+    end
+    object StringField26: TStringField
+      FieldName = 'purchaseInvoice'
+      Size = 50
+    end
+    object IntegerField1: TIntegerField
+      FieldName = 'purchasePrice'
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'warrantyDurationDays'
+    end
+    object StringField27: TStringField
+      FieldName = 'purchaseNotes'
+      Size = 2047
+    end
+    object StringField28: TStringField
+      FieldName = 'notes'
+      Size = 2047
+    end
+    object DateTimeField8: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+  end
+  object dsAssetNA: TWebDataSource
+    DataSet = tAssetNA
+    Left = 144
+    Top = 64
   end
 end

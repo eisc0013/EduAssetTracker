@@ -14,6 +14,7 @@ uses
 
 type
   TtAsset = class;
+  TtAssetNA = class; // ALE 20201203 associations skipped so we can post easily
   TtAssetDocuments = class;
   TtAssetType = class;
   TtBuilding = class;
@@ -43,62 +44,62 @@ type
     [Column('id', [TColumnProp.Required])]
     [Description('')]
     Fid: TGuid;
-    
+
     [Column('make', [], 50)]
     [Description('')]
     Fmake: Nullable<string>;
-    
+
     [Column('model', [], 50)]
     [Description('')]
     Fmodel: Nullable<string>;
-    
+
     [Column('serialNumber', [], 50)]
     [Description('')]
     FserialNumber: Nullable<string>;
-    
+
     [Column('purchaseDate', [])]
     [Description('')]
     FpurchaseDate: Nullable<TDateTime>;
-    
+
     [Column('purchaseInvoice', [], 50)]
     [Description('')]
     FpurchaseInvoice: Nullable<string>;
-    
+
     [Column('purchasePrice', [])]
     [Description('To calculate cost/month or similar metrics over the lifetime of various makes and models')]
     FpurchasePrice: Nullable<Integer>;
-    
+
     [Column('warrantyDurationDays', [])]
     [Description('')]
     FwarrantyDurationDays: Nullable<Integer>;
-    
+
     [Column('purchaseNotes', [], 2047)]
     [Description('Meant for information such as "used Scholastic bucks for purchase"')]
     FpurchaseNotes: Nullable<string>;
-    
+
     [Column('notes', [], 2047)]
     [Description('')]
     Fnotes: Nullable<string>;
-    
+
     [Column('deactivatedDate', [])]
     [Description('')]
     FdeactivatedDate: Nullable<TDateTime>;
-    
+
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('tagId', [], 'id')]
     [Description('')]
     FtagId: Proxy<TtTags>;
-    
+
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('roomId', [], 'id')]
     [Description('')]
     FroomId: Proxy<TtRoom>;
-    
+
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('typeId', [], 'id')]
     [Description('')]
     FtypeId: Proxy<TtAssetType>;
-    
+
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('vendorId', [], 'id')]
     [Description('')]
@@ -128,7 +129,90 @@ type
     property typeId: TtAssetType read GettypeId write SettypeId;
     property vendorId: TtVendor read GetvendorId write SetvendorId;
   end;
-  
+
+  [Entity]
+  [Table('tAsset')]
+  [Description('')]
+  [Id('Fid', TIdGenerator.Guid)]
+  TtAssetNA = class
+  private
+    [Column('id', [TColumnProp.Required])]
+    [Description('')]
+    Fid: TGuid;
+
+    [Column('make', [], 50)]
+    [Description('')]
+    Fmake: Nullable<string>;
+
+    [Column('model', [], 50)]
+    [Description('')]
+    Fmodel: Nullable<string>;
+
+    [Column('serialNumber', [], 50)]
+    [Description('')]
+    FserialNumber: Nullable<string>;
+
+    [Column('purchaseDate', [])]
+    [Description('')]
+    FpurchaseDate: Nullable<TDateTime>;
+
+    [Column('purchaseInvoice', [], 50)]
+    [Description('')]
+    FpurchaseInvoice: Nullable<string>;
+
+    [Column('purchasePrice', [])]
+    [Description('To calculate cost/month or similar metrics over the lifetime of various makes and models')]
+    FpurchasePrice: Nullable<Integer>;
+
+    [Column('warrantyDurationDays', [])]
+    [Description('')]
+    FwarrantyDurationDays: Nullable<Integer>;
+
+    [Column('purchaseNotes', [], 2047)]
+    [Description('Meant for information such as "used Scholastic bucks for purchase"')]
+    FpurchaseNotes: Nullable<string>;
+
+    [Column('notes', [], 2047)]
+    [Description('')]
+    Fnotes: Nullable<string>;
+
+    [Column('deactivatedDate', [])]
+    [Description('')]
+    FdeactivatedDate: Nullable<TDateTime>;
+
+    [Column('tagId', [])]
+    [Description('')]
+    FtagId: Nullable<TGuid>;
+
+    [Column('roomId', [])]
+    [Description('')]
+    FroomId: Nullable<TGuid>;
+
+    [Column('typeId', [])]
+    [Description('')]
+    FtypeId: Nullable<TGuid>;
+
+    [Column('vendorId', [])]
+    [Description('')]
+    FvendorId: Nullable<TGuid>;
+  public
+    property id: TGuid read Fid write Fid;
+    property make: Nullable<string> read Fmake write Fmake;
+    property model: Nullable<string> read Fmodel write Fmodel;
+    property serialNumber: Nullable<string> read FserialNumber write FserialNumber;
+    property purchaseDate: Nullable<TDateTime> read FpurchaseDate write FpurchaseDate;
+    property purchaseInvoice: Nullable<string> read FpurchaseInvoice write FpurchaseInvoice;
+    property purchasePrice: Nullable<Integer> read FpurchasePrice write FpurchasePrice;
+    property warrantyDurationDays: Nullable<Integer> read FwarrantyDurationDays write FwarrantyDurationDays;
+    property purchaseNotes: Nullable<string> read FpurchaseNotes write FpurchaseNotes;
+    property notes: Nullable<string> read Fnotes write Fnotes;
+    property deactivatedDate: Nullable<TDateTime> read FdeactivatedDate write FdeactivatedDate;
+    property tagId: Nullable<TGuid> read FtagId write FtagId;
+    property roomId: Nullable<TGuid> read FroomId write FroomId;
+    property typeId: Nullable<TGuid> read FtypeId write FtypeId;
+    property vendorId: Nullable<TGuid> read FvendorId write FvendorId;
+  end;
+
   [Entity]
   [Table('tAssetDocuments')]
   [Description('')]
@@ -932,6 +1016,7 @@ initialization
   RegisterEntity(TtLog);
   RegisterEntity(TtTags);
   RegisterEntity(TtAsset);
+  RegisterEntity(TtAssetNA);
   RegisterEntity(TtDocuments);
   RegisterEntity(TtAssetDocuments);
   RegisterEntity(TtPerson);

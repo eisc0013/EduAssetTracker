@@ -126,6 +126,23 @@ uses
     StringField21: TStringField;
     DateTimeField6: TDateTimeField;
     dsVendorList: TWebDataSource;
+    tAssetNA: TXDataWebDataSet;
+    XDataWebEntityField3: TXDataWebEntityField;
+    XDataWebEntityField4: TXDataWebEntityField;
+    XDataWebEntityField5: TXDataWebEntityField;
+    XDataWebEntityField6: TXDataWebEntityField;
+    StringField22: TStringField;
+    StringField23: TStringField;
+    StringField24: TStringField;
+    StringField25: TStringField;
+    DateTimeField7: TDateTimeField;
+    StringField26: TStringField;
+    IntegerField1: TIntegerField;
+    IntegerField2: TIntegerField;
+    StringField27: TStringField;
+    StringField28: TStringField;
+    DateTimeField8: TDateTimeField;
+    dsAssetNA: TWebDataSource;
     procedure dbEATClientAfterOpen(DataSet: TDataSet);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
     procedure XDataClientLoad(Response: TXDataClientResponse);
@@ -147,6 +164,7 @@ uses
     procedure tRoomListAfterOpen(DataSet: TDataSet);
     procedure tBuildingListAfterOpen(DataSet: TDataSet);
     procedure tVendorListAfterOpen(DataSet: TDataSet);
+    procedure tAssetNAAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -197,6 +215,12 @@ begin
   if pTableName = 'tAsset' then
   begin
     tAsset.ApplyUpdates;
+    tAssetNA.Load;
+  end
+  else if pTableName = 'tAssetNA' then
+  begin
+    tAssetNA.ApplyUpdates;
+    tAsset.Load;
   end
   else if pTableName = 'tAssetType' then
   begin
@@ -247,6 +271,7 @@ end;
 procedure Tdm.LoadTables;
 begin
   tAsset.Load;
+  tAssetNA.Load;
   tAssetType.Load;
   tPerson.Load;
   tRoom.Load;
@@ -271,6 +296,13 @@ begin
   // ALE 20201201 not implemented tAssetDocumentsList.Open;
   dsAssetDocuments.Enabled := True;
   tAssetDocuments.First;
+end;
+
+procedure Tdm.tAssetNAAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tAssetNA Opened');
+  dsAssetNA.Enabled := True;
+  tAssetNA.First;
 end;
 
 procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
