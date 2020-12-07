@@ -291,6 +291,7 @@ begin
   tAssetType.Load;
   tPerson.Load;
   tRoom.Load;
+  tRoomNA.Load;
   tBuilding.Load;
   tVendor.Load;
   tDocuments.Load;
