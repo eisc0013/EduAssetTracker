@@ -1891,6 +1891,7 @@ object frmEAT: TfrmEAT
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Anchors = [akLeft, akTop, akRight]
+                AutoCompletion = acEmail
                 ChildOrder = 1
                 HeightPercent = 100.000000000000000000
                 Text = 'edtAIPersonEmail'
@@ -2139,7 +2140,7 @@ object frmEAT: TfrmEAT
                 Text = 'edtAIRoomNameplate'
                 WidthPercent = 100.000000000000000000
                 DataField = 'nameplate'
-                DataSource = dm.dsRoom
+                DataSource = dm.dsRoomNA
               end
               object edtAIRoomDeactivatedDate: TWebDBEdit
                 AlignWithMargins = True
@@ -2213,7 +2214,7 @@ object frmEAT: TfrmEAT
                 Text = 'edtAIRoomNameplate'
                 WidthPercent = 100.000000000000000000
                 DataField = 'grade'
-                DataSource = dm.dsRoom
+                DataSource = dm.dsRoomNA
               end
             end
           end
@@ -2487,6 +2488,7 @@ object frmEAT: TfrmEAT
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Anchors = [akLeft, akTop, akRight]
+                AutoCompletion = acTelephone
                 ChildOrder = 1
                 HeightPercent = 100.000000000000000000
                 Text = 'edtAIBuildingPhone'
@@ -2683,6 +2685,7 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 3
+              ExplicitLeft = -353
               DesignSize = (
                 377
                 206)
@@ -2816,6 +2819,7 @@ object frmEAT: TfrmEAT
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Anchors = [akLeft, akTop, akRight]
+                AutoCompletion = acURL
                 ChildOrder = 1
                 HeightPercent = 100.000000000000000000
                 Text = 'edtAIVendorWebsite'
@@ -2834,6 +2838,7 @@ object frmEAT: TfrmEAT
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Anchors = [akLeft, akTop, akRight]
+                AutoCompletion = acTelephone
                 ChildOrder = 1
                 HeightPercent = 100.000000000000000000
                 Text = 'edtAIVendorPhone'
@@ -2852,6 +2857,7 @@ object frmEAT: TfrmEAT
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Anchors = [akLeft, akTop, akRight]
+                AutoCompletion = acEmail
                 ChildOrder = 1
                 HeightPercent = 100.000000000000000000
                 Text = 'edtAIVendorEmail'
