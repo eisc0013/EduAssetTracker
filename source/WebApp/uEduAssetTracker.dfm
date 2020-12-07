@@ -2329,6 +2329,7 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
+              ExplicitTop = 82
               DesignSize = (
                 377
                 33)

@@ -415,6 +415,8 @@ procedure Tdm.CloneDataset(pDataIn, pDataOut: TXDataWebDataSet);
 var
   Rows: TJSArray;
 begin
+  if pDataOut.Active then
+    pDataOut.Close;
   Rows := TJSArray.new;
   pDataIn.First;
   while not pDataIn.Eof do
@@ -423,6 +425,7 @@ begin
     pDataIn.Next;
   end;
   pDataOut.SetJsonData(Rows);
+  pDataOut.Open;
 end;
 
 procedure Tdm.DataSetAfterPost(DataSet: TDataSet);
