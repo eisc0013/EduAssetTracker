@@ -1036,6 +1036,333 @@ object frmEAT: TfrmEAT
               ExplicitTop = 320
               ExplicitWidth = 150
               ExplicitHeight = 60
+              DesignSize = (
+                377
+                401)
+              object WebLabel35: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 7
+                Width = 29
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Make:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel36: TWebLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 39
+                Width = 32
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Model:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel37: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 68
+                Width = 70
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Serial Number:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel38: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 98
+                Width = 74
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Purchase Date:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel39: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 128
+                Width = 86
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Purchase Invoice:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel40: TWebLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 156
+                Width = 74
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Purchase Price:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel41: TWebLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 186
+                Width = 129
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Warranty Duration (Days):'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel42: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 218
+                Width = 88
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Deactivated Date:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel43: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 240
+                Width = 79
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Purchase Notes:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel44: TWebLabel
+                AlignWithMargins = True
+                Left = 8
+                Top = 318
+                Width = 32
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Notes:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIAssetMake: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 4
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetMake'
+                WidthPercent = 100.000000000000000000
+                DataField = 'make'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetModel: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 34
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetModel'
+                WidthPercent = 100.000000000000000000
+                DataField = 'model'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetSN: TWebDBEdit
+                AlignWithMargins = True
+                Left = 82
+                Top = 64
+                Width = 291
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetSN'
+                WidthPercent = 100.000000000000000000
+                DataField = 'serialNumber'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetDateDeactivated: TWebDBEdit
+                AlignWithMargins = True
+                Left = 100
+                Top = 214
+                Width = 273
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetDateDeactivated'
+                WidthPercent = 100.000000000000000000
+                DataField = 'deactivatedDate'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetPurchaseDate: TWebDBEdit
+                AlignWithMargins = True
+                Left = 98
+                Top = 94
+                Width = 275
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetPurchaseDate'
+                WidthPercent = 100.000000000000000000
+                DataField = 'purchaseDate'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetPurchaseInvoice: TWebDBEdit
+                AlignWithMargins = True
+                Left = 98
+                Top = 124
+                Width = 275
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetPurchaseInvoice'
+                WidthPercent = 100.000000000000000000
+                DataField = 'purchaseInvoice'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetPurchasePrice: TWebDBEdit
+                AlignWithMargins = True
+                Left = 98
+                Top = 154
+                Width = 275
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                EditType = weNumeric
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetPurchasePrice'
+                WidthPercent = 100.000000000000000000
+                DataField = 'purchasePrice'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetWarrantyDurationDays: TWebDBEdit
+                AlignWithMargins = True
+                Left = 140
+                Top = 184
+                Width = 233
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                EditType = weNumeric
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIAssetWarrantyDurationDays'
+                WidthPercent = 100.000000000000000000
+                DataField = 'warrantyDurationDays'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetPurchaseNotes: TWebDBMemo
+                AlignWithMargins = True
+                Left = 16
+                Top = 256
+                Width = 356
+                Height = 61
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                AutoSize = False
+                HeightPercent = 100.000000000000000000
+                Lines.Strings = (
+                  'edtAIAssetPurchaseNotes')
+                SelLength = 0
+                SelStart = 0
+                WidthPercent = 100.000000000000000000
+                DataField = 'purchaseNotes'
+                DataSource = dm.dsAssetNA
+              end
+              object edtAIAssetNotes: TWebDBMemo
+                AlignWithMargins = True
+                Left = 17
+                Top = 336
+                Width = 356
+                Height = 61
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                AutoSize = False
+                HeightPercent = 100.000000000000000000
+                Lines.Strings = (
+                  'edtAIAssetNotes')
+                SelLength = 0
+                SelStart = 17
+                WidthPercent = 100.000000000000000000
+                DataField = 'notes'
+                DataSource = dm.dsAssetNA
+              end
             end
           end
           object pnlAIAssetType: TWebPanel
@@ -1493,7 +1820,7 @@ object frmEAT: TfrmEAT
               object WebLabel33: TWebLabel
                 AlignWithMargins = True
                 Left = 4
-                Top = 87
+                Top = 68
                 Width = 88
                 Height = 13
                 Margins.Left = 4
@@ -1539,7 +1866,7 @@ object frmEAT: TfrmEAT
               object edtAIPersonDateDeactivated: TWebDBEdit
                 AlignWithMargins = True
                 Left = 100
-                Top = 83
+                Top = 64
                 Width = 101
                 Height = 22
                 Margins.Left = 4
@@ -1706,6 +2033,189 @@ object frmEAT: TfrmEAT
                 DataSource = dm.dsRoomNA
               end
             end
+            object pnlAIRoomDetail: TWebPanel
+              AlignWithMargins = True
+              Left = 0
+              Top = 105
+              Width = 377
+              Height = 206
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alClient
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 3
+              DesignSize = (
+                377
+                206)
+              object WebLabel45: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 101
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Nameplate (room #):'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel46: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 128
+                Width = 88
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akBottom]
+                Caption = 'Deactivated Date:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel47: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 38
+                Width = 37
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Person:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel48: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 68
+                Width = 40
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Building:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel49: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 96
+                Width = 33
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Grade:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIRoomNameplate: TWebDBEdit
+                AlignWithMargins = True
+                Left = 113
+                Top = 4
+                Width = 260
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIRoomNameplate'
+                WidthPercent = 100.000000000000000000
+                DataField = 'nameplate'
+                DataSource = dm.dsRoom
+              end
+              object edtAIRoomDeactivatedDate: TWebDBEdit
+                AlignWithMargins = True
+                Left = 100
+                Top = 124
+                Width = 101
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akBottom]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIRoomDeactivatedDate'
+                WidthPercent = 100.000000000000000000
+                DataField = 'deactivatedDate'
+                DataSource = dm.dsRoomNA
+              end
+              object edtAIRoomBuilding: TWebDBLookupComboBox
+                AlignWithMargins = True
+                Left = 55
+                Top = 64
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                DataField = 'buildingId'
+                DataSource = dm.dsRoomNA
+                KeyField = 'id'
+                ListField = 'name'
+                ListSource = dm.dsBuildingList
+              end
+              object edtAIRoomPerson: TWebDBLookupComboBox
+                AlignWithMargins = True
+                Left = 55
+                Top = 34
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+                DataField = 'personId'
+                DataSource = dm.dsRoomNA
+                KeyField = 'id'
+                ListField = 'name'
+                ListSource = dm.dsPersonList
+              end
+              object edtAIRoomGrade: TWebDBEdit
+                AlignWithMargins = True
+                Left = 45
+                Top = 94
+                Width = 328
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIRoomNameplate'
+                WidthPercent = 100.000000000000000000
+                DataField = 'grade'
+                DataSource = dm.dsRoom
+              end
+            end
           end
           object pnlAIBuilding: TWebPanel
             Left = 1528
@@ -1852,6 +2362,157 @@ object frmEAT: TfrmEAT
                 Text = 'edtAIBuildingId'
                 WidthPercent = 100.000000000000000000
                 DataField = 'id'
+                DataSource = dm.dsBuilding
+              end
+            end
+            object pnlAIBuildingDetail: TWebPanel
+              AlignWithMargins = True
+              Left = 0
+              Top = 105
+              Width = 377
+              Height = 206
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alClient
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 3
+              DesignSize = (
+                377
+                206)
+              object WebLabel50: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 31
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Name:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel51: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 182
+                Width = 88
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Deactivated Date:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel52: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 40
+                Width = 34
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Phone:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel53: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 60
+                Width = 43
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Address:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIBuildingName: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 4
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIBuildingName'
+                WidthPercent = 100.000000000000000000
+                DataField = 'name'
+                DataSource = dm.dsBuilding
+              end
+              object edtAIBuildingDeactivatedDate: TWebDBEdit
+                AlignWithMargins = True
+                Left = 100
+                Top = 178
+                Width = 101
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIBuildingDeactivatedDate'
+                WidthPercent = 100.000000000000000000
+                DataField = 'deactivatedDate'
+                DataSource = dm.dsBuilding
+              end
+              object edtAIBuildingPhone: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 34
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIBuildingPhone'
+                WidthPercent = 100.000000000000000000
+                DataField = 'phone'
+                DataSource = dm.dsBuilding
+              end
+              object edtAIBuildingAddress: TWebDBMemo
+                AlignWithMargins = True
+                Left = 8
+                Top = 80
+                Width = 369
+                Height = 90
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight, akBottom]
+                AutoSize = False
+                HeightPercent = 100.000000000000000000
+                Lines.Strings = (
+                  'edtAIBuildingAddress')
+                SelLength = 0
+                SelStart = 22
+                WidthPercent = 100.000000000000000000
+                WordWrap = False
+                DataField = 'address'
                 DataSource = dm.dsBuilding
               end
             end
@@ -2002,6 +2663,219 @@ object frmEAT: TfrmEAT
                 Text = 'edtAIVendorVendorId'
                 WidthPercent = 100.000000000000000000
                 DataField = 'id'
+                DataSource = dm.dsVendor
+              end
+            end
+            object pnlAIVendorDetail: TWebPanel
+              AlignWithMargins = True
+              Left = 0
+              Top = 105
+              Width = 377
+              Height = 206
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              HeightPercent = 100.000000000000000000
+              WidthPercent = 100.000000000000000000
+              Align = alClient
+              BorderColor = clSilver
+              BorderStyle = bsSingle
+              ChildOrder = 3
+              DesignSize = (
+                377
+                206)
+              object WebLabel54: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 8
+                Width = 31
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Name:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel55: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 184
+                Width = 88
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Deactivated Date:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel56: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 38
+                Width = 43
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Website:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel57: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 68
+                Width = 34
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Phone:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel58: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 98
+                Width = 32
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'E-mail:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object WebLabel59: TWebLabel
+                AlignWithMargins = True
+                Left = 4
+                Top = 118
+                Width = 32
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 0
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Notes:'
+                HeightPercent = 100.000000000000000000
+                WidthPercent = 100.000000000000000000
+              end
+              object edtAIVendorName: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 4
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIVendorName'
+                WidthPercent = 100.000000000000000000
+                DataField = 'name'
+                DataSource = dm.dsVendor
+              end
+              object edtAIVendorDeactivatedDate: TWebDBEdit
+                AlignWithMargins = True
+                Left = 100
+                Top = 180
+                Width = 101
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIVendorDeactivatedDate'
+                WidthPercent = 100.000000000000000000
+                DataField = 'deactivatedDate'
+                DataSource = dm.dsVendor
+              end
+              object edtAIVendorWebsite: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 34
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIVendorWebsite'
+                WidthPercent = 100.000000000000000000
+                DataField = 'website'
+                DataSource = dm.dsVendor
+              end
+              object edtAIVendorPhone: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 64
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIVendorPhone'
+                WidthPercent = 100.000000000000000000
+                DataField = 'phone'
+                DataSource = dm.dsVendor
+              end
+              object edtAIVendorEmail: TWebDBEdit
+                AlignWithMargins = True
+                Left = 55
+                Top = 94
+                Width = 318
+                Height = 22
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Anchors = [akLeft, akTop, akRight]
+                ChildOrder = 1
+                HeightPercent = 100.000000000000000000
+                Text = 'edtAIVendorEmail'
+                WidthPercent = 100.000000000000000000
+                DataField = 'email'
+                DataSource = dm.dsVendor
+              end
+              object edtAIVendorNotes: TWebDBMemo
+                AlignWithMargins = True
+                Left = 8
+                Top = 136
+                Width = 365
+                Height = 36
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                AutoSize = False
+                HeightPercent = 100.000000000000000000
+                Lines.Strings = (
+                  'edtAIVendorNotes')
+                SelLength = 0
+                SelStart = 18
+                WidthPercent = 100.000000000000000000
+                DataField = 'notes'
                 DataSource = dm.dsVendor
               end
             end
@@ -2417,26 +3291,20 @@ object frmEAT: TfrmEAT
     Headers.Strings = (
       'Cache-Control=no-cache, no-store, must-revalidate')
     OnResponse = QRCodeGoogleAPIsResponse
-    Left = 256
-    Top = 215
+    Left = 208
+    Top = 799
   end
   object qrDecode: TWebQRDecoder
     Camera = cam
     OnDecoded = qrDecodeDecoded
-    Left = 32
-    Top = 389
+    Left = 24
+    Top = 797
   end
   object tmrQRDetectPause: TWebTimer
     Enabled = False
     Interval = 3000
     OnTimer = tmrQRDetectPauseTimer
-    Left = 64
-    Top = 349
-  end
-  object toastAsset: TWebToast
-    Items = <>
-    Position = tpTopLeft
-    Left = 360
-    Top = 444
+    Left = 104
+    Top = 797
   end
 end
