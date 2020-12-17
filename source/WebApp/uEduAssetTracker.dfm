@@ -21,7 +21,7 @@ object frmEAT: TfrmEAT
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    TabIndex = 5
+    TabIndex = 1
     ParentFont = False
     TabOrder = 0
     object tsWelcome: TWebTabSheet
@@ -247,6 +247,143 @@ object frmEAT: TfrmEAT
           HeightPercent = 100.000000000000000000
           Text = 'edtTagId'
           WidthPercent = 100.000000000000000000
+        end
+        object tvScan: TTMSFNCTableView
+          AlignWithMargins = True
+          Left = 12
+          Top = 12
+          Width = 1876
+          Height = 573
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          Align = alClient
+          ParentDoubleBuffered = False
+          DoubleBuffered = True
+          TabOrder = 4
+          Stroke.Color = 13420488
+          ItemAppearance.Font.Charset = DEFAULT_CHARSET
+          ItemAppearance.Font.Color = clBlack
+          ItemAppearance.Font.Height = -11
+          ItemAppearance.Font.Name = 'Tahoma'
+          ItemAppearance.Font.Style = []
+          ItemAppearance.Fill.Color = -1
+          ItemAppearance.Stroke.Color = 13420488
+          ItemAppearance.SelectedFill.Color = 14277081
+          ItemAppearance.SelectedStroke.Color = 14277081
+          ItemAppearance.DisabledFill.Kind = gfkNone
+          ItemAppearance.DisabledFill.Color = 11119017
+          ItemAppearance.DisabledStroke.Kind = gskNone
+          ItemAppearance.DisabledStroke.Color = 11119017
+          ItemAppearance.FixedHeight = 25.000000000000000000
+          ItemAppearance.AccessoryDetailBitmaps = <>
+          ItemAppearance.AccessoryFont.Charset = DEFAULT_CHARSET
+          ItemAppearance.AccessoryFont.Color = 139
+          ItemAppearance.AccessoryFont.Height = -11
+          ItemAppearance.AccessoryFont.Name = 'Tahoma'
+          ItemAppearance.AccessoryFont.Style = [fsBold]
+          ItemAppearance.AccessoryStroke.Color = clBlack
+          ItemAppearance.AccessoryFill.Color = 3329434
+          DefaultItem.HTMLTemplateItems.Strings = (
+            '<table><tr><td>#FIELDDESC</td><td>#FIELDVALUE</td></tr></table>')
+          DefaultItem.VerticalTextAlign = gtaCenter
+          DefaultItem.SelectedTextColor = clBlack
+          Items = <
+            item
+              Text = 'Mercedes'
+              HTMLTemplateItems.Strings = (
+                '1'
+                '2'
+                '3')
+              VerticalTextAlign = gtaCenter
+              SelectedTextColor = clBlack
+              AccessoryWidth = 32.000000000000000000
+            end
+            item
+              Text = 'Audi'
+              VerticalTextAlign = gtaCenter
+              SelectedTextColor = clBlack
+            end
+            item
+              Text = 'BMW'
+              VerticalTextAlign = gtaCenter
+              SelectedTextColor = clBlack
+            end
+            item
+              Text = 'Land Rover'
+              VerticalTextAlign = gtaCenter
+              SelectedTextColor = clBlack
+            end
+            item
+              Text = 'Bugatti'
+              VerticalTextAlign = gtaCenter
+              SelectedTextColor = clBlack
+            end>
+          Header.Text = 'Tag:'
+          Header.Fill.Color = 16382457
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clBlack
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          Header.Stroke.Color = 11711154
+          Header.Height = 30.000000000000000000
+          Footer.Fill.Color = 16382457
+          Footer.Font.Charset = DEFAULT_CHARSET
+          Footer.Font.Color = clBlack
+          Footer.Font.Height = -11
+          Footer.Font.Name = 'Tahoma'
+          Footer.Font.Style = []
+          Footer.Stroke.Color = 11711154
+          Footer.Height = 30.000000000000000000
+          LookupBar.Font.Charset = DEFAULT_CHARSET
+          LookupBar.Font.Color = clWindowText
+          LookupBar.Font.Height = -11
+          LookupBar.Font.Name = 'Tahoma'
+          LookupBar.Font.Style = []
+          LookupBar.InActiveFont.Charset = DEFAULT_CHARSET
+          LookupBar.InActiveFont.Color = clSilver
+          LookupBar.InActiveFont.Height = -11
+          LookupBar.InActiveFont.Name = 'Tahoma'
+          LookupBar.InActiveFont.Style = []
+          LookupBar.Stroke.Color = clWhite
+          LookupBar.DownFill.Color = 16382457
+          LookupBar.DownStroke.Color = 16382457
+          Reload.Stroke.Color = 11119017
+          Reload.Stroke.Width = 2.000000000000000000
+          Categories = <>
+          MoreOptions = <>
+          MoreOptionAppearance.Font.Charset = DEFAULT_CHARSET
+          MoreOptionAppearance.Font.Color = clWhite
+          MoreOptionAppearance.Font.Height = -11
+          MoreOptionAppearance.Font.Name = 'Tahoma'
+          MoreOptionAppearance.Font.Style = []
+          MoreOptionAppearance.Fill.Color = 11829830
+          MoreOptionAppearance.Stroke.Color = 11829830
+          CategoryAppearance.Font.Charset = DEFAULT_CHARSET
+          CategoryAppearance.Font.Color = clWindowText
+          CategoryAppearance.Font.Height = -11
+          CategoryAppearance.Font.Name = 'Tahoma'
+          CategoryAppearance.Font.Style = []
+          CategoryAppearance.Fill.Color = 16053492
+          CategoryAppearance.Stroke.Color = 11119017
+          VerticalScrollBarVisible = True
+          ExplicitLeft = 159
+          ExplicitTop = 70
+          ExplicitWidth = 250
+          ExplicitHeight = 350
+        end
+        object WebButton1: TWebButton
+          Left = 11
+          Top = 3
+          Width = 96
+          Height = 25
+          Caption = 'WebButton1'
+          ChildOrder = 7
+          HeightPercent = 100.000000000000000000
+          WidthPercent = 100.000000000000000000
+          OnClick = WebButton1Click
         end
       end
       object pnlScanHeader: TWebPanel
@@ -668,6 +805,17 @@ object frmEAT: TfrmEAT
         WidthPercent = 100.000000000000000000
         OnClick = btnFlushAuditClick
       end
+      object btnQRCodeSheet_1BigTGPURI_1BigUUID_GSalePup: TWebButton
+        Left = 16
+        Top = 199
+        Width = 249
+        Height = 36
+        Caption = 'Create QR Code Sheet JSON GarageSalePup'
+        ChildOrder = 9
+        HeightPercent = 100.000000000000000000
+        WidthPercent = 100.000000000000000000
+        OnClick = btnQRCodeSheet_1BigTGPURI_1BigUUID_GSalePupClick
+      end
     end
     object tsAssetInfo: TWebTabSheet
       AlignWithMargins = True
@@ -1032,10 +1180,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 3
-              ExplicitLeft = 112
-              ExplicitTop = 320
-              ExplicitWidth = 150
-              ExplicitHeight = 60
               DesignSize = (
                 377
                 401)
@@ -2330,7 +2474,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 2
-              ExplicitTop = 82
               DesignSize = (
                 377
                 33)
@@ -2685,7 +2828,6 @@ object frmEAT: TfrmEAT
               BorderColor = clSilver
               BorderStyle = bsSingle
               ChildOrder = 3
-              ExplicitLeft = -353
               DesignSize = (
                 377
                 206)

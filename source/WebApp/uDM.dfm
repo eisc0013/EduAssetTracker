@@ -552,7 +552,7 @@ object dm: Tdm
     EntitySetName = 'tAssetNA'
     Connection = XDataConn
     Left = 88
-    Top = 64
+    Top = 120
     object XDataWebEntityField3: TXDataWebEntityField
       FieldName = 'tagId'
     end
@@ -610,14 +610,14 @@ object dm: Tdm
   object dsAssetNA: TWebDataSource
     DataSet = tAssetNA
     Left = 144
-    Top = 64
+    Top = 120
   end
   object tRoomNA: TXDataWebDataSet
     AfterOpen = tRoomNAAfterOpen
     AfterPost = DataSetAfterPost
     EntitySetName = 'tRoomNA'
     Connection = XDataConn
-    Left = 80
+    Left = 88
     Top = 176
     object XDataWebEntityField7: TXDataWebEntityField
       FieldName = 'personId'
@@ -646,5 +646,180 @@ object dm: Tdm
     DataSet = tRoomNA
     Left = 144
     Top = 176
+  end
+  object tAssetSA: TXDataWebDataSet
+    AfterOpen = tAssetSAAfterOpen
+    AfterPost = DataSetAfterPost
+    EntitySetName = 'tAsset'
+    Connection = XDataConn
+    SubpropsDepth = 99
+    Left = 88
+    Top = 64
+    object XDataWebEntityField9: TXDataWebEntityField
+      FieldName = 'tagId'
+    end
+    object XDataWebEntityField10: TXDataWebEntityField
+      FieldName = 'roomId'
+    end
+    object XDataWebEntityField11: TXDataWebEntityField
+      FieldName = 'typeId'
+    end
+    object XDataWebEntityField12: TXDataWebEntityField
+      FieldName = 'vendorId'
+    end
+    object StringField32: TStringField
+      FieldName = 'id'
+      Required = True
+      Size = 38
+    end
+    object StringField33: TStringField
+      FieldName = 'make'
+      Size = 50
+    end
+    object StringField34: TStringField
+      FieldName = 'model'
+      Size = 50
+    end
+    object StringField35: TStringField
+      FieldName = 'serialNumber'
+      Size = 50
+    end
+    object DateTimeField10: TDateTimeField
+      FieldName = 'purchaseDate'
+    end
+    object StringField36: TStringField
+      FieldName = 'purchaseInvoice'
+      Size = 50
+    end
+    object IntegerField3: TIntegerField
+      FieldName = 'purchasePrice'
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'warrantyDurationDays'
+    end
+    object StringField37: TStringField
+      FieldName = 'purchaseNotes'
+      Size = 2047
+    end
+    object StringField38: TStringField
+      FieldName = 'notes'
+      Size = 2047
+    end
+    object DateTimeField11: TDateTimeField
+      FieldName = 'deactivatedDate'
+    end
+    object tAssetSAtagIdid: TStringField
+      FieldName = 'tagId.id'
+      Size = 38
+    end
+    object tAssetSAtagIdtagText: TStringField
+      FieldName = 'tagId.tagText'
+      Size = 2047
+    end
+    object tAssetSAtagIddeactivatedDate: TDateTimeField
+      FieldName = 'tagId.deactivatedDate'
+    end
+    object tAssetSAroomIdpersonId: TXDataWebEntityField
+      FieldName = 'roomId.personId'
+    end
+    object tAssetSAroomIdpersonIdid: TStringField
+      FieldName = 'roomId.personId.id'
+      Size = 38
+    end
+    object tAssetSAroomIdpersonIdname: TStringField
+      FieldName = 'roomId.personId.name'
+      Size = 96
+    end
+    object tAssetSAroomIdpersonIdemail: TStringField
+      FieldName = 'roomId.personId.email'
+      Size = 128
+    end
+    object tAssetSAroomIdpersonIddeactivatedDate: TDateTimeField
+      FieldName = 'roomId.personId.deactivatedDate'
+    end
+    object tAssetSAroomIdbuildingId: TXDataWebEntityField
+      FieldName = 'roomId.buildingId'
+    end
+    object tAssetSAroomIdbuildingIdid: TStringField
+      FieldName = 'roomId.buildingId.id'
+      Size = 38
+    end
+    object tAssetSAroomIdbuildingIdname: TStringField
+      FieldName = 'roomId.buildingId.name'
+      Size = 50
+    end
+    object tAssetSAroomIdbuildingIdphone: TStringField
+      FieldName = 'roomId.buildingId.phone'
+      Size = 50
+    end
+    object tAssetSAroomIdbuildingIdaddress: TStringField
+      FieldName = 'roomId.buildingId.address'
+      Size = 1024
+    end
+    object tAssetSAroomIdbuildingIddeactivatedDate: TDateTimeField
+      FieldName = 'roomId.buildingId.deactivatedDate'
+    end
+    object tAssetSAroomIdid: TStringField
+      FieldName = 'roomId.id'
+      Size = 38
+    end
+    object tAssetSAroomIdnameplate: TStringField
+      FieldName = 'roomId.nameplate'
+      Size = 24
+    end
+    object tAssetSAroomIdgrade: TStringField
+      FieldName = 'roomId.grade'
+      Size = 24
+    end
+    object tAssetSAroomIddeactivatedDate: TDateTimeField
+      FieldName = 'roomId.deactivatedDate'
+    end
+    object tAssetSAtypeIdid: TStringField
+      FieldName = 'typeId.id'
+      Size = 38
+    end
+    object tAssetSAtypeIdname: TStringField
+      FieldName = 'typeId.name'
+      Size = 96
+    end
+    object tAssetSAtypeIddescription: TStringField
+      FieldName = 'typeId.description'
+      Size = 2047
+    end
+    object tAssetSAtypeIddeactivatedDate: TDateTimeField
+      FieldName = 'typeId.deactivatedDate'
+    end
+    object tAssetSAvendorIdid: TStringField
+      FieldName = 'vendorId.id'
+      Size = 38
+    end
+    object tAssetSAvendorIdname: TStringField
+      FieldName = 'vendorId.name'
+      Size = 128
+    end
+    object tAssetSAvendorIdwebsite: TStringField
+      FieldName = 'vendorId.website'
+      Size = 2047
+    end
+    object tAssetSAvendorIdemail: TStringField
+      FieldName = 'vendorId.email'
+      Size = 128
+    end
+    object tAssetSAvendorIdphone: TStringField
+      FieldName = 'vendorId.phone'
+      Size = 48
+    end
+    object tAssetSAvendorIdnotes: TStringField
+      FieldName = 'vendorId.notes'
+      Size = 2047
+    end
+    object tAssetSAvendorIddeactivatedDate: TDateTimeField
+      FieldName = 'vendorId.deactivatedDate'
+    end
+  end
+  object dsAssetSA: TWebDataSource
+    DataSet = tAssetSA
+    Left = 144
+    Top = 64
   end
 end

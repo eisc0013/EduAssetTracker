@@ -13,7 +13,8 @@ uses
   WEBLib.WebCtrls, WEBLib.SignIn, WEBLib.IndexedDb, DateUtils, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
   VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast,
-  WinAPI.Windows, uDM, uTEATCommon, uTEATAudit, Vcl.Mask, WEBLib.Mask;
+  WinAPI.Windows, uDM, uTEATCommon, uTEATAudit, Vcl.Mask, WEBLib.Mask,
+  WEBLib.Grids, VCL.TMSFNCTableView;
 
 type
   TURIType = (Invalid, Full, Shortener);
@@ -220,6 +221,9 @@ type
     edtAIVendorEmail: TWebDBEdit;
     WebLabel59: TWebLabel;
     edtAIVendorNotes: TWebDBMemo;
+    btnQRCodeSheet_1BigTGPURI_1BigUUID_GSalePup: TWebButton;
+    tvScan: TTMSFNCTableView;
+    WebButton1: TWebButton;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -253,6 +257,8 @@ type
     procedure btnFlushAuditClick(Sender: TObject);
     procedure WebFormResize(Sender: TObject);
     procedure btnAITagsFlushClick(Sender: TObject);
+    procedure btnQRCodeSheet_1BigTGPURI_1BigUUID_GSalePupClick(Sender: TObject);
+    procedure WebButton1Click(Sender: TObject);
   private
     { Private declarations }
     fWebRequest: TWebHTTPRequest;
@@ -275,6 +281,7 @@ type
     procedure TagIdChangeHandler(const pOldId, pNewId: String);
     procedure TagLogItEventHandler(const pLogText: String);
     procedure ArrangeAIPanels();
+    procedure ScanItemFillTableView();
   public
     { Public declarations }
     procedure LogIt(pLogText: String);
@@ -575,6 +582,12 @@ begin
   GetQRCodeSheetPDF('1BigTGPURI_1BigUUID');
 end;
 
+procedure TfrmEAT.btnQRCodeSheet_1BigTGPURI_1BigUUID_GSalePupClick(
+  Sender: TObject);
+begin
+  GetQRCodeSheetPDF('1BigTGPURI_1BigUUID_GSalePups');
+end;
+
 procedure TfrmEAT.btnQRCodeSheet_2Big_FullURIClick(Sender: TObject);
 begin
   GetQRCodeSheetPDF('2Big_FullURI');
@@ -808,6 +821,22 @@ begin
   cam.Resume;
 end;
 
+procedure TfrmEAT.ScanItemFillTableView;
+var
+  lTVI: TTMSFNCTableViewItem;
+begin
+  tvScan.Items.Clear;
+  lTVI := tvScan.Items.Add;
+  lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Make';
+  lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('make').AsString;
+  lTVI := tvScan.Items.Add;
+  lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Model';
+  lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('model').AsString;
+  lTVI := tvScan.Items.Add;
+  lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Tag Text';
+  lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('tagId.tagText').AsString;
+end;
+
 procedure TfrmEAT.StartCamera;
 begin
   LogIt('Camera starting');
@@ -861,6 +890,11 @@ procedure TfrmEAT.tsScanAssetShow(Sender: TObject);
 begin
   LogIt('Scan Asset tab Showing');
   GoCamera();
+end;
+
+procedure TfrmEAT.WebButton1Click(Sender: TObject);
+begin
+  ScanItemFillTableView();
 end;
 
 procedure TfrmEAT.WebButton2Click(Sender: TObject);

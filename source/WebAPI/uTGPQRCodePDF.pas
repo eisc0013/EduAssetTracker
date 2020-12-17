@@ -35,6 +35,7 @@ type
     function GeneratePDF_2Big_FullURI(const pPathPDF: String = ''): TStream;
     function GeneratePDF_1BigFullURI_1BigUUID(const pPathPDF: String = ''): TStream;
     function GeneratePDF_1BigTGPURI_1BigUUID(const pPathPDF: String = ''): TStream;
+    function GeneratePDF_1BigTGPURI_1BigUUID_GSalePups(const pPathPDF: String = ''): TStream;
     function GetGUID(): String;
   published
     property Pages: NativeUInt read FPages write FPages;
@@ -88,7 +89,9 @@ begin
   else if fLayout = '1BigFullURI_1BigUUID' then
     Result := GeneratePDF_1BigFullURI_1BigUUID(pPathPDF)
   else if fLayout = '1BigTGPURI_1BigUUID' then
-    Result := GeneratePDF_1BigTGPURI_1BigUUID(pPathPDF);
+    Result := GeneratePDF_1BigTGPURI_1BigUUID(pPathPDF)
+  else if fLayout = '1BigTGPURI_1BigUUID_GSalePupsyu' then
+    Result := GeneratePDF_1BigTGPURI_1BigUUID_GSalePups(pPathPDF);
 end;
 
 function TTGPQRPDF.GeneratePDF_1Big2Small_FullURI(const pPathPDF: String = ''): TStream;
@@ -281,6 +284,96 @@ var
   lBaseTextIn: String;
 begin
   Result := nil;
+  // ALE 20201122 go with a shorter URL that nginx redirects
+  // BASEURL = 'tgp.net/s/EAT/';
+  // ALE 20201115 The idea is to generate a sheet of QRCodes,
+  //  one 'large' size with the TGP shortened URL, then a magnified 'large'
+  //  size with just the UUID
+  if ((FPages > 0) AND (FBaseText <> '')) then
+  begin
+    lBaseTextIn := 'https://s.tgp.net/EAT/';
+    FPDF.BeginDocument(FFileName); // TODO ALE 20201029 if we don't provide a filename, output goes to a TMemoryStream on EndDocument
+    FPDF.Header := '';
+    FPDF.Footer := '';
+    for var I: NativeUInt := 0 to FPages - 1 do
+    begin
+      FPDF.NewPage;
+      // ALE 20201030 second - 1 for margin as is + 30
+      for var R := 0 to (Trunc(FPDF.PageHeight) div ROWHEIGHT) - 1 - 1 do
+      begin
+        for var C := 0 to (Trunc(FPDF.PageWidth) div COLWIDTH) - 1 - 1 do
+        begin
+          // ALE 20201115 Draw a border around the like QR Codes
+          FPDF.Graphics.Fill.Kind := gfkNone;
+          FPDF.Graphics.Stroke.Width := 1;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT));
+          // ALE 2020115 Draw a boarder around first big QR code
+          //FPDF.Graphics.Stroke.Color := gcOrange;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+          // ALE 2020115 Draw a boarder around large QR code
+          //FPDF.Graphics.Stroke.Color := gcBlue;
+          FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+
+          // ALE 20201115 Now we do two sub-columns
+          // ALE 20201115 Draw the left large QR code
+          FBaseText := lBaseTextIn;
+          lBMP := UpdateQRCode();
+          lPicture := TPicture.Create;
+          lPicture.Bitmap := lBMP;
+          FPDF.Graphics.DrawImage(lPicture,  RectF(C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2 - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE -1, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE - 3, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 3));
+          lBMP.Free;
+          lPicture.Free;
+
+          // ALE 20201115 Draw the right large QR code
+          FBaseText := '';
+          lBMP := UpdateQRCode(False);
+          lPicture := TPicture.Create;
+          lPicture.Bitmap := lBMP;
+          FPDF.Graphics.DrawImage(lPicture, RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE + BORDERSIZE div 2 - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE - 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 3, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 3));
+          lBMP.Free;
+          lPicture.Free;
+
+          FBaseText := lBaseTextIn;
+        end;
+      end;
+    end;
+    Result := FPDF.EndDocument(False); // ALE 20201029 set to False to prevent opening in PDF reader
+
+    if (Result <> nil) AND (pPathPDF <> '') then
+    begin
+      var lPathFileNamePDF := TPath.Combine(pPathPDF, 'QRCodeSheets\QRCodes_'
+       + FormatDateTime('yyyy-mm-dd_hh.nn.ss.zzz',
+        TTimeZone.Local.ToUniversalTime(Now())) + '.pdf');
+      if ForceDirectories(ExtractFilePath(lPathFileNamePDF)) then
+      begin
+        lFileStream := TFileStream.Create(lPathFileNamePDF, fmCreate);
+        lFileStream.CopyFrom(Result);
+        lFileStream.Free;
+      end;
+    end;
+  end;
+end;
+
+function TTGPQRPDF.GeneratePDF_1BigTGPURI_1BigUUID_GSalePups(
+  const pPathPDF: String): TStream;
+const
+  QRLRGSIZE = 68;
+  INDENT = 34;
+  BORDERSIZE = 6;
+  CELLPADDING = 0;
+  COLWIDTH = QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+  ROWHEIGHT = QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+var
+  lBMP: TBitmap;
+  lPicture: TPicture;
+  lFileStream: TFileStream;
+  lBaseTextIn: String;
+begin
+  Result := nil;
+  // ALE 20201212 Layout for GarageSalePup.com 1" Square Labels from Amazon
   // ALE 20201122 go with a shorter URL that nginx redirects
   // BASEURL = 'tgp.net/s/EAT/';
   // ALE 20201115 The idea is to generate a sheet of QRCodes,

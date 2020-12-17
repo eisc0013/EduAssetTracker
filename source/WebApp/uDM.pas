@@ -151,6 +151,52 @@ uses
     StringField31: TStringField;
     DateTimeField9: TDateTimeField;
     dsRoomNA: TWebDataSource;
+    tAssetSA: TXDataWebDataSet;
+    XDataWebEntityField9: TXDataWebEntityField;
+    XDataWebEntityField10: TXDataWebEntityField;
+    XDataWebEntityField11: TXDataWebEntityField;
+    XDataWebEntityField12: TXDataWebEntityField;
+    StringField32: TStringField;
+    StringField33: TStringField;
+    StringField34: TStringField;
+    StringField35: TStringField;
+    DateTimeField10: TDateTimeField;
+    StringField36: TStringField;
+    IntegerField3: TIntegerField;
+    IntegerField4: TIntegerField;
+    StringField37: TStringField;
+    StringField38: TStringField;
+    DateTimeField11: TDateTimeField;
+    dsAssetSA: TWebDataSource;
+    tAssetSAtagIdid: TStringField;
+    tAssetSAtagIdtagText: TStringField;
+    tAssetSAtagIddeactivatedDate: TDateTimeField;
+    tAssetSAroomIdpersonId: TXDataWebEntityField;
+    tAssetSAroomIdpersonIdid: TStringField;
+    tAssetSAroomIdpersonIdname: TStringField;
+    tAssetSAroomIdpersonIdemail: TStringField;
+    tAssetSAroomIdpersonIddeactivatedDate: TDateTimeField;
+    tAssetSAroomIdbuildingId: TXDataWebEntityField;
+    tAssetSAroomIdbuildingIdid: TStringField;
+    tAssetSAroomIdbuildingIdname: TStringField;
+    tAssetSAroomIdbuildingIdphone: TStringField;
+    tAssetSAroomIdbuildingIdaddress: TStringField;
+    tAssetSAroomIdbuildingIddeactivatedDate: TDateTimeField;
+    tAssetSAroomIdid: TStringField;
+    tAssetSAroomIdnameplate: TStringField;
+    tAssetSAroomIdgrade: TStringField;
+    tAssetSAroomIddeactivatedDate: TDateTimeField;
+    tAssetSAtypeIdid: TStringField;
+    tAssetSAtypeIdname: TStringField;
+    tAssetSAtypeIddescription: TStringField;
+    tAssetSAtypeIddeactivatedDate: TDateTimeField;
+    tAssetSAvendorIdid: TStringField;
+    tAssetSAvendorIdname: TStringField;
+    tAssetSAvendorIdwebsite: TStringField;
+    tAssetSAvendorIdemail: TStringField;
+    tAssetSAvendorIdphone: TStringField;
+    tAssetSAvendorIdnotes: TStringField;
+    tAssetSAvendorIddeactivatedDate: TDateTimeField;
     procedure dbEATClientAfterOpen(DataSet: TDataSet);
     procedure tAssetTypeAfterOpen(DataSet: TDataSet);
     procedure XDataClientLoad(Response: TXDataClientResponse);
@@ -174,6 +220,7 @@ uses
     procedure tVendorListAfterOpen(DataSet: TDataSet);
     procedure tAssetNAAfterOpen(DataSet: TDataSet);
     procedure tRoomNAAfterOpen(DataSet: TDataSet);
+    procedure tAssetSAAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -287,6 +334,7 @@ end;
 procedure Tdm.LoadTables;
 begin
   tAsset.Load;
+  // ALE 20201216 done in tAsset OnOpen - tAssetSA.Load;
   tAssetNA.Load;
   tAssetType.Load;
   tPerson.Load;
@@ -302,6 +350,8 @@ end;
 procedure Tdm.tAssetAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAsset Opened');
+  CloneDataset(tAsset, tAssetSA);
+  tAssetSA.Open;
   dsAsset.Enabled := True;
   tAsset.First;
 end;
@@ -320,6 +370,13 @@ begin
   frmEAT.LogIt('tAssetNA Opened');
   dsAssetNA.Enabled := True;
   tAssetNA.First;
+end;
+
+procedure Tdm.tAssetSAAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tAssetSA Opened');
+  dsAssetSA.Enabled := True;
+  tAssetSA.First;
 end;
 
 procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
