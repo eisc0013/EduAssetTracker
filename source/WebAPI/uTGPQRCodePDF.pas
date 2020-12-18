@@ -90,7 +90,7 @@ begin
     Result := GeneratePDF_1BigFullURI_1BigUUID(pPathPDF)
   else if fLayout = '1BigTGPURI_1BigUUID' then
     Result := GeneratePDF_1BigTGPURI_1BigUUID(pPathPDF)
-  else if fLayout = '1BigTGPURI_1BigUUID_GSalePupsyu' then
+  else if fLayout = '1BigTGPURI_1BigUUID_GSalePups' then
     Result := GeneratePDF_1BigTGPURI_1BigUUID_GSalePups(pPathPDF);
 end;
 
@@ -360,12 +360,12 @@ end;
 function TTGPQRPDF.GeneratePDF_1BigTGPURI_1BigUUID_GSalePups(
   const pPathPDF: String): TStream;
 const
-  QRLRGSIZE = 68;
+  QRLRGSIZE = 69;
   INDENT = 34;
-  BORDERSIZE = 6;
+  BORDERSIZE = 5;
   CELLPADDING = 0;
-  COLWIDTH = QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE;
-  ROWHEIGHT = QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+  COLWIDTH = QRLRGSIZE + BORDERSIZE + BORDERSIZE;
+  ROWHEIGHT = QRLRGSIZE + BORDERSIZE + BORDERSIZE + 2; // ALE 20201217 +2 for spacing
 var
   lBMP: TBitmap;
   lPicture: TPicture;
@@ -389,24 +389,25 @@ begin
     begin
       FPDF.NewPage;
       // ALE 20201030 second - 1 for margin as is + 30
-      for var R := 0 to (Trunc(FPDF.PageHeight) div ROWHEIGHT) - 1 - 1 do
+      for var R := 0 to (Trunc(FPDF.PageHeight - INDENT) div ROWHEIGHT) - 1 do
       begin
-        for var C := 0 to (Trunc(FPDF.PageWidth) div COLWIDTH) - 1 - 1 do
+        for var C := 0 to (Trunc(FPDF.PageWidth - INDENT) div COLWIDTH) - 1 do
         begin
           // ALE 20201115 Draw a border around the like QR Codes
           FPDF.Graphics.Fill.Kind := gfkNone;
           FPDF.Graphics.Stroke.Width := 1;
           FPDF.Graphics.Stroke.Color := gcGrey;
-          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT));
+          //FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT));
+          //FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT) + INDENT + ROWHEIGHT));
           // ALE 2020115 Draw a boarder around first big QR code
-          //FPDF.Graphics.Stroke.Color := gcOrange;
-          FPDF.Graphics.Stroke.Color := gcGrey;
-          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+          FPDF.Graphics.Stroke.Color := gcOrange;
+          //FPDF.Graphics.Stroke.Color := gcGrey;
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE));
           // ALE 2020115 Draw a boarder around large QR code
-          //FPDF.Graphics.Stroke.Color := gcBlue;
-          FPDF.Graphics.Stroke.Color := gcGrey;
-          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
-
+          FPDF.Graphics.Stroke.Color := gcBlue;
+          //FPDF.Graphics.Stroke.Color := gcGrey;
+          //FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
+          {
           // ALE 20201115 Now we do two sub-columns
           // ALE 20201115 Draw the left large QR code
           FBaseText := lBaseTextIn;
@@ -425,7 +426,7 @@ begin
           FPDF.Graphics.DrawImage(lPicture, RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE + BORDERSIZE div 2 - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE - 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 3, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 3));
           lBMP.Free;
           lPicture.Free;
-
+           }
           FBaseText := lBaseTextIn;
         end;
       end;
