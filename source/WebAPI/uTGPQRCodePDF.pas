@@ -362,7 +362,7 @@ function TTGPQRPDF.GeneratePDF_1BigTGPURI_1BigUUID_GSalePups(
 const
   QRLRGSIZE = 69;
   INDENT = 34;
-  BORDERSIZE = 5;
+  BORDERSIZE = 4.5;
   CELLPADDING = 0;
   COLWIDTH = QRLRGSIZE + BORDERSIZE + BORDERSIZE;
   ROWHEIGHT = QRLRGSIZE + BORDERSIZE + BORDERSIZE + 2; // ALE 20201217 +2 for spacing
@@ -389,9 +389,9 @@ begin
     begin
       FPDF.NewPage;
       // ALE 20201030 second - 1 for margin as is + 30
-      for var R := 0 to (Trunc(FPDF.PageHeight - INDENT) div ROWHEIGHT) - 1 do
+      for var R := 0 to Trunc((FPDF.PageHeight - INDENT) / ROWHEIGHT) - 1 do
       begin
-        for var C := 0 to (Trunc(FPDF.PageWidth - INDENT) div COLWIDTH) - 1 do
+        for var C := 0 to Trunc((FPDF.PageWidth - INDENT) / COLWIDTH) - 1 do
         begin
           // ALE 20201115 Draw a border around the like QR Codes
           FPDF.Graphics.Fill.Kind := gfkNone;
@@ -402,7 +402,7 @@ begin
           // ALE 2020115 Draw a boarder around first big QR code
           FPDF.Graphics.Stroke.Color := gcOrange;
           //FPDF.Graphics.Stroke.Color := gcGrey;
-          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE));
+          FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING+0.6) + INDENT + 4, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING+0.6) + INDENT + 4 + QRLRGSIZE + BORDERSIZE));
           // ALE 2020115 Draw a boarder around large QR code
           FPDF.Graphics.Stroke.Color := gcBlue;
           //FPDF.Graphics.Stroke.Color := gcGrey;
