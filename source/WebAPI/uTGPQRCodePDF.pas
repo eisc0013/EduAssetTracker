@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, System.Types, System.TypInfo,
-  System.DateUtils, System.IOUtils,
+  System.DateUtils, System.IOUtils, System.Math,
   DelphiZXingQRCode, VCL.Graphics, AdvPDFLib, AdvGraphicsTypes;
 
 type
@@ -373,8 +373,10 @@ var
   lPicture: TPicture;
   lFileStream: TFileStream;
   lBaseTextIn: String;
+  lLblNum: NativeInt;
 begin
   Result := nil;
+  lLblNum := 0;
   // ALE 20201212 Layout for GarageSalePup.com 1" Square Labels from Amazon
   // ALE 20201122 go with a shorter URL that nginx redirects
   // BASEURL = 'tgp.net/s/EAT/';
@@ -409,17 +411,18 @@ begin
           FPDF.Graphics.Stroke.Color := gcBlue;
           //FPDF.Graphics.Stroke.Color := gcGrey;
           //FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
-          {
-          // ALE 20201115 Now we do two sub-columns
-          // ALE 20201115 Draw the left large QR code
+
+          // ALE 20201115 Draw the URL shortened large QR code
           FBaseText := lBaseTextIn;
           lBMP := UpdateQRCode();
           lPicture := TPicture.Create;
           lPicture.Bitmap := lBMP;
-          FPDF.Graphics.DrawImage(lPicture,  RectF(C * (COLWIDTH + CELLPADDING) + INDENT + BORDERSIZE div 2 - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + BORDERSIZE -1, C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE - 3, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 3));
+          //FPDF.Graphics.DrawRectangle(       RectF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER, C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + QRLRGSIZE + BORDERSIZE));
+          FPDF.Graphics.DrawImage(lPicture,  RectF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + 1, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + 1, C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + COLWIDTH - BORDERSIZE - Ceil(CELLPAD_HOR) - 1,  R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + ROWHEIGHT - BORDERSIZE - Ceil(CELLPAD_VER) - 1));
+          //FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + 1, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + 1));
           lBMP.Free;
           lPicture.Free;
-
+          {
           // ALE 20201115 Draw the right large QR code
           FBaseText := '';
           lBMP := UpdateQRCode(False);
