@@ -374,10 +374,13 @@ var
   lFileStream: TFileStream;
   lBaseTextIn: String;
   lLblNum: NativeInt;
+  lLblPair: NativeInt;
   lUpdateGUID: Boolean;
+  lClrBrd: TAdvGraphicsColor;
 begin
   Result := nil;
   lLblNum := 0;
+  lLblPair := 1;
   // ALE 20201212 Layout for GarageSalePup.com 1" Square Labels from Amazon
   // ALE 20201122 go with a shorter URL that nginx redirects
   // BASEURL = 'tgp.net/s/EAT/';
@@ -398,40 +401,88 @@ begin
       begin
         for var C := 0 to Trunc((FPDF.PageWidth - INDENT_HOR) / COLWIDTH) - 1 do
         begin
+          // ALE 20201218 every other square we update the GUID
+          if lLblNum mod 2 = 0 then
+          begin
+            lUpdateGUID := True;
+            Inc(lLblPair);
+          end
+          else
+          begin
+            lUpdateGUID := False;
+          end;
+
+          if lLblPair mod 10 = 0 then
+          begin
+            lClrBrd := gcOrange;
+          end
+          else if lLblPair mod 9 = 0 then
+          begin
+            lClrBrd := gcBrown;
+          end
+          else if lLblPair mod 8 = 0 then
+          begin
+            lClrBrd := gcPalegreen;
+          end
+          else if lLblPair mod 7 = 0 then
+          begin
+            lClrBrd := gcNavy;
+          end
+          else if lLblPair mod 6 = 0 then
+          begin
+            lClrBrd := gcPurple;
+          end
+          else if lLblPair mod 5 = 0 then
+          begin
+            lClrBrd := gcGrey;
+          end
+          else if lLblPair mod 4 = 0 then
+          begin
+            lClrBrd := gcGreen;
+          end
+          else if lLblPair mod 3 = 0 then
+          begin
+            lClrBrd := gcRed;
+          end
+          else if lLblPair mod 2 = 0 then
+          begin
+            lClrBrd := gcBlue;
+          end
+          else
+          begin
+            lClrBrd := gcBlack;
+          end;
+
           // ALE 20201115 Draw a border around the like QR Codes
           FPDF.Graphics.Fill.Kind := gfkNone;
           FPDF.Graphics.Stroke.Width := 1;
-          FPDF.Graphics.Stroke.Color := gcGrey;
-          //FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT + CELLPADDING) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT));
-          //FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT, R * (ROWHEIGHT) + INDENT, C * (COLWIDTH + CELLPADDING) + INDENT + COLWIDTH, R * (ROWHEIGHT) + INDENT + ROWHEIGHT));
-          // ALE 2020115 Draw a boarder around first big QR code
-          FPDF.Graphics.Stroke.Color := gcOrange;
-          //FPDF.Graphics.Stroke.Color := gcGrey;
+          // ALE 2020115 Draw a border around first big QR code
+          FPDF.Graphics.Stroke.Color := lClrBrd;
           FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER, C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + QRLRGSIZE + BORDERSIZE));
-          // ALE 2020115 Draw a boarder around large QR code
-          FPDF.Graphics.Stroke.Color := gcBlue;
-          //FPDF.Graphics.Stroke.Color := gcGrey;
-          //FPDF.Graphics.DrawRectangle(RectF(C * (COLWIDTH + CELLPADDING) + INDENT + QRLRGSIZE + BORDERSIZE, R * (ROWHEIGHT + CELLPADDING) + INDENT + 1, C * (COLWIDTH + CELLPADDING) + INDENT+ QRLRGSIZE + QRLRGSIZE + BORDERSIZE + BORDERSIZE - 1, R * (ROWHEIGHT + CELLPADDING) + INDENT + ROWHEIGHT - 1));
 
-          // ALE 20201218 every other square we update the GUID
-          if lLblNum mod 2 = 0 then
-            lUpdateGUID := True
+          if lLblNum < (63 - 1) then
+          begin
+            // ALE 20201115 Draw the URL shortened large QR code
+            if lUpdateGUID then
+              FBaseText := lBaseTextIn
+            else
+              FBaseText := '';
+            lBMP := UpdateQRCode(lUpdateGUID);
+            lPicture := TPicture.Create;
+            lPicture.Bitmap := lBMP;
+            lPicture.Bitmap.Monochrome := True;
+            FPDF.Graphics.DrawImage(lPicture,  RectF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + 1, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + 1, C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + COLWIDTH - BORDERSIZE - Ceil(CELLPAD_HOR) - 1,  R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + ROWHEIGHT - BORDERSIZE - Ceil(CELLPAD_VER) - 1));
+            //FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + 1, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + 1));
+            lBMP.Free;
+            lPicture.Free;
+          end
           else
-            lUpdateGUID := False;
-
-          // ALE 20201115 Draw the URL shortened large QR code
-          if lUpdateGUID then
-            FBaseText := lBaseTextIn
-          else
-            FBaseText := '';
-          lBMP := UpdateQRCode(lUpdateGUID);
-          lPicture := TPicture.Create;
-          lPicture.Bitmap := lBMP;
-          FPDF.Graphics.DrawImage(lPicture,  RectF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + 1, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + 1, C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + COLWIDTH - BORDERSIZE - Ceil(CELLPAD_HOR) - 1,  R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + ROWHEIGHT - BORDERSIZE - Ceil(CELLPAD_VER) - 1));
-          //FPDF.Graphics.DrawImage(lPicture, PointF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + 1, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + 1));
-          lBMP.Free;
-          lPicture.Free;
-          //FBaseText := lBaseTextIn;
+          begin
+            FPDF.Graphics.Font.Size := 6;
+            FPDF.Graphics.DrawText('Adjacent labels with the same border color'
+             + ' should both be applied to a single asset.', RectF(C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + 1, R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + 1, C * (COLWIDTH + CELLPAD_HOR) + INDENT_HOR + COLWIDTH - BORDERSIZE - Ceil(CELLPAD_HOR) - 1,  R * (ROWHEIGHT + CELLPAD_VER) + INDENT_VER + ROWHEIGHT - BORDERSIZE - Ceil(CELLPAD_VER) - 1));
+            FBaseText := IntToStr(lLblNum);
+          end;
           Inc(lLblNum);
         end;
       end;
