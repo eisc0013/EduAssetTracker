@@ -11,7 +11,6 @@ object dm: Tdm
   object XDataClient: TXDataWebClient
     Connection = XDataConn
     OnLoad = XDataClientLoad
-    ReferenceSolvingMode = rsNone
     Left = 16
     Top = 64
   end
@@ -652,7 +651,11 @@ object dm: Tdm
     AfterPost = DataSetAfterPost
     EntitySetName = 'tAsset'
     Connection = XDataConn
-    SubpropsDepth = 99
+    SubpropsDepth = 2
+    QueryString = 
+      '$expand=tagId,roomId,typeId,vendorId,roomId/buildingId,roomId/pe' +
+      'rsonId'
+    ServerRecordCountMode = smInlineCount
     Left = 88
     Top = 64
     object XDataWebEntityField9: TXDataWebEntityField

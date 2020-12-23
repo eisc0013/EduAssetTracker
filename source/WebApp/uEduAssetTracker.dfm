@@ -251,15 +251,15 @@ object frmEAT: TfrmEAT
         object tvScan: TTMSFNCTableView
           AlignWithMargins = True
           Left = 12
-          Top = 12
+          Top = 39
           Width = 1876
-          Height = 573
+          Height = 465
           Margins.Left = 4
           Margins.Top = 4
           Margins.Right = 4
           Margins.Bottom = 4
-          Align = alClient
           ParentDoubleBuffered = False
+          Anchors = [akLeft, akTop, akRight, akBottom]
           DoubleBuffered = True
           TabOrder = 4
           Stroke.Color = 13420488
@@ -302,21 +302,29 @@ object frmEAT: TfrmEAT
             end
             item
               Text = 'Audi'
+              HTMLTemplateItems.Strings = (
+                '<table><tr><td>#FIELDDESC</td><td>#FIELDVALUE</td></tr></table>')
               VerticalTextAlign = gtaCenter
               SelectedTextColor = clBlack
             end
             item
               Text = 'BMW'
+              HTMLTemplateItems.Strings = (
+                '<table><tr><td>#FIELDDESC</td><td>#FIELDVALUE</td></tr></table>')
               VerticalTextAlign = gtaCenter
               SelectedTextColor = clBlack
             end
             item
               Text = 'Land Rover'
+              HTMLTemplateItems.Strings = (
+                '<table><tr><td>#FIELDDESC</td><td>#FIELDVALUE</td></tr></table>')
               VerticalTextAlign = gtaCenter
               SelectedTextColor = clBlack
             end
             item
               Text = 'Bugatti'
+              HTMLTemplateItems.Strings = (
+                '<table><tr><td>#FIELDDESC</td><td>#FIELDVALUE</td></tr></table>')
               VerticalTextAlign = gtaCenter
               SelectedTextColor = clBlack
             end>
@@ -369,16 +377,17 @@ object frmEAT: TfrmEAT
           CategoryAppearance.Fill.Color = 16053492
           CategoryAppearance.Stroke.Color = 11119017
           VerticalScrollBarVisible = True
-          ExplicitLeft = 159
-          ExplicitTop = 70
-          ExplicitWidth = 250
-          ExplicitHeight = 350
         end
         object WebButton1: TWebButton
+          AlignWithMargins = True
           Left = 11
           Top = 3
           Width = 96
           Height = 25
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = 'WebButton1'
           ChildOrder = 7
           HeightPercent = 100.000000000000000000

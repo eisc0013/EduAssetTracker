@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, VCL.Dialogs, JS, XData.Web.Connection,
   WEBLib.Modules, WEBLib.IndexedDb, Data.DB, WEBLib.DB, XData.Web.JsonDataset,
-  XData.Web.Dataset, XData.Web.Client, VCL.TMSFNCEdit, uTEATTag;
+  XData.Web.Dataset, XData.Web.Client, VCL.TMSFNCEdit, uTEATTag, WEBLib.REST;
 
  type
   Tdm = class(TWebDataModule)
@@ -221,6 +221,7 @@ uses
     procedure tAssetNAAfterOpen(DataSet: TDataSet);
     procedure tRoomNAAfterOpen(DataSet: TDataSet);
     procedure tAssetSAAfterOpen(DataSet: TDataSet);
+    procedure webAssetSAResponse(Sender: TObject; AResponse: string);
   private
     { Private declarations }
   public
@@ -334,7 +335,7 @@ end;
 procedure Tdm.LoadTables;
 begin
   tAsset.Load;
-  // ALE 20201216 done in tAsset OnOpen - tAssetSA.Load;
+  tAssetSA.Load;
   tAssetNA.Load;
   tAssetType.Load;
   tPerson.Load;
@@ -350,8 +351,8 @@ end;
 procedure Tdm.tAssetAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAsset Opened');
-  CloneDataset(tAsset, tAssetSA);
-  tAssetSA.Open;
+  //CloneDataset(tAsset, tAssetSA);
+  //tAssetSA.Open;
   dsAsset.Enabled := True;
   tAsset.First;
 end;
@@ -376,7 +377,8 @@ procedure Tdm.tAssetSAAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetSA Opened');
   dsAssetSA.Enabled := True;
-  tAssetSA.First;
+  tAssetSA.Locate('tagId.id', TagHelper.TagId, []);
+  //tAssetSA.First;
 end;
 
 procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
@@ -523,6 +525,13 @@ begin
   frmEAT.LogIt('tVendorList Opened');
   dsVendorList.Enabled := True;
   tVendorList.First;
+end;
+
+procedure Tdm.webAssetSAResponse(Sender: TObject; AResponse: string);
+begin
+  tAssetSA.Close;
+  tAssetSA.SetJsonData(AResponse);
+  tAssetSA.Open;
 end;
 
 procedure Tdm.XDataClientLoad(Response: TXDataClientResponse);

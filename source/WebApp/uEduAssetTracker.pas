@@ -281,7 +281,7 @@ type
     procedure TagIdChangeHandler(const pOldId, pNewId: String);
     procedure TagLogItEventHandler(const pLogText: String);
     procedure ArrangeAIPanels();
-    procedure ScanItemFillTableView();
+    procedure ScanItemFillTableView(const pClear: Boolean = False);
   public
     { Public declarations }
     procedure LogIt(pLogText: String);
@@ -616,12 +616,18 @@ begin
   if (pNewId = '') AND (dm.TagHelper.TagText <> '') then
   begin
     btnTagAdd.Enabled := True;
+    ScanItemFillTableView(True);
   end
   else
   begin
     pnlAITagText.Caption := 'Tag Text: ' + dm.TagHelper.TagText;
     PauseCamera;
-    pc.ActivePage := tsAssetInfo;
+    if dm.tAssetSA.Active then
+    begin
+      dm.tAssetSA.Locate('tagId.id', dm.TagHelper.TagId, []);
+      ScanItemFillTableView();
+    end;
+    // ALE 20201218 assume read-only pc.ActivePage := tsAssetInfo;
   end;
 end;
 
@@ -821,20 +827,28 @@ begin
   cam.Resume;
 end;
 
-procedure TfrmEAT.ScanItemFillTableView;
+procedure TfrmEAT.ScanItemFillTableView(const pClear: Boolean = False);
 var
   lTVI: TTMSFNCTableViewItem;
 begin
   tvScan.Items.Clear;
-  lTVI := tvScan.Items.Add;
-  lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Make';
-  lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('make').AsString;
-  lTVI := tvScan.Items.Add;
-  lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Model';
-  lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('model').AsString;
-  lTVI := tvScan.Items.Add;
-  lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Tag Text';
-  lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('tagId.tagText').AsString;
+  if pClear then
+  begin
+    tvScan.ItemAppearance.HTMLTemplate := '<table><tr><td><b><#FIELDDESC></b></td><td><#FIELDVALUE></td></tr></td>';
+    lTVI := tvScan.Items.Add;
+    lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Make       ';
+    lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('make').AsString;
+    lTVI := tvScan.Items.Add;
+    lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Model      ';
+    lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('model').AsString;
+    lTVI := tvScan.Items.Add;
+    lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Tag Text   ';
+    lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('tagId.tagText').AsString;
+  end;
+  LogIt('ScanItemFillTableView TagText='
+   + dm.tAssetSA.FieldByName('tagId.tagText').AsString
+   + ' TagId=' + dm.tAssetSA.FieldByName('tagId.id').AsString
+   + ' Model=' + dm.tAssetSA.FieldByName('model').AsString);
 end;
 
 procedure TfrmEAT.StartCamera;
