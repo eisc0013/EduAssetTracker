@@ -14,7 +14,7 @@ uses
   VCL.TMSFNCGraphics, VCL.TMSFNCCustomControl, VCL.TMSFNCHTMLText,
   VCL.TMSFNCEdit, WEBLib.FlexControls, WEBLib.Toast,
   WinAPI.Windows, uDM, uTEATCommon, uTEATAudit, Vcl.Mask, WEBLib.Mask,
-  WEBLib.Grids, VCL.TMSFNCTableView;
+  WEBLib.Grids, VCL.TMSFNCTableView, VCL.TMSFNCWaitingIndicator;
 
 type
   TURIType = (Invalid, Full, Shortener);
@@ -224,6 +224,8 @@ type
     btnQRCodeSheet_1BigTGPURI_1BigUUID_GSalePup: TWebButton;
     tvScan: TTMSFNCTableView;
     WebButton1: TWebButton;
+    indBusy: TTMSFNCWaitingIndicator;
+    pnlBusy: TWebPanel;
     procedure btnQRCodeGoogleClick(Sender: TObject);
     procedure QRCodeGoogleAPIsResponse(Sender: TObject; AResponse: string);
     procedure WebFormShow(Sender: TObject);
@@ -845,6 +847,8 @@ procedure TfrmEAT.ScanItemFillTableView(const pClear: Boolean = False);
 var
   lTVI: TTMSFNCTableViewItem;
 begin
+  pnlBusy.Visible := True;
+  tvScan.BeginUpdate;
   tvScan.Items.Clear;
   if NOT pClear then
   begin
@@ -877,6 +881,7 @@ begin
     lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Tag Text   ';
     lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('tagId.tagText').AsString;
   end;
+  tvScan.EndUpdate;
   if dm.tAssetSA.Active then
   begin
     LogIt('ScanItemFillTableView TagText='
@@ -888,6 +893,7 @@ begin
   begin
     LogIt('ScanItemFillTableView tAssetSA not active yet');
   end;
+  pnlBusy.Visible := False;
 end;
 
 procedure TfrmEAT.StartCamera;
@@ -1018,6 +1024,9 @@ begin
   fCamPaused := False;
 
   pc.ActivePageIndex := 0; // ALE 20201121 Welcome page
+
+  pnlBusy.Align := alClient;
+  pnlBusy.Visible := True;
 
   fUtil := TEATUtil.Create();
   fAudit := TEATAudit.Create(dm.XDataConn);

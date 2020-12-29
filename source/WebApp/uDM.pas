@@ -371,6 +371,7 @@ begin
   frmEAT.LogIt('tAssetNA Opened');
   dsAssetNA.Enabled := True;
   tAssetNA.First;
+  frmEAT.pnlBusy.Visible := False;
 end;
 
 procedure Tdm.tAssetSAAfterOpen(DataSet: TDataSet);

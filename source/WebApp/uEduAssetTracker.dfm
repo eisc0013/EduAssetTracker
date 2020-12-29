@@ -3446,6 +3446,40 @@ object frmEAT: TfrmEAT
       end
     end
   end
+  object pnlBusy: TWebPanel
+    Left = 72
+    Top = 32
+    Width = 150
+    Height = 60
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    BorderColor = clSilver
+    BorderStyle = bsSingle
+    ChildOrder = 1
+    object indBusy: TTMSFNCWaitingIndicator
+      Left = -270
+      Top = -228
+      Width = 412
+      Height = 286
+      Margins.Left = 40
+      Margins.Top = 40
+      Margins.Right = 40
+      Margins.Bottom = 40
+      AdaptToStyle = True
+      ParentDoubleBuffered = False
+      DoubleBuffered = True
+      TabOrder = 0
+      Visible = False
+      Active = True
+      Appearance.IndicatorFill.Color = 16297243
+      Appearance.IndicatorStroke.Color = 13882323
+      Appearance.IndicatorShape = wisProgress
+      Appearance.MoveShape = wmsCircle
+      Appearance.OverlayStroke.Kind = gskNone
+      Appearance.OverlayStroke.Color = clGray
+      AnimationSpeed = 4.000000000000000000
+    end
+  end
   object QRCodeGoogleAPIs: TWebHttpRequest
     Headers.Strings = (
       'Cache-Control=no-cache, no-store, must-revalidate')
