@@ -602,6 +602,10 @@ procedure TfrmEAT.btnTagAddClick(Sender: TObject);
 begin
   dm.TagHelper.AddRecord();
   btnTagAdd.Enabled := False;
+
+  // ALE 20201228 also refresh the form's tag tables
+  dm.tTags.Close;
+  dm.tTags.Load;
 end;
 
 procedure TfrmEAT.btnTagTestClick(Sender: TObject);

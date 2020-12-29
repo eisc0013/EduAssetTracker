@@ -334,18 +334,18 @@ end;
 
 procedure Tdm.LoadTables;
 begin
-  tAsset.Load;
-  tAssetSA.Load;
-  tAssetNA.Load;
   tAssetType.Load;
   tPerson.Load;
+  tBuilding.Load;
   tRoom.Load;
   tRoomNA.Load;
-  tBuilding.Load;
   tVendor.Load;
   tDocuments.Load;
   tAssetDocuments.Load;
   tTags.Load;
+  tAsset.Load;
+  tAssetSA.Load;
+  tAssetNA.Load;
 end;
 
 procedure Tdm.tAssetAfterOpen(DataSet: TDataSet);
@@ -377,7 +377,11 @@ procedure Tdm.tAssetSAAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetSA Opened');
   dsAssetSA.Enabled := True;
-  tAssetSA.Locate('tagId.id', TagHelper.TagId, []);
+  frmEAT.LogIt('tAssetSAAAfterOpen tagId=' + TagHelper.TagId);
+  if tAssetSA.Locate('tagId.id', TagHelper.TagId, []) then
+  begin
+    frmEAT.LogIt('tAssetSAAfterOpen found tagId=' + TagHelper.TagId);
+  end;
   //tAssetSA.First;
 end;
 
@@ -385,7 +389,7 @@ procedure Tdm.tAssetTypeAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetType Opened');
   CloneDataset(tAssetType, tAssetTypeList);
-  tAssetTypeList.Open;
+  //tAssetTypeList.Open;
   dsAssetType.Enabled := True;
   tAssetType.First;
 end;
@@ -393,6 +397,7 @@ end;
 procedure Tdm.tAssetTypeListAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tAssetTypeList Opened');
+  tAssetTypeList.Refresh;
   dsAssetTypeList.Enabled := True;
   tAssetTypeList.First;
 end;
@@ -401,7 +406,7 @@ procedure Tdm.tBuildingAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tBuilding Opened');
   CloneDataset(tBuilding, tBuildingList);
-  tBuildingList.Open;
+  //tBuildingList.Open;
   dsBuilding.Enabled := True;
   tBuilding.First;
 end;
@@ -409,6 +414,7 @@ end;
 procedure Tdm.tBuildingListAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tBuildingList Opened');
+  tBuildingList.Refresh;
   dsBuildingList.Enabled := True;
   tBuildingList.First;
 end;
@@ -426,7 +432,7 @@ procedure Tdm.tPersonAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tPerson Opened');
   CloneDataset(tPerson, tPersonList);
-  tPersonList.Open;
+  //tPersonList.Open;
   dsPerson.Enabled := True;
   tPerson.First;
 end;
@@ -434,6 +440,7 @@ end;
 procedure Tdm.tPersonListAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tPersonList Opened');
+  tPersonList.Refresh;
   dsPersonList.Enabled := True;
   tPersonList.First;
 end;
@@ -442,7 +449,7 @@ procedure Tdm.tRoomAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tRoom Opened');
   CloneDataset(tRoom, tRoomList);
-  tRoomList.Open;
+  //tRoomList.Open;
   dsRoom.Enabled := True;
   tRoom.First;
 end;
@@ -450,6 +457,7 @@ end;
 procedure Tdm.tRoomListAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tRoomList Opened');
+  tRoomList.Refresh;
   dsRoomList.Enabled := True;
   tRoomList.First;
 end;
@@ -465,9 +473,17 @@ procedure Tdm.tTagsAfterOpen(DataSet: TDataSet);
 begin
   frmEAT.LogIt('tTags Opened');
   CloneDataset(tTags, tTagsList);
-  tTagsList.Open;
+  //tTagsList.Open;
   dsTags.Enabled := True;
   tTags.First;
+end;
+
+procedure Tdm.tTagsListAfterOpen(DataSet: TDataSet);
+begin
+  frmEAT.LogIt('tTagsList Opened');
+  tTagsList.Refresh;
+  dsTagsList.Enabled := True;
+  tTagsList.First;
 end;
 
 procedure Tdm.CloneDataset(pDataIn, pDataOut: TXDataWebDataSet);
@@ -485,6 +501,7 @@ begin
   end;
   pDataOut.SetJsonData(Rows);
   pDataOut.Open;
+  pDataOut.Refresh;
 end;
 
 procedure Tdm.DataSetAfterPost(DataSet: TDataSet);
@@ -502,13 +519,6 @@ end;
 procedure Tdm.tTagsdeactivatedChange(Sender: TField);
 begin
   ShowMessage('OnChange');
-end;
-
-procedure Tdm.tTagsListAfterOpen(DataSet: TDataSet);
-begin
-  frmEAT.LogIt('tTagsList Opened');
-  dsTagsList.Enabled := True;
-  tTagsList.First;
 end;
 
 procedure Tdm.tVendorAfterOpen(DataSet: TDataSet);
