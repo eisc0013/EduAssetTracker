@@ -64,6 +64,7 @@ begin
   FtTags.ApplyUpdates;
   FAudit.AuditIt('tTags', FtTags.FieldByName('id').AsString,
    'Asset added with tagText=' + FTagText);
+  Result := FtTags.FieldByName('id').AsString;
 end;
 
 constructor TEATTag.Create(const pXDataWebConn: TXDataWebConnection);

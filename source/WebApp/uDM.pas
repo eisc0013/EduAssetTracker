@@ -380,7 +380,8 @@ begin
   frmEAT.LogIt('tAssetSAAAfterOpen tagId=' + TagHelper.TagId);
   if tAssetSA.Locate('tagId.id', TagHelper.TagId, []) then
   begin
-    frmEAT.LogIt('tAssetSAAfterOpen found tagId=' + TagHelper.TagId);
+    //frmEAT.LogIt('tAssetSAAfterOpen found tagId=' + TagHelper.TagId);
+    frmEAT.ScanItemFillTableView(False);
   end;
   //tAssetSA.First;
 end;

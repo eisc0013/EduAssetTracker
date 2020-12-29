@@ -281,11 +281,11 @@ type
     procedure TagIdChangeHandler(const pOldId, pNewId: String);
     procedure TagLogItEventHandler(const pLogText: String);
     procedure ArrangeAIPanels();
-    procedure ScanItemFillTableView(const pClear: Boolean = False);
   public
     { Public declarations }
     procedure LogIt(pLogText: String);
     procedure GoCamera();
+    procedure ScanItemFillTableView(const pClear: Boolean = False);
   end;
 
 const
@@ -602,6 +602,7 @@ procedure TfrmEAT.btnTagAddClick(Sender: TObject);
 begin
   dm.TagHelper.AddRecord();
   btnTagAdd.Enabled := False;
+  pnlAITagText.Caption := 'Tag Text: ' + dm.TagHelper.TagText;
 
   // ALE 20201228 also refresh the form's tag tables
   dm.tTags.Close;
@@ -628,8 +629,14 @@ begin
     PauseCamera;
     if dm.tAssetSA.Active then
     begin
-      dm.tAssetSA.Locate('tagId.id', dm.TagHelper.TagId, []);
-      ScanItemFillTableView();
+      if dm.tAssetSA.Locate('tagId.id', dm.TagHelper.TagId, []) then
+        ScanItemFillTableView()
+      else
+        ScanItemFillTableView(True);
+    end
+    else
+    begin
+      ScanItemFillTableView(True);
     end;
     // ALE 20201218 assume read-only pc.ActivePage := tsAssetInfo;
   end;
@@ -836,7 +843,7 @@ var
   lTVI: TTMSFNCTableViewItem;
 begin
   tvScan.Items.Clear;
-  if pClear then
+  if NOT pClear then
   begin
     tvScan.ItemAppearance.HTMLTemplate := '<table><tr><td><b><#FIELDDESC></b></td><td><#FIELDVALUE></td></tr></td>';
     lTVI := tvScan.Items.Add;
@@ -849,10 +856,17 @@ begin
     lTVI.HTMLTemplateItems.Values['FIELDDESC'] := 'Tag Text   ';
     lTVI.HTMLTemplateItems.Values['FIELDVALUE'] := dm.tAssetSA.FieldByName('tagId.tagText').AsString;
   end;
-  LogIt('ScanItemFillTableView TagText='
-   + dm.tAssetSA.FieldByName('tagId.tagText').AsString
-   + ' TagId=' + dm.tAssetSA.FieldByName('tagId.id').AsString
-   + ' Model=' + dm.tAssetSA.FieldByName('model').AsString);
+  if dm.tAssetSA.Active then
+  begin
+    LogIt('ScanItemFillTableView TagText='
+     + dm.tAssetSA.FieldByName('tagId.tagText').AsString
+     + ' TagId=' + dm.tAssetSA.FieldByName('tagId.id').AsString
+     + ' Model=' + dm.tAssetSA.FieldByName('model').AsString);
+  end
+  else
+  begin
+    LogIt('ScanItemFillTableView tAssetSA not active yet');
+  end;
 end;
 
 procedure TfrmEAT.StartCamera;
