@@ -493,7 +493,7 @@ begin
       tAssetNA.FieldByName('tagId').AsString := tTagsList.FieldByName('id').AsString;
       frmEAT.LogIt('Selected proper Tag for new Asset');
     end;
-    //frmEAT.edtAITagId.ItemIndex := frmEAT.edtAITagId.Items.IndexOf(TagHelper.TagText);
+    frmEAT.pc.ActivePage := frmEAT.tsAssetInfo;
   end;
 end;
 

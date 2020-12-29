@@ -21,7 +21,7 @@ object frmEAT: TfrmEAT
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    TabIndex = 1
+    TabIndex = 0
     ParentFont = False
     TabOrder = 0
     object tsWelcome: TWebTabSheet
@@ -391,6 +391,7 @@ object frmEAT: TfrmEAT
           Caption = 'WebButton1'
           ChildOrder = 7
           HeightPercent = 100.000000000000000000
+          Visible = False
           WidthPercent = 100.000000000000000000
           OnClick = WebButton1Click
         end
