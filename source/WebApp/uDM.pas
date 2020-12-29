@@ -378,7 +378,7 @@ begin
   frmEAT.LogIt('tAssetSA Opened');
   dsAssetSA.Enabled := True;
   frmEAT.LogIt('tAssetSAAAfterOpen tagId=' + TagHelper.TagId);
-  if tAssetSA.Locate('tagId.id', TagHelper.TagId, []) then
+  if tAssetSA.Locate('tagId.tagText', TagHelper.TagText, []) then
   begin
     //frmEAT.LogIt('tAssetSAAfterOpen found tagId=' + TagHelper.TagId);
     frmEAT.ScanItemFillTableView(False);
@@ -485,6 +485,16 @@ begin
   tTagsList.Refresh;
   dsTagsList.Enabled := True;
   tTagsList.First;
+  if tAssetNA.State = dsInsert then
+  begin
+    // ALE 20201228 adding a new asset so select the right Tag
+    if tTagsList.Locate('tagText', TagHelper.TagText, []) then
+    begin
+      tAssetNA.FieldByName('tagId').AsString := tTagsList.FieldByName('id').AsString;
+      frmEAT.LogIt('Selected proper Tag for new Asset');
+    end;
+    //frmEAT.edtAITagId.ItemIndex := frmEAT.edtAITagId.Items.IndexOf(TagHelper.TagText);
+  end;
 end;
 
 procedure Tdm.CloneDataset(pDataIn, pDataOut: TXDataWebDataSet);

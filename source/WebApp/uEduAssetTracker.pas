@@ -607,6 +607,9 @@ begin
   // ALE 20201228 also refresh the form's tag tables
   dm.tTags.Close;
   dm.tTags.Load;
+
+  // ALE 20201228 and start creating a new Asset
+  dm.tAssetNA.Insert;
 end;
 
 procedure TfrmEAT.btnTagTestClick(Sender: TObject);
@@ -629,7 +632,7 @@ begin
     PauseCamera;
     if dm.tAssetSA.Active then
     begin
-      if dm.tAssetSA.Locate('tagId.id', dm.TagHelper.TagId, []) then
+      if dm.tAssetSA.Locate('tagId.tagText', dm.TagHelper.TagText, []) then
         ScanItemFillTableView()
       else
         ScanItemFillTableView(True);
